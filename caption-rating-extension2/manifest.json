@@ -1,0 +1,29 @@
+{
+    "name": "Caption Rater 2",
+    "version": "0.1.0",
+    "description": "Rate video captions",
+    "manifest_version": 3,
+    "permissions": ["storage", "tabs"],
+    "host_permissions": [
+      "https://*.youtube.com/*",
+      "http://localhost:5000/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://*.youtube.com/*"],
+        "js": ["popup.js", "contentScript.js"],
+        "css": ["popup.css"]
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/*"
+        ],
+        "matches": ["https://*.youtube.com/*"]
+      }
+    ]
+}

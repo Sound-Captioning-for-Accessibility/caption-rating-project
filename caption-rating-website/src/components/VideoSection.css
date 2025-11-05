@@ -1,0 +1,53 @@
+.video-section {
+  margin-bottom: 3rem;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  margin: 0 0 1.5rem 0;
+  text-align: left;
+}
+
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .video-section {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .video-grid {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .video-card {
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-grid {
+    flex-wrap: wrap;
+  }
+  
+  .video-card {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
