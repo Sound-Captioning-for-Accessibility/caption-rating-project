@@ -4,11 +4,9 @@ from models import db, VideoModel, RatingModel, UserModel
 with app.app_context():
     print("Clearing database...")
     
-    # Drop all tables
     db.drop_all()
     print("Dropped all tables")
     
-    # Recreate all tables
     db.create_all()
     print("Created fresh tables")
     
