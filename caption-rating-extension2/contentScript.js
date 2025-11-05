@@ -17,7 +17,6 @@
       return;
     }
 
-    // thumbs up position
     let likeBtn = rightControls.querySelector(".like-btn");
     if (!likeBtn) {
       likeBtn = document.createElement("img");
@@ -34,7 +33,6 @@
     }
     settingsBtn.before(likeBtn);
 
-    // thumbs down position
     let dislikeBtn = rightControls.querySelector(".dislike-btn");
     if (!dislikeBtn) {
       dislikeBtn = document.createElement("img");

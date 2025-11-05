@@ -25,25 +25,20 @@ const apiCall = async (endpoint, options = {}) => {
 
 // User API
 export const userApi = {
-  // Get all users
   getAll: () => apiCall('/api/users/'),
   
-  // Get user by ID
   getById: (userId) => apiCall(`/api/users/${userId}`),
   
-  // Create user
   create: (email) => apiCall('/api/users/', {
     method: 'POST',
     body: JSON.stringify({ email }),
   }),
   
-  // Update user
   update: (userId, email) => apiCall(`/api/users/${userId}`, {
     method: 'PATCH',
     body: JSON.stringify({ email }),
   }),
   
-  // Delete user
   delete: (userId) => apiCall(`/api/users/${userId}`, {
     method: 'DELETE',
   }),
@@ -51,18 +46,14 @@ export const userApi = {
 
 // Video API
 export const videoApi = {
-  // Get all videos
   getAll: () => apiCall('/api/videos'),
   
-  // Get video by ID
   getById: (videoId) => apiCall(`/api/videos/${videoId}`),
   
-  // Add video (fetches metadata from YouTube)
   add: (videoId) => apiCall(`/api/videos/${videoId}`, {
     method: 'POST',
   }),
   
-  // Delete video
   delete: (videoId) => apiCall(`/api/videos/${videoId}`, {
     method: 'DELETE',
   }),
@@ -70,25 +61,20 @@ export const videoApi = {
 
 // Rating API
 export const ratingApi = {
-  // Get all ratings
   getAll: () => apiCall('/api/ratings'),
   
-  // Get rating by ID
   getById: (ratingId) => apiCall(`/api/ratings/${ratingId}`),
   
-  // Create rating
   create: (ratingData) => apiCall('/api/ratings', {
     method: 'POST',
     body: JSON.stringify(ratingData),
   }),
   
-  // Update rating
   update: (ratingId, ratingData) => apiCall(`/api/ratings/${ratingId}`, {
     method: 'PATCH',
     body: JSON.stringify(ratingData),
   }),
   
-  // Delete rating
   delete: (ratingId) => apiCall(`/api/ratings/${ratingId}`, {
     method: 'DELETE',
   }),
@@ -116,5 +102,9 @@ export const extractVideoId = (url) => {
   
   return null;
 };
+
+
+
+
 
 

@@ -226,7 +226,6 @@ window.showRatingForm = function showRatingForm(ratingType) {
                 throw new Error(errorData.message || `Submit failed: ${resp.status}`);
             }
 
-            // Show success message
             submitBtn.textContent = 'Submitted!';
             submitBtn.style.background = '#4CAF50';
 
@@ -244,7 +243,7 @@ window.showRatingForm = function showRatingForm(ratingType) {
         }
     });
 
-    // Close on outside click: allow overlay to catch clicks, but ignore clicks inside the form
+    // Close on outside click
     form.addEventListener('click', (e) => e.stopPropagation());
     overlay.addEventListener('click', () => { cleanupPositioning(); overlay.remove(); });
 
@@ -328,7 +327,7 @@ window.showRatingForm = function showRatingForm(ratingType) {
         const formRect = form.getBoundingClientRect();
         const gap = 8;
 
-        // Place below toolbar (or below player if toolbar missing)
+        // Place below toolbar
         const top = (toolbar ? refRect.bottom : refRect.bottom) + gap;
 
         // Right-align to the toolbar/player box
@@ -365,7 +364,6 @@ window.showRatingForm = function showRatingForm(ratingType) {
         const formRect = form.getBoundingClientRect();
         const gap = 8;
 
-        // Prefer above the gear, fallback below if not enough room
         let top = btnRect.top - formRect.height - gap - playerRect.top;
         if (playerRect.top + top < playerRect.top + 10) {
             top = btnRect.bottom + gap - playerRect.top;
@@ -402,7 +400,6 @@ window.showRatingForm = function showRatingForm(ratingType) {
         }
     }
 
-    // Position after it's in the DOM so we can measure
     requestAnimationFrame(positionAccordingToMode);
     window.addEventListener('resize', positionAccordingToMode);
     window.addEventListener('scroll', positionAccordingToMode, true);
