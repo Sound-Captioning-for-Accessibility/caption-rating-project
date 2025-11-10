@@ -17,12 +17,16 @@ class Users(Resource):
     
     @marshal_with(userFields)
     def post(self):
-        args = user_args.parse_args()
-        user = UserModel(email=args["email"])
-        db.session.add(user)
-        db.session.commit()
-        users = UserModel.query.all()
-        return users, 201
+        try:
+            args = user_args.parse_args()
+            user = UserModel(email=args["email"])
+            db.session.add(user)
+            db.session.commit()
+            users = UserModel.query.all()
+            return users, 201
+        except Exception as e:
+            db.session.rollback()
+            abort(400, message=f"Failed to create user: {str(e)}")
     
 class User(Resource):
     @marshal_with(userFields)

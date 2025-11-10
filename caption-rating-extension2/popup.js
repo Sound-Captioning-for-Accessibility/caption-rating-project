@@ -4,34 +4,47 @@ window.showRatingForm = function showRatingForm(ratingType) {
         popupExists.remove();
     }
 
-    const API_BASE = (window.CAPTION_RATING_API_BASE || 'http://localhost:5000').replace(/\/$/, '');
-
+    // API helper - sends requests through background script to avoid CORS issues
+    async function apiRequest(endpoint, method = 'GET', body = null) {
+        return new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({
+                type: 'API_REQUEST',
+                endpoint,
+                method,
+                body
+            }, (response) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (response && response.success) {
+                    resolve(response.data);
+                } else {
+                    reject(new Error(response?.error || `API request failed: ${response?.status}`));
+                }
+            });
+        });
+    }
+    
     // Get or create user ID
     async function getUserID() {
         return new Promise((resolve) => {
-            chrome.storage.local.get(['userID', 'userEmail'], async (result) => {
+            chrome.storage.local.get(['userID'], async (result) => {
                 if (result.userID) {
                     resolve(result.userID);
                     return;
                 }
 
                 try {
-                    // Create a new user
                     const email = `user${Date.now()}@caption-rating.com`;
-                    const response = await fetch(`${API_BASE}/api/users/`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email })
-                    });
+                    const users = await apiRequest('/api/users/', 'POST', { email });
 
-                    if (response.ok) {
-                        const users = await response.json();
-                        const user = Array.isArray(users) ? users[0] : users;
-                        chrome.storage.local.set({
-                            userID: user.userID,
-                            userEmail: email
-                        });
-                        resolve(user.userID);
+                    if (users && Array.isArray(users) && users.length > 0) {
+                        const user = users[0];
+                        if (user && user.userID) {
+                            chrome.storage.local.set({ userID: user.userID });
+                            resolve(user.userID);
+                        } else {
+                            resolve(null);
+                        }
                     } else {
                         resolve(null);
                     }
@@ -191,19 +204,11 @@ window.showRatingForm = function showRatingForm(ratingType) {
             // Get user ID
             const userID = await getUserID();
             if (!userID) {
-                throw new Error('Failed to get user ID');
+                throw new Error('Failed to get user ID. Make sure backend is running at http://127.0.0.1:5000');
             }
 
-            // Add video to database first
-            try {
-                await fetch(`${API_BASE}/api/videos/${encodeURIComponent(videoID)}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            } catch (videoErr) {
-                // Video might already exist, continue
-                console.log('Video may already exist:', videoErr);
-            }
+            // Add video to database
+            await apiRequest(`/api/videos/${encodeURIComponent(videoID)}`, 'POST');
 
             // Submit rating
             const payload = {
@@ -215,16 +220,7 @@ window.showRatingForm = function showRatingForm(ratingType) {
                 videoTimestamp
             };
 
-            const resp = await fetch(`${API_BASE}/api/ratings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!resp.ok) {
-                const errorData = await resp.json().catch(() => ({}));
-                throw new Error(errorData.message || `Submit failed: ${resp.status}`);
-            }
+            await apiRequest('/api/ratings', 'POST', payload);
 
             submitBtn.textContent = 'Submitted!';
             submitBtn.style.background = '#4CAF50';

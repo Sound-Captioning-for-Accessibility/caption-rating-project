@@ -79,53 +79,65 @@ class Videos(Resource):
             return result
     
     def post(self, videoID):
-        # Check if video already exists
-        existing = VideoModel.query.get(videoID)
-        if existing:
+        try:
+            # Check if video already exists
+            existing = VideoModel.query.get(videoID)
+            if existing:
+                # Calculate rating stats for existing video
+                rating_stats = db.session.query(
+                    func.avg(RatingModel.overallRating).label('avg'),
+                    func.count(RatingModel.ratingID).label('count')
+                ).filter(RatingModel.videoID == videoID).first()
+                
+                return {
+                    'videoID': existing.videoID,
+                    'title': existing.title,
+                    'channel': existing.channel,
+                    'duration': existing.duration,
+                    'thumbnail': existing.thumbnail,
+                    'created': existing.created.isoformat() if existing.created else None,
+                    'likes': existing.likes,
+                    'views': existing.views,
+                    'captionLikes': existing.captionLikes,
+                    'averageRating': float(rating_stats.avg) if rating_stats.avg else 0.0,
+                    'ratingCount': rating_stats.count or 0,
+                    'language': existing.language
+                }, 200
+            
+            # fetchMetadata will raise an exception if it fails
+            metadata = fetchMetadata(videoID)
+            
+            video = VideoModel(
+                videoID = videoID,
+                title = metadata.get('title', 'Unknown'),
+                channel = metadata.get('channel', 'Unknown'),
+                duration = metadata.get('duration', 0),
+                thumbnail = metadata.get('thumbnail', ''),
+                created = metadata.get('created'),
+                likes = metadata.get('likes', 0),
+                views = metadata.get('views', 0),
+                language = metadata.get('language', '')
+            )
+            db.session.add(video)
+            db.session.commit()
+            
             return {
-                'videoID': existing.videoID,
-                'title': existing.title,
-                'channel': existing.channel,
-                'duration': existing.duration,
-                'thumbnail': existing.thumbnail,
-                'created': existing.created.isoformat() if existing.created else None,
-                'likes': existing.likes,
-                'views': existing.views,
-                'captionLikes': existing.captionLikes,
+                'videoID': video.videoID,
+                'title': video.title,
+                'channel': video.channel,
+                'duration': video.duration,
+                'thumbnail': video.thumbnail,
+                'created': video.created.isoformat() if video.created else None,
+                'likes': video.likes,
+                'views': video.views,
+                'captionLikes': video.captionLikes,
                 'averageRating': 0.0,
                 'ratingCount': 0,
-                'language': existing.language
-            }, 200
-        
-        metadata = fetchMetadata(videoID)
-        video = VideoModel(
-            videoID = videoID,
-            title = metadata['title'],
-            channel = metadata['channel'],
-            duration = metadata['duration'],
-            thumbnail = metadata['thumbnail'],
-            created = metadata['created'],
-            likes = metadata['likes'],
-            views = metadata['views'],
-            language = metadata['language']
-        )
-        db.session.add(video)
-        db.session.commit()
-        
-        return {
-            'videoID': video.videoID,
-            'title': video.title,
-            'channel': video.channel,
-            'duration': video.duration,
-            'thumbnail': video.thumbnail,
-            'created': video.created.isoformat() if video.created else None,
-            'likes': video.likes,
-            'views': video.views,
-            'captionLikes': video.captionLikes,
-            'averageRating': 0.0,
-            'ratingCount': 0,
-            'language': video.language
-        }, 201
+                'language': video.language
+            }, 201
+        except Exception as e:
+            db.session.rollback()
+            abort(400, message=f"Failed to create video: {str(e)}")
     
     def delete(self, videoID):
         video = VideoModel.query.get(videoID)

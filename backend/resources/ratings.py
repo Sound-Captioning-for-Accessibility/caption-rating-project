@@ -5,9 +5,9 @@ rating_args = reqparse.RequestParser()
 rating_args.add_argument('userID', type=int, required=True)
 rating_args.add_argument('videoID', type=str, required=True)
 rating_args.add_argument('overallRating', type=int, required=True)
-rating_args.add_argument('feedback', type=str, required=False)
-rating_args.add_argument('thumbsUp', type=bool, default=True, required=True)
-rating_args.add_argument('videoTimestamp', type=float, required=True)
+rating_args.add_argument('feedback', type=str, required=False, default='')
+rating_args.add_argument('thumbsUp', type=bool, required=True)
+rating_args.add_argument('videoTimestamp', type=int, required=True)
 
 ratingFields = {
     'ratingID': fields.Integer,
@@ -34,26 +34,38 @@ class Ratings(Resource):
         
     @marshal_with(ratingFields)
     def post(self):
-        args = rating_args.parse_args()
-        rating = RatingModel(
-            userID = args["userID"],
-            videoID = args["videoID"],
-            overallRating = args["overallRating"],
-            feedback = args['feedback'],
-            thumbsUp = args['thumbsUp'],
-            videoTimestamp = args['videoTimestamp']
-        )
-        db.session.add(rating)
-        
-        # Update caption likes count if thumbs up
-        if args['thumbsUp']:
-            from models import VideoModel
+        try:
+            args = rating_args.parse_args()
+            
+            # Validate user exists
+            user = UserModel.query.get(args["userID"])
+            if not user:
+                abort(404, message="User not found")
+            
+            # Validate or create video
             video = VideoModel.query.get(args["videoID"])
-            if video:
+            if not video:
+                abort(404, message="Video not found. Please add video first.")
+            
+            rating = RatingModel(
+                userID = args["userID"],
+                videoID = args["videoID"],
+                overallRating = args["overallRating"],
+                feedback = args.get('feedback', '') or '',
+                thumbsUp = args['thumbsUp'],
+                videoTimestamp = int(args['videoTimestamp'])  # Ensure it's an integer
+            )
+            db.session.add(rating)
+            
+            # Update caption likes count if thumbs up
+            if args['thumbsUp']:
                 video.captionLikes = (video.captionLikes or 0) + 1
-        
-        db.session.commit()
-        return rating, 201
+            
+            db.session.commit()
+            return rating, 201
+        except Exception as e:
+            db.session.rollback()
+            abort(400, message=f"Failed to create rating: {str(e)}")
     
     @marshal_with(ratingFields)
     def patch(self, ratingID):

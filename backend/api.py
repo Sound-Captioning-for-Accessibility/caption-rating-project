@@ -9,7 +9,10 @@ from resources.ratings import Ratings
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///captionratings.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Enable CORS for all API routes
 CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 api = Api(app)
 
 from models import db
@@ -28,4 +31,4 @@ def home ():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)

@@ -15,9 +15,10 @@ const VideosPage = () => {
 
   useEffect(() => {
     fetchVideos();
-    // Refresh every 30 seconds to get new videos from extension
-    const interval = setInterval(fetchVideos, 30000);
-    return () => clearInterval(interval);
+    // Auto-refresh disabled - videos will only refresh when page is manually reloaded
+    // To re-enable auto-refresh, uncomment the line below:
+    // const interval = setInterval(fetchVideos, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   const fetchVideos = async () => {
