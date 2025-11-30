@@ -7,7 +7,14 @@ from resources.videos import Videos
 from resources.ratings import Ratings
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///captionratings.db'
+import os
+from pathlib import Path
+
+backend_dir = Path(__file__).parent.absolute()
+instance_path = backend_dir / 'instance'
+instance_path.mkdir(exist_ok=True)
+db_path = instance_path / 'captionratings.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path.absolute()}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Enable CORS for all API routes
@@ -20,7 +27,6 @@ db.init_app(app)
 
 @app.route('/api/ratings', methods=['POST'])
 def create_rating():
-    """Direct POST endpoint for creating ratings - wrapper for Flask-RESTful"""
     from flask_restful import reqparse
     from models import db, RatingModel, UserModel, VideoModel
     
@@ -118,4 +124,10 @@ def list_routes():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        if db_path.exists():
+            print(f"  Size: {db_path.stat().st_size:,} bytes")
+            from models import VideoModel
+            video_count = VideoModel.query.count()
+            print(f"  Videos in database: {video_count}")
+        print(f"{'='*60}\n")
     app.run(host='127.0.0.1', port=5000, debug=True)
