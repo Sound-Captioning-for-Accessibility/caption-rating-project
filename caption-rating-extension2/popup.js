@@ -1,11 +1,9 @@
 window.showRatingForm = function showRatingForm(ratingType) {
-    const popupExists = document.getElementById('caption-rating-popup');
-    if (popupExists) {
-        popupExists.remove();
-    }
+    // Remove existing popup
+    const existing = document.getElementById('caption-rating-popup');
+    if (existing) existing.remove();
 
-    // API helper - sends requests through background script to avoid CORS issues
-    async function apiRequest(endpoint, method = 'GET', body = null) {
+    function apiCall(endpoint, method = 'GET', body = null) {
         return new Promise((resolve, reject) => {
             chrome.runtime.sendMessage({
                 type: 'API_REQUEST',
@@ -15,138 +13,130 @@ window.showRatingForm = function showRatingForm(ratingType) {
             }, (response) => {
                 if (chrome.runtime.lastError) {
                     reject(new Error(chrome.runtime.lastError.message));
-                } else if (response && response.success) {
+                } else if (response?.success) {
                     resolve(response.data);
                 } else {
-                    reject(new Error(response?.error || `API request failed: ${response?.status}`));
+                    reject(new Error(response?.error || 'API request failed'));
                 }
             });
         });
     }
-    
-    // Get or create user ID
-    async function getUserID() {
-        return new Promise((resolve) => {
+
+    // Get or create user
+    async function getOrCreateUser() {
+        return new Promise((resolve, reject) => {
             chrome.storage.local.get(['userID'], async (result) => {
                 if (result.userID) {
-                    resolve(result.userID);
-                    return;
+                    try {
+                        await apiCall(`/api/users/${result.userID}`, 'GET');
+                        resolve(result.userID);
+                        return;
+                    } catch (err) {
+                        console.warn('Stored userID invalid, creating new user:', err);
+                        chrome.storage.local.remove(['userID']);
+                    }
                 }
 
+                // Create new user
                 try {
-                    const email = `user${Date.now()}@caption-rating.com`;
-                    const users = await apiRequest('/api/users/', 'POST', { email });
-
-                    if (users && Array.isArray(users) && users.length > 0) {
-                        const user = users[0];
+                    const email = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}@caption.local`;
+                    const users = await apiCall('/api/users/', 'POST', { email });
+                    
+                    if (Array.isArray(users) && users.length > 0) {
+                        const user = users.find(u => u.email === email);
                         if (user && user.userID) {
                             chrome.storage.local.set({ userID: user.userID });
                             resolve(user.userID);
                         } else {
-                            resolve(null);
+                            const lastUser = users[users.length - 1];
+                            if (lastUser && lastUser.userID) {
+                                chrome.storage.local.set({ userID: lastUser.userID });
+                                resolve(lastUser.userID);
+                            } else {
+                                reject(new Error('Invalid user response from server'));
+                            }
                         }
                     } else {
-                        resolve(null);
+                        reject(new Error('Failed to create user - empty response'));
                     }
                 } catch (err) {
-                    console.error('Failed to create user:', err);
-                    resolve(null);
+                    console.error('User creation error:', err);
+                    reject(new Error(`Failed to create user: ${err.message}`));
                 }
             });
         });
     }
 
-    // popup position
-    const playerContainer = document.querySelector("#movie_player") || document.querySelector(".html5-video-player");
-    const rightControls = document.querySelector(".ytp-right-controls");
-    const settingsBtn = rightControls?.querySelector(".ytp-settings-button");
-    
+    // Create popup
     const overlay = document.createElement('div');
     overlay.id = 'caption-rating-popup';
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'transparent',
+        zIndex: '10000',
+        pointerEvents: 'auto'
+    });
+
     const form = document.createElement('div');
     form.className = 'popup-form';
-    
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.background = 'transparent';
-    overlay.style.display = 'block';
-    overlay.style.zIndex = '10000';
-    overlay.style.pointerEvents = 'auto';
-    
     form.style.pointerEvents = 'auto';
-    document.body.appendChild(overlay);
+
+    // Rating state
+    const ratings = { overall: 0, accuracy: 0, timing: 0, nsi: 0, layout: 0 };
+    let selectedThumbs = ratingType;
 
     form.innerHTML = `
         <div class="popup-header">
             <div class="header-icons">
-                <button type="button" id="popup-like-btn" class="popup-header-btn${ratingType === 'like' ? ' selected' : ''}" aria-label="Like">
+                <button id="like-btn" class="popup-header-btn ${ratingType === 'like' ? 'selected' : ''}">
                     <img src="${chrome.runtime.getURL('assets/like.png')}" alt="Like">
                 </button>
-                <button type="button" id="popup-dislike-btn" class="popup-header-btn${ratingType === 'dislike' ? ' selected' : ''}" aria-label="Dislike">
+                <button id="dislike-btn" class="popup-header-btn ${ratingType === 'dislike' ? 'selected' : ''}">
                     <img src="${chrome.runtime.getURL('assets/dislike.png')}" alt="Dislike">
                 </button>
             </div>
-            <button id="close-popup" class="close-button">×</button>
+            <button id="close-btn" class="close-button">×</button>
         </div>
         <div class="overall-rating-section highlighted">
             <div class="overall-rating-label">Overall Rating</div>
-            <div id="overall-stars" class="overall-stars-container">
-                <span class="star" data-category="overall" data-rating="1">★</span>
-                <span class="star" data-category="overall" data-rating="2">★</span>
-                <span class="star" data-category="overall" data-rating="3">★</span>
-                <span class="star" data-category="overall" data-rating="4">★</span>
-                <span class="star" data-category="overall" data-rating="5">★</span>
-                <span class="overall-rating overall-rating-text">0/5</span>
+            <div class="overall-stars-container">
+                ${[1,2,3,4,5].map(i => `<span class="star" data-rating="${i}" data-cat="overall">★</span>`).join('')}
+                <span class="overall-rating-text">0/5</span>
             </div>
         </div>
         <div class="rating-categories">
             <div class="rating-category">
                 <div class="category-label">Accuracy</div>
-                <div id="accuracy-stars" class="star-container">
-                    <span class="star" data-category="accuracy" data-rating="1">★</span>
-                    <span class="star" data-category="accuracy" data-rating="2">★</span>
-                    <span class="star" data-category="accuracy" data-rating="3">★</span>
-                    <span class="star" data-category="accuracy" data-rating="4">★</span>
-                    <span class="star" data-category="accuracy" data-rating="5">★</span>
+                <div class="star-container">
+                    ${[1,2,3,4,5].map(i => `<span class="star" data-rating="${i}" data-cat="accuracy">★</span>`).join('')}
                 </div>
             </div>
             <div class="rating-category">
                 <div class="category-label">Timing</div>
-                <div id="timing-stars" class="star-container">
-                    <span class="star" data-category="timing" data-rating="1">★</span>
-                    <span class="star" data-category="timing" data-rating="2">★</span>
-                    <span class="star" data-category="timing" data-rating="3">★</span>
-                    <span class="star" data-category="timing" data-rating="4">★</span>
-                    <span class="star" data-category="timing" data-rating="5">★</span>
+                <div class="star-container">
+                    ${[1,2,3,4,5].map(i => `<span class="star" data-rating="${i}" data-cat="timing">★</span>`).join('')}
                 </div>
             </div>
             <div class="rating-category">
                 <div class="category-label">NSI (Non-Speech Information)</div>
-                <div id="nsi-stars" class="star-container">
-                    <span class="star" data-category="nsi" data-rating="1">★</span>
-                    <span class="star" data-category="nsi" data-rating="2">★</span>
-                    <span class="star" data-category="nsi" data-rating="3">★</span>
-                    <span class="star" data-category="nsi" data-rating="4">★</span>
-                    <span class="star" data-category="nsi" data-rating="5">★</span>
+                <div class="star-container">
+                    ${[1,2,3,4,5].map(i => `<span class="star" data-rating="${i}" data-cat="nsi">★</span>`).join('')}
                 </div>
             </div>
             <div class="rating-category">
                 <div class="category-label">Layout</div>
-                <div id="layout-stars" class="star-container">
-                    <span class="star" data-category="layout" data-rating="1">★</span>
-                    <span class="star" data-category="layout" data-rating="2">★</span>
-                    <span class="star" data-category="layout" data-rating="3">★</span>
-                    <span class="star" data-category="layout" data-rating="4">★</span>
-                    <span class="star" data-category="layout" data-rating="5">★</span>
+                <div class="star-container">
+                    ${[1,2,3,4,5].map(i => `<span class="star" data-rating="${i}" data-cat="layout">★</span>`).join('')}
                 </div>
             </div>
         </div>
         <div class="comments-section">
             <div class="comments-label">Additional Comments (Optional)</div>
-            <textarea class="comments-textarea" placeholder="Share your feedback about the caption quality..."></textarea>
+            <textarea id="comments" class="comments-textarea" placeholder="Share your feedback..."></textarea>
         </div>
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel-button">Cancel</button>
@@ -154,253 +144,151 @@ window.showRatingForm = function showRatingForm(ratingType) {
         </div>
     `;
 
-    const popupLikeBtn = form.querySelector('#popup-like-btn');
-    const popupDislikeBtn = form.querySelector('#popup-dislike-btn');
-    let selectedHeaderBtn = ratingType;
-    popupLikeBtn.addEventListener('click', () => {
-        popupLikeBtn.classList.add('selected');
-        popupDislikeBtn.classList.remove('selected');
-        selectedHeaderBtn = 'like';
+    overlay.appendChild(form);
+    document.body.appendChild(overlay);
+
+    // Event handlers
+    const closePopup = () => overlay.remove();
+    document.getElementById('close-btn').onclick = closePopup;
+    document.getElementById('cancel-btn').onclick = closePopup;
+    overlay.onclick = (e) => { if (e.target === overlay) closePopup(); };
+    form.onclick = (e) => e.stopPropagation();
+
+    // Thumbs buttons
+    document.getElementById('like-btn').onclick = () => {
+        selectedThumbs = 'like';
+        document.getElementById('like-btn').classList.add('selected');
+        document.getElementById('dislike-btn').classList.remove('selected');
+    };
+    document.getElementById('dislike-btn').onclick = () => {
+        selectedThumbs = 'dislike';
+        document.getElementById('dislike-btn').classList.add('selected');
+        document.getElementById('like-btn').classList.remove('selected');
+    };
+
+    // Star rating handlers
+    const updateStars = (category, rating) => {
+        form.querySelectorAll(`[data-cat="${category}"]`).forEach((star, idx) => {
+            star.classList.toggle('filled', idx < rating);
+        });
+        if (category === 'overall') {
+            form.querySelector('.overall-rating-text').textContent = `${rating}/5`;
+        }
+    };
+
+    form.querySelectorAll('.star').forEach(star => {
+        const cat = star.dataset.cat;
+        const rating = parseInt(star.dataset.rating);
+        
+        star.onclick = () => {
+            ratings[cat] = rating;
+            updateStars(cat, rating);
+        };
+        
+        star.onmouseenter = () => updateStars(cat, rating);
+        star.onmouseleave = () => updateStars(cat, ratings[cat] || 0);
     });
-    popupDislikeBtn.addEventListener('click', () => {
-        popupDislikeBtn.classList.add('selected');
-        popupLikeBtn.classList.remove('selected');
-        selectedHeaderBtn = 'dislike';
-    });
 
-    const closeBtn = form.querySelector('#close-popup');
-    const cancelBtn = form.querySelector('#cancel-btn');
-    const submitBtn = form.querySelector('#submit-btn');
-
-    function cleanupPositioning() {
-        window.removeEventListener('resize', positionAccordingToMode);
-        window.removeEventListener('scroll', positionAccordingToMode, true);
-        document.removeEventListener('fullscreenchange', positionAccordingToMode);
-        document.removeEventListener('webkitfullscreenchange', positionAccordingToMode);
-        document.removeEventListener('mozfullscreenchange', positionAccordingToMode);
-        document.removeEventListener('MSFullscreenChange', positionAccordingToMode);
-    }
-
-    closeBtn.addEventListener('click', () => { cleanupPositioning(); overlay.remove(); });
-    cancelBtn.addEventListener('click', () => { cleanupPositioning(); overlay.remove(); });
-    submitBtn.addEventListener('click', async () => {
-        const commentsEl = form.querySelector('.comments-textarea');
-        const comments = commentsEl ? commentsEl.value.trim() : '';
-        const video = document.querySelector('video');
-        const videoTimestamp = video ? Math.floor(video.currentTime || 0) : 0;
-
-        const urlParams = new URLSearchParams(location.search);
-        const videoID = urlParams.get('v') || '';
-
+    // Submit handler
+    document.getElementById('submit-btn').onclick = async () => {
+        const videoID = new URLSearchParams(location.search).get('v');
         if (!videoID) {
-            alert('Could not determine video ID');
+            alert('Could not get video ID');
             return;
         }
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting...';
+        if (!ratings.overall || ratings.overall === 0) {
+            alert('Please provide an overall rating');
+            return;
+        }
+
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
 
         try {
-            // Get user ID
-            const userID = await getUserID();
-            if (!userID) {
-                throw new Error('Failed to get user ID. Make sure backend is running at http://127.0.0.1:5000');
+            btn.textContent = 'Getting user...';
+            const userID = await getOrCreateUser();
+
+            btn.textContent = 'Adding video...';
+            try {
+                await apiCall(`/api/videos/${videoID}`, 'POST');
+            } catch (e) {
+                const errorMsg = e.message || 'Unknown error';
+                if (errorMsg.includes('YouTube') || errorMsg.includes('API key')) {
+                    throw new Error(`Failed to fetch video data from YouTube. Please check if the YouTube API key is configured in the backend. Error: ${errorMsg}`);
+                } else if (errorMsg.includes('404') || errorMsg.includes('not found')) {
+                    throw new Error(`Video endpoint not found. Please check backend server. Error: ${errorMsg}`);
+                } else {
+                    throw new Error(`Failed to add video to database: ${errorMsg}`);
+                }
             }
 
-            // Add video to database
-            await apiRequest(`/api/videos/${encodeURIComponent(videoID)}`, 'POST');
+            btn.textContent = 'Verifying video...';
+            try {
+                await apiCall(`/api/videos/${videoID}`, 'GET');
+            } catch (e) {
+                throw new Error(`Video was not created successfully. Please try again. Error: ${e.message}`);
+            }
 
             // Submit rating
-            const payload = {
-                userID,
-                videoID,
-                overallRating: Number.isFinite(ratings.overall) ? ratings.overall : 0,
+            btn.textContent = 'Submitting rating...';
+            const video = document.querySelector('video');
+            const timestamp = video ? Math.floor(video.currentTime || 0) : 0;
+            
+            let comments = '';
+            try {
+                const commentsEl = document.getElementById('comments');
+                if (commentsEl && commentsEl.value) {
+                    comments = String(commentsEl.value).trim();
+                }
+            } catch (e) {
+                console.warn('Could not get comments:', e);
+                comments = '';
+            }
+
+            const ratingData = {
+                userID: userID,
+                videoID: videoID,
+                overallRating: ratings.overall,
                 feedback: comments,
-                thumbsUp: selectedHeaderBtn === 'like',
-                videoTimestamp
+                thumbsUp: selectedThumbs === 'like',
+                videoTimestamp: timestamp
             };
+            
+            console.log('Submitting rating:', ratingData);
+            await apiCall('/api/ratings', 'POST', ratingData);
 
-            await apiRequest('/api/ratings', 'POST', payload);
-
-            submitBtn.textContent = 'Submitted!';
-            submitBtn.style.background = '#4CAF50';
-
-            setTimeout(() => {
-                cleanupPositioning();
-                overlay.remove();
-            }, 1000);
+            btn.textContent = 'Submitted!';
+            btn.style.background = '#4CAF50';
+            setTimeout(closePopup, 1000);
 
         } catch (err) {
-            console.error('Submission error:', err);
-            alert(`Failed to submit rating: ${err.message}`);
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Rating';
-            submitBtn.style.background = '#1976d2';
+            console.error('Submit error:', err);
+            alert(`Failed to submit: ${err.message}`);
+            btn.disabled = false;
+            btn.textContent = 'Submit Rating';
+            btn.style.background = '#1976d2';
         }
-    });
-
-    // Close on outside click
-    form.addEventListener('click', (e) => e.stopPropagation());
-    overlay.addEventListener('click', () => { cleanupPositioning(); overlay.remove(); });
-
-    const stars = form.querySelectorAll('.star');
-    const ratings = {
-        accuracy: 0,
-        timing: 0,
-        nsi: 0,
-        layout: 0,
-        overall: 0
     };
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            const category = star.dataset.category;
-            const rating = parseInt(star.dataset.rating);
-            ratings[category] = rating;
-            const categoryStars = form.querySelectorAll(`[data-category="${category}"]`);
-            categoryStars.forEach((s, index) => {
-                if (index < rating) {
-                    s.classList.add('filled');
-                } else {
-                    s.classList.remove('filled');
-                }
-            });
-            updateOverallRating();
-        });
-        star.addEventListener('mouseenter', () => {
-            const category = star.dataset.category;
-            const rating = parseInt(star.dataset.rating);
-            const categoryStars = form.querySelectorAll(`[data-category="${category}"]`);
-            categoryStars.forEach((s, index) => {
-                if (index < rating) {
-                    s.classList.add('filled');
-                } else {
-                    s.classList.remove('filled');
-                }
-            });
-        });
-        star.addEventListener('mouseleave', () => {
-            const category = star.dataset.category;
-            const categoryStars = form.querySelectorAll(`[data-category="${category}"]`);
-            const currentRating = ratings[category];
-            categoryStars.forEach((s, index) => {
-                if (index < currentRating) {
-                    s.classList.add('filled');
-                } else {
-                    s.classList.remove('filled');
-                }
-            });
-        });
-    });
-    function updateOverallRating() {
-        const overallRatingElement = form.querySelector('.overall-rating');
-        if (overallRatingElement) {
-            overallRatingElement.textContent = ratings.overall + '/5';
-        }
-    }
-    overlay.appendChild(form);
 
-    function isPlayerFullscreen() {
-        const fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-        if (fsEl) {
-            return playerContainer && fsEl.contains(playerContainer);
-        }
-        return !!(playerContainer && playerContainer.classList.contains('ytp-fullscreen'));
-    }
-
-    function ensurePlayerRelative() {
-        if (!playerContainer) return;
-        const style = window.getComputedStyle(playerContainer);
-        if (style.position === 'static') {
-            playerContainer.style.position = 'relative';
-        }
-    }
-
-    function positionBelowToolbar() {
+    // Popup Position
+    const positionForm = () => {
+        const player = document.querySelector('#movie_player, .html5-video-player');
         const toolbar = document.querySelector('.ytp-chrome-bottom');
-        const referenceEl = toolbar || document.querySelector('#movie_player, .html5-video-player');
-        if (!referenceEl) return;
-        const refRect = referenceEl.getBoundingClientRect();
+        const ref = toolbar || player;
+        
+        if (!ref) return;
+        
+        const rect = ref.getBoundingClientRect();
         const formRect = form.getBoundingClientRect();
-        const gap = 8;
-
-        // Place below toolbar
-        const top = (toolbar ? refRect.bottom : refRect.bottom) + gap;
-
-        // Right-align to the toolbar/player box
-        let left = refRect.right - formRect.width - 10;
-        const minLeft = 10;
-        const maxLeft = window.innerWidth - formRect.width - 10;
-        left = Math.max(minLeft, Math.min(maxLeft, left));
-
+        
         form.style.position = 'absolute';
-        form.style.top = top + 'px';
-        form.style.left = left + 'px';
-        form.style.marginTop = '0';
-        form.style.marginRight = '0';
-    }
+        form.style.top = `${rect.bottom + 8}px`;
+        form.style.left = `${rect.right - formRect.width - 10}px`;
+    };
 
-    function positionInsidePlayerNearGear() {
-        if (!playerContainer) return;
-        ensurePlayerRelative();
-
-        // Reparent overlay inside the player so clicks remain within player area
-        if (overlay.parentElement !== playerContainer) {
-            overlay.remove();
-            overlay.style.position = 'absolute';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            playerContainer.appendChild(overlay);
-        }
-
-        const settings = document.querySelector('.ytp-right-controls .ytp-settings-button');
-        const playerRect = playerContainer.getBoundingClientRect();
-        const btnRect = settings ? settings.getBoundingClientRect() : playerRect;
-        const formRect = form.getBoundingClientRect();
-        const gap = 8;
-
-        let top = btnRect.top - formRect.height - gap - playerRect.top;
-        if (playerRect.top + top < playerRect.top + 10) {
-            top = btnRect.bottom + gap - playerRect.top;
-        }
-
-        // Right-align to gear within player bounds
-        let left = btnRect.right - formRect.width - playerRect.left;
-        const minLeft = 10;
-        const maxLeft = playerRect.width - formRect.width - 10;
-        left = Math.max(minLeft, Math.min(maxLeft, left));
-
-        form.style.position = 'absolute';
-        form.style.top = Math.round(top) + 'px';
-        form.style.left = Math.round(left) + 'px';
-        form.style.marginTop = '0';
-        form.style.marginRight = '0';
-    }
-
-    function positionAccordingToMode() {
-        if (isPlayerFullscreen()) {
-            positionInsidePlayerNearGear();
-        } else {
-            // Ensure overlay is attached to body in non-fullscreen
-            if (overlay.parentElement !== document.body) {
-                overlay.remove();
-                overlay.style.position = 'fixed';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '100%';
-                overlay.style.height = '100%';
-                document.body.appendChild(overlay);
-            }
-            positionBelowToolbar();
-        }
-    }
-
-    requestAnimationFrame(positionAccordingToMode);
-    window.addEventListener('resize', positionAccordingToMode);
-    window.addEventListener('scroll', positionAccordingToMode, true);
-    document.addEventListener('fullscreenchange', positionAccordingToMode);
-    document.addEventListener('webkitfullscreenchange', positionAccordingToMode);
-    document.addEventListener('mozfullscreenchange', positionAccordingToMode);
-    document.addEventListener('MSFullscreenChange', positionAccordingToMode);
-}
+    requestAnimationFrame(positionForm);
+    window.addEventListener('resize', positionForm);
+    window.addEventListener('scroll', positionForm, true);
+};

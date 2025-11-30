@@ -20,6 +20,7 @@ class VideoModel(db.Model):
     views = db.Column(db.Integer)
     captionLikes = db.Column(db.Integer, default=0)
     language = db.Column(db.String(100))
+    showRating = db.Column(db.Boolean, default=True)
 
 class RatingModel(db.Model):
     ratingID = db.Column(db.Integer, primary_key=True)

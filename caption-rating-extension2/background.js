@@ -1,69 +1,73 @@
 const API_BASE = 'http://127.0.0.1:5000';
 
-// Handle API requests from content scripts
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'API_REQUEST') {
-    handleAPIRequest(request, sendResponse);
-    return true; // Indicates we will send a response asynchronously
+    handleAPIRequest(request)
+      .then(result => sendResponse({ success: true, ...result }))
+      .catch(error => sendResponse({ success: false, error: error.message }));
+    return true;
   }
-  
-  // Handle video detection
-  if (request.type === 'VIDEO_DETECTED') {
-    // This is handled by tabs.onUpdated below
-    return false;
-  }
+  return false;
 });
 
-async function handleAPIRequest(request, sendResponse) {
+async function handleAPIRequest(request) {
+  const { endpoint, method = 'GET', body } = request;
+  
+  const url = endpoint.startsWith('/') 
+    ? `${API_BASE}${endpoint}` 
+    : `${API_BASE}/${endpoint}`;
+  
+  const options = {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  };
+  
+  if (['POST', 'PATCH', 'PUT'].includes(method)) {
+    options.body = body ? JSON.stringify(body) : '{}';
+  }
+  
   try {
-    const { endpoint, method, body } = request;
-    const url = `${API_BASE}${endpoint}`;
+    const response = await fetch(url, options);
+    let data = null;
     
-    const options = {
-      method: method || 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    };
-    
-    if (body) {
-      options.body = JSON.stringify(body);
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      try {
+        data = await response.json();
+      } catch (e) {
+        const text = await response.text();
+        data = text ? { message: text } : null;
+      }
+    } else {
+      const text = await response.text();
+      data = text ? { message: text } : null;
     }
     
-    const response = await fetch(url, options);
-    const data = await response.json().catch(() => null);
+    if (!response.ok) {
+      const errorMsg = data?.message || data?.error || `HTTP ${response.status}`;
+      throw new Error(errorMsg);
+    }
     
-    sendResponse({
-      success: response.ok,
-      status: response.status,
-      data: data
-    });
+    return { data, status: response.status };
   } catch (error) {
-    sendResponse({
-      success: false,
-      error: error.message
-    });
+    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+      throw new Error(`Cannot connect to backend at ${API_BASE}. Make sure Flask server is running.`);
+    }
+    throw error;
   }
 }
 
+// Video detection
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  // Only send message when page is fully loaded
-  if (changeInfo.status === 'complete' && tab.url && tab.url.includes("youtube.com/watch")) {
-      const queryParameters = tab.url.split("?")[1];
-    if (queryParameters) {
-      const urlParameters = new URLSearchParams(queryParameters);
-      const videoId = urlParameters.get("v");
-  
-      if (videoId) {
-        // Send message with error handling
-      chrome.tabs.sendMessage(tabId, {
-        type: "NEW",
-          videoId: videoId,
-        }).catch((error) => {
-          // Ignore errors if content script isn't ready yet
-          // The content script will initialize itself when it loads
-          console.log('Message not sent (content script may not be ready):', error.message);
-        });
-      }
+  if (changeInfo.status === 'complete' && tab.url?.includes('youtube.com/watch')) {
+    const urlParams = new URLSearchParams(tab.url.split('?')[1]);
+    const videoId = urlParams.get('v');
+    if (videoId) {
+      chrome.tabs.sendMessage(tabId, { type: 'NEW', videoId }).catch(() => {
+      });
     }
-    }
-  });
-  
+  }
+});

@@ -5,19 +5,8 @@ const LearnPage = () => {
   const [expandedCards, setExpandedCards] = useState({});
   const dimensions = [
     {
-      title: "Readability",
-      description: "Ensuring captions are easy to read with proper font size, contrast, and positioning.",
-      ratingExamples: [
-        { rating: 1.0, stars: "★☆☆☆☆", example: "Example" },
-        { rating: 2.0, stars: "★★☆☆☆", example: "Example" },
-        { rating: 3.0, stars: "★★★☆☆", example: "Example" },
-        { rating: 4.0, stars: "★★★★☆", example: "Example" },
-        { rating: 5.0, stars: "★★★★★", example: "Example" }
-      ]
-    },
-    {
       title: "Accuracy",
-      description: "Captions should precisely match the spoken content and include important audio cues.",
+      description: "How closely the captions match the spoken dialogue. High accuracy means the words, phrasing, and meaning are correctly captured without misheard words, omissions, or added content.",
       ratingExamples: [
         { rating: 1.0, stars: "★☆☆☆☆", example: "Example" },
         { rating: 2.0, stars: "★★☆☆☆", example: "Example" },
@@ -28,7 +17,7 @@ const LearnPage = () => {
     },
     {
       title: "Timing",
-      description: "Captions should appear and disappear at the right moments to match the audio.",
+      description: "How well the captions appear and disappear in sync with the audio. Good timing ensures captions show up when the words are spoken and stay on screen long enough to be comfortably read.",
       ratingExamples: [
         { rating: 1.0, stars: "★☆☆☆☆", example: "Example" },
         { rating: 2.0, stars: "★★☆☆☆", example: "Example" },
@@ -38,8 +27,19 @@ const LearnPage = () => {
       ]
     },
     {
-      title: "Completeness",
-      description: "All spoken content, including dialogue, narration, and important sounds, should be captioned.",
+      title: "Non-Speech Information (NSI)",
+      description: "How effectively captions represent important sounds that aren’t spoken words, such as music cues, sound effects, or speaker labels. Strong NSI includes relevant sounds that help viewers understand what’s happening.",
+      ratingExamples: [
+        { rating: 1.0, stars: "★☆☆☆☆", example: "Example" },
+        { rating: 2.0, stars: "★★☆☆☆", example: "Example" },
+        { rating: 3.0, stars: "★★★☆☆", example: "Example" },
+        { rating: 4.0, stars: "★★★★☆", example: "Example" },
+        { rating: 5.0, stars: "★★★★★", example: "Example" }
+      ]
+    },
+    {
+      title: "Layout",
+      description: "How clear and readable the captions are in terms of placement, formatting, and line breaks. Good layout avoids covering important visuals, keeps text organized, and uses consistent styling that supports easy reading.",
       ratingExamples: [
         { rating: 1.0, stars: "★☆☆☆☆", example: "Example" },
         { rating: 2.0, stars: "★★☆☆☆", example: "Example" },

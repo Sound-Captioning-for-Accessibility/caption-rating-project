@@ -15,10 +15,6 @@ const VideosPage = () => {
 
   useEffect(() => {
     fetchVideos();
-    // Auto-refresh disabled - videos will only refresh when page is manually reloaded
-    // To re-enable auto-refresh, uncomment the line below:
-    // const interval = setInterval(fetchVideos, 30000);
-    // return () => clearInterval(interval);
   }, []);
 
   const fetchVideos = async () => {
@@ -209,31 +205,37 @@ const VideosPage = () => {
                     <div className="video-duration">{formatDuration(video.duration)}</div>
                   </div>
                   <div className="video-rating">
-                    <div className="stars">
-                      {[1, 2, 3, 4, 5].map((star) => {
-                        const rating = video.averageRating || 0;
-                        const diff = rating - star + 1;
-                        
-                        let starClass = 'empty';
-                        let starSymbol = '☆';
-                        
-                        if (diff >= 1) {
-                          starClass = 'filled';
-                          starSymbol = '★';
-                        } else if (diff >= 0.5) {
-                          starClass = 'half';
-                          starSymbol = '★';
-                        }
-                        
-                        return (
-                          <span key={star} className={starClass}>
-                            {starSymbol}
-                          </span>
-                        );
-                      })}
-                    </div>
-                    <span className="rating-number">{(video.averageRating || 0).toFixed(1)}</span>
-                    <span className="rating-count">({video.ratingCount || 0})</span>
+                    {video.showRating !== false ? (
+                      <>
+                        <div className="stars">
+                          {[1, 2, 3, 4, 5].map((star) => {
+                            const rating = video.averageRating || 0;
+                            const diff = rating - star + 1;
+                            
+                            let starClass = 'empty';
+                            let starSymbol = '☆';
+                            
+                            if (diff >= 1) {
+                              starClass = 'filled';
+                              starSymbol = '★';
+                            } else if (diff >= 0.5) {
+                              starClass = 'half';
+                              starSymbol = '★';
+                            }
+                            
+                            return (
+                              <span key={star} className={starClass}>
+                                {starSymbol}
+                              </span>
+                            );
+                          })}
+                        </div>
+                        <span className="rating-number">{(video.averageRating || 0).toFixed(1)}</span>
+                        <span className="rating-count">({video.ratingCount || 0})</span>
+                      </>
+                    ) : (
+                      <div className="rating-placeholder"></div>
+                    )}
                   </div>
                   <div className="video-info">
                     <h3 className="video-title">{video.title}</h3>

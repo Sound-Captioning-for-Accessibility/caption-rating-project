@@ -40,32 +40,62 @@ class Ratings(Resource):
             # Validate user exists
             user = UserModel.query.get(args["userID"])
             if not user:
-                abort(404, message="User not found")
+                abort(404, message=f"User with ID {args['userID']} not found")
             
-            # Validate or create video
+            # Validate video exists
             video = VideoModel.query.get(args["videoID"])
             if not video:
-                abort(404, message="Video not found. Please add video first.")
+                abort(404, message=f"Video with ID {args['videoID']} not found. Please add video first using POST /api/videos/{args['videoID']}")
+            
+            # Validate thumbsUp is boolean
+            thumbs_up = args.get('thumbsUp', False)
+            if not isinstance(thumbs_up, bool):
+                # Try to convert string booleans
+                if isinstance(thumbs_up, str):
+                    thumbs_up = thumbs_up.lower() in ('true', '1', 'yes')
+                else:
+                    thumbs_up = bool(thumbs_up)
+            
+            # Validate videoTimestamp is a valid integer
+            video_timestamp = args.get('videoTimestamp', 0)
+            try:
+                video_timestamp = int(video_timestamp)
+                if video_timestamp < 0:
+                    video_timestamp = 0
+            except (ValueError, TypeError):
+                video_timestamp = 0
+            
+            # Get feedback, default to empty string
+            feedback = args.get('feedback', '') or ''
+            if not isinstance(feedback, str):
+                feedback = str(feedback)
             
             rating = RatingModel(
                 userID = args["userID"],
                 videoID = args["videoID"],
-                overallRating = args["overallRating"],
-                feedback = args.get('feedback', '') or '',
-                thumbsUp = args['thumbsUp'],
-                videoTimestamp = int(args['videoTimestamp'])  # Ensure it's an integer
+                overallRating = overall_rating,
+                feedback = feedback,
+                thumbsUp = thumbs_up,
+                videoTimestamp = video_timestamp
             )
             db.session.add(rating)
             
             # Update caption likes count if thumbs up
-            if args['thumbsUp']:
+            if thumbs_up:
                 video.captionLikes = (video.captionLikes or 0) + 1
             
             db.session.commit()
             return rating, 201
         except Exception as e:
             db.session.rollback()
-            abort(400, message=f"Failed to create rating: {str(e)}")
+            # Provide more detailed error messages
+            error_msg = str(e)
+            if "not found" in error_msg.lower():
+                abort(404, message=error_msg)
+            elif "required" in error_msg.lower() or "invalid" in error_msg.lower():
+                abort(400, message=error_msg)
+            else:
+                abort(400, message=f"Failed to create rating: {error_msg}")
     
     @marshal_with(ratingFields)
     def patch(self, ratingID):
