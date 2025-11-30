@@ -111,7 +111,6 @@ def health():
 
 @app.route("/api/routes")
 def list_routes():
-    """Debug endpoint to see all registered routes"""
     routes = []
     for rule in app.url_map.iter_rules():
         routes.append({
