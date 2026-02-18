@@ -4,8 +4,9 @@ import re
 import time
 from pathlib import Path
 
-# API endpoint
-API_BASE_URL = "http://127.0.0.1:5000/api/videos"
+# API endpoint: use dev backend when testing locally
+import os
+API_BASE_URL = os.environ.get("CAPTION_RATING_API", "http://127.0.0.1:5000/api/videos")
 
 def extract_video_id(url):
     # Pattern to match YouTube video IDs
@@ -32,29 +33,57 @@ def read_video_urls(file_path):
 
 def add_video(video_id, show_rating=False):
     try:
+        url = f"{API_BASE_URL.rstrip('/')}/{video_id}"
         response = requests.post(
-            f"{API_BASE_URL}/{video_id}",
+            url,
             json={"showRating": show_rating},
             headers={"Content-Type": "application/json"}
         )
         
         if response.status_code in [200, 201]:
             data = response.json()
-            print(f"✓ Added/Updated: {data.get('title', video_id)[:50]}...")
+            print(f"[OK] Added/Updated: {data.get('title', video_id)[:50]}...")
             return True
         else:
-            print(f"✗ Failed to add {video_id}: {response.status_code} - {response.text}")
+            print(f"[FAIL] {video_id}: {response.status_code} - {response.text}")
             return False
     except Exception as e:
-        print(f"✗ Error adding {video_id}: {str(e)}")
+        print(f"[ERR] {video_id}: {str(e)}")
         return False
 
 def main():
-    file_path = Path(r"C:\Users\naevi\Downloads\top_25_percent_videos.txt")
+    import sys
+    
+    # Allow file path to be passed as command line argument, or use default
+    if len(sys.argv) > 1:
+        file_path = Path(sys.argv[1])
+    else:
+        # Default: look for file in current directory, or Downloads if Windows path exists
+        default_paths = [
+            Path("top_25_percent_videos.txt"),  # Current directory
+            Path("/opt/caption-rating/top_25_percent_videos.txt"),  # Linux common location
+            Path("~/Downloads/top_25_percent_videos.txt").expanduser(),  # User Downloads
+            Path(r"C:\Users\naevi\Downloads\top_25_percent_videos.txt") if sys.platform == "win32" else None  # Windows fallback
+        ]
+        
+        file_path = None
+        for path in default_paths:
+            if path and path.exists():
+                file_path = path
+                break
+        
+        if not file_path:
+            print("Error: Video URLs file not found.")
+            print("\nUsage: python populate_top_videos.py [path_to_file.txt]")
+            print("\nPlease provide the path to your video URLs file:")
+            print("  python populate_top_videos.py /path/to/your/video_urls.txt")
+            print("\nOr place 'top_25_percent_videos.txt' in the current directory.")
+            return
     
     if not file_path.exists():
         print(f"Error: File not found at {file_path}")
         print("Please ensure the file path is correct.")
+        print("\nUsage: python populate_top_videos.py [path_to_file.txt]")
         return
     
     print(f"Reading video URLs from {file_path}...")

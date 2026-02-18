@@ -25,14 +25,46 @@ api = Api(app)
 from models import db
 db.init_app(app)
 
+api.add_resource(Users, '/api/users/')
+api.add_resource(User, '/api/users/<int:userID>')
+api.add_resource(Videos, '/api/videos/<string:videoID>', '/api/videos')
+
+def _ratings_list_json():
+    from models import RatingModel
+    video_id = request.args.get('videoID')
+    if video_id:
+        ratings = RatingModel.query.filter_by(videoID=video_id).order_by(RatingModel.submittedAt.desc()).all()
+    else:
+        ratings = RatingModel.query.order_by(RatingModel.submittedAt.desc()).all()
+    out = []
+    for r in ratings:
+        out.append({
+            'ratingID': r.ratingID,
+            'userID': r.userID,
+            'videoID': r.videoID,
+            'overallRating': r.overallRating,
+            'feedback': (r.feedback or '').strip(),
+            'thumbsUp': r.thumbsUp,
+            'videoTimestamp': r.videoTimestamp or 0,
+            'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
+            'accuracy': r.accuracy,
+            'timing': r.timing,
+            'completeness': r.completeness,
+            'layout': r.layout,
+        })
+    return jsonify(out)
+
+# Register GET first so it wins over the Resource's GET for /api/ratings
+app.add_url_rule('/api/ratings', 'list_ratings', _ratings_list_json, methods=['GET'])
+api.add_resource(Ratings, '/api/ratings/<int:ratingID>', '/api/ratings')
+
 @app.route('/api/ratings', methods=['POST'])
 def create_rating():
-    from flask_restful import reqparse
     from models import db, RatingModel, UserModel, VideoModel
     
     try:
-        # Parse request data
-        data = request.get_json() or {}
+        # Parse request data from JSON body
+        data = request.get_json(silent=True) or {}
         
         # Validate required fields
         if 'userID' not in data or 'videoID' not in data or 'overallRating' not in data:
@@ -56,11 +88,31 @@ def create_rating():
         if not video:
             return jsonify({'message': f'Video with ID {videoID} not found'}), 404
         
-        # Get optional fields with safe defaults
-        feedback = str(data.get('feedback') or '') if data.get('feedback') is not None else ''
+        # Get optional fields with safe defaults (feedback from extension "Additional Comments")
+        raw_feedback = data.get('feedback')
+        if raw_feedback is None:
+            feedback = ''
+        else:
+            feedback = str(raw_feedback).strip() if raw_feedback else ''
         thumbsUp = bool(data.get('thumbsUp', False))
         videoTimestamp = int(data.get('videoTimestamp', 0))
-        
+
+        def clamp_rating(val):
+            if val is None:
+                return None
+            try:
+                n = int(val)
+                return n if 1 <= n <= 5 else None
+            except (ValueError, TypeError):
+                return None
+
+        accuracy = clamp_rating(data.get('accuracy'))
+        timing = clamp_rating(data.get('timing'))
+        completeness = clamp_rating(data.get('completeness'))
+        if completeness is None:
+            completeness = clamp_rating(data.get('nsi'))
+        layout = clamp_rating(data.get('layout'))
+
         # Create rating
         rating = RatingModel(
             userID=userID,
@@ -68,7 +120,11 @@ def create_rating():
             overallRating=overallRating,
             feedback=feedback,
             thumbsUp=thumbsUp,
-            videoTimestamp=videoTimestamp
+            videoTimestamp=videoTimestamp,
+            accuracy=accuracy,
+            timing=timing,
+            completeness=completeness,
+            layout=layout
         )
         db.session.add(rating)
         
@@ -78,7 +134,7 @@ def create_rating():
         
         db.session.commit()
         
-        return jsonify({
+        out = {
             'ratingID': rating.ratingID,
             'userID': rating.userID,
             'videoID': rating.videoID,
@@ -86,8 +142,13 @@ def create_rating():
             'feedback': rating.feedback,
             'thumbsUp': rating.thumbsUp,
             'videoTimestamp': rating.videoTimestamp,
-            'submittedAt': rating.submittedAt.isoformat() if rating.submittedAt else None
-        }), 201
+            'submittedAt': rating.submittedAt.isoformat() if rating.submittedAt else None,
+            'accuracy': rating.accuracy,
+            'timing': rating.timing,
+            'completeness': rating.completeness,
+            'layout': rating.layout,
+        }
+        return jsonify(out), 201
         
     except ValueError as e:
         db.session.rollback()
@@ -95,11 +156,6 @@ def create_rating():
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Failed to create rating: {str(e)}'}), 400
-
-api.add_resource(Users, '/api/users/')
-api.add_resource(User, '/api/users/<int:userID>')
-api.add_resource(Videos, '/api/videos/<string:videoID>', '/api/videos')
-api.add_resource(Ratings, '/api/ratings/<int:ratingID>', '/api/ratings')
 
 @app.route("/")
 def home ():
@@ -129,4 +185,5 @@ if __name__ == '__main__':
             video_count = VideoModel.query.count()
             print(f"  Videos in database: {video_count}")
         print(f"{'='*60}\n")
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)

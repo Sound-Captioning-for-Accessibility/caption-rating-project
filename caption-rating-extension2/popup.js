@@ -136,7 +136,7 @@ window.showRatingForm = function showRatingForm(ratingType) {
         </div>
         <div class="comments-section">
             <div class="comments-label">Additional Comments (Optional)</div>
-            <textarea id="comments" class="comments-textarea" placeholder="Share your feedback..."></textarea>
+            <textarea id="caption-rating-feedback" class="comments-textarea" placeholder="Share your feedback..."></textarea>
         </div>
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel-button">Cancel</button>
@@ -147,23 +147,27 @@ window.showRatingForm = function showRatingForm(ratingType) {
     overlay.appendChild(form);
     document.body.appendChild(overlay);
 
+    // Use only form-scoped elements so we never pick up YouTube's DOM (e.g. #comments, #submit-btn)
+    const get = (sel) => form.querySelector(sel);
+    const feedbackInput = get('#caption-rating-feedback');
+
     // Event handlers
     const closePopup = () => overlay.remove();
-    document.getElementById('close-btn').onclick = closePopup;
-    document.getElementById('cancel-btn').onclick = closePopup;
+    get('#close-btn').onclick = closePopup;
+    get('#cancel-btn').onclick = closePopup;
     overlay.onclick = (e) => { if (e.target === overlay) closePopup(); };
     form.onclick = (e) => e.stopPropagation();
 
     // Thumbs buttons
-    document.getElementById('like-btn').onclick = () => {
+    get('#like-btn').onclick = () => {
         selectedThumbs = 'like';
-        document.getElementById('like-btn').classList.add('selected');
-        document.getElementById('dislike-btn').classList.remove('selected');
+        get('#like-btn').classList.add('selected');
+        get('#dislike-btn').classList.remove('selected');
     };
-    document.getElementById('dislike-btn').onclick = () => {
+    get('#dislike-btn').onclick = () => {
         selectedThumbs = 'dislike';
-        document.getElementById('dislike-btn').classList.add('selected');
-        document.getElementById('like-btn').classList.remove('selected');
+        get('#dislike-btn').classList.add('selected');
+        get('#like-btn').classList.remove('selected');
     };
 
     // Star rating handlers
@@ -190,7 +194,7 @@ window.showRatingForm = function showRatingForm(ratingType) {
     });
 
     // Submit handler
-    document.getElementById('submit-btn').onclick = async () => {
+    get('#submit-btn').onclick = async () => {
         const videoID = new URLSearchParams(location.search).get('v');
         if (!videoID) {
             alert('Could not get video ID');
@@ -202,7 +206,7 @@ window.showRatingForm = function showRatingForm(ratingType) {
             return;
         }
 
-        const btn = document.getElementById('submit-btn');
+        const btn = get('#submit-btn');
         btn.disabled = true;
         btn.textContent = 'Submitting...';
 
@@ -236,24 +240,19 @@ window.showRatingForm = function showRatingForm(ratingType) {
             const video = document.querySelector('video');
             const timestamp = video ? Math.floor(video.currentTime || 0) : 0;
             
-            let comments = '';
-            try {
-                const commentsEl = document.getElementById('comments');
-                if (commentsEl && commentsEl.value) {
-                    comments = String(commentsEl.value).trim();
-                }
-            } catch (e) {
-                console.warn('Could not get comments:', e);
-                comments = '';
-            }
+            const feedbackText = feedbackInput ? String(feedbackInput.value || '').trim() : '';
 
             const ratingData = {
                 userID: userID,
                 videoID: videoID,
                 overallRating: ratings.overall,
-                feedback: comments,
+                feedback: feedbackText,
                 thumbsUp: selectedThumbs === 'like',
-                videoTimestamp: timestamp
+                videoTimestamp: timestamp,
+                accuracy: ratings.accuracy || null,
+                timing: ratings.timing || null,
+                completeness: ratings.nsi || null,
+                layout: ratings.layout || null
             };
             
             console.log('Submitting rating:', ratingData);

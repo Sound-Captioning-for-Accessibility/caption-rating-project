@@ -1,4 +1,6 @@
-const API_BASE = 'http://127.0.0.1:5000';
+// Set to true to test against local dev (Vite at 5173 proxies to Flask at 5000)
+const DEV = true;
+const API_BASE = DEV ? 'http://localhost:5173' : 'http://157.245.5.153';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'API_REQUEST') {

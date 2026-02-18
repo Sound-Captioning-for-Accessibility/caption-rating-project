@@ -13,6 +13,7 @@ class VideoModel(db.Model):
     videoID = db.Column(db.String(100), primary_key=True)
     title = db.Column(db.String(300), nullable=False)
     channel = db.Column(db.String(250), nullable=False)
+    description = db.Column(db.Text)
     duration = db.Column(db.Integer)
     thumbnail = db.Column(db.Text)
     created = db.Column(db.DateTime)
@@ -31,4 +32,8 @@ class RatingModel(db.Model):
     feedback = db.Column(db.Text)
     submittedAt = db.Column(db.DateTime, default=datetime.utcnow)
     videoTimestamp = db.Column(db.Integer)
-    # Dimension ratings to be added
+    # Dimension ratings (1-5, optional)
+    accuracy = db.Column(db.Integer)
+    timing = db.Column(db.Integer)
+    completeness = db.Column(db.Integer)  # NSI / Non-Speech Information
+    layout = db.Column(db.Integer)

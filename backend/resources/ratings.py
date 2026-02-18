@@ -1,13 +1,19 @@
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from models import db, RatingModel, UserModel, VideoModel
 
+# Use location='json' so POST body is parsed when this resource handles the request
 rating_args = reqparse.RequestParser()
-rating_args.add_argument('userID', type=int, required=True)
-rating_args.add_argument('videoID', type=str, required=True)
-rating_args.add_argument('overallRating', type=int, required=True)
-rating_args.add_argument('feedback', type=str, required=False, default='')
-rating_args.add_argument('thumbsUp', type=bool, required=True)
-rating_args.add_argument('videoTimestamp', type=int, required=True)
+rating_args.add_argument('userID', type=int, required=True, location='json')
+rating_args.add_argument('videoID', type=str, required=True, location='json')
+rating_args.add_argument('overallRating', type=int, required=True, location='json')
+rating_args.add_argument('feedback', type=str, required=False, default='', location='json')
+rating_args.add_argument('thumbsUp', type=bool, required=True, location='json')
+rating_args.add_argument('videoTimestamp', type=int, required=True, location='json')
+rating_args.add_argument('accuracy', type=int, required=False, location='json')
+rating_args.add_argument('timing', type=int, required=False, location='json')
+rating_args.add_argument('completeness', type=int, required=False, location='json')
+rating_args.add_argument('layout', type=int, required=False, location='json')
+rating_args.add_argument('nsi', type=int, required=False, location='json')  # extension sends nsi for completeness
 
 ratingFields = {
     'ratingID': fields.Integer,
@@ -18,19 +24,27 @@ ratingFields = {
     'thumbsUp': fields.Boolean,
     'submittedAt': fields.DateTime,
     'videoTimestamp': fields.Integer,
+    'accuracy': fields.Integer,
+    'timing': fields.Integer,
+    'completeness': fields.Integer,
+    'layout': fields.Integer,
 }
 
 class Ratings(Resource):
     @marshal_with(ratingFields)
     def get(self, ratingID=None):
+        from flask import request
         if ratingID:
             rating = RatingModel.query.get(ratingID)
             if not rating:
                 abort(404, "Rating not found")
             return rating
         else:
-            ratings = RatingModel.query.all()
-            return ratings
+            video_id = request.args.get('videoID')
+            if video_id:
+                ratings = RatingModel.query.filter_by(videoID=video_id).all()
+                return ratings
+            return RatingModel.query.all()
         
     @marshal_with(ratingFields)
     def post(self):
@@ -65,18 +79,35 @@ class Ratings(Resource):
             except (ValueError, TypeError):
                 video_timestamp = 0
             
-            # Get feedback, default to empty string
-            feedback = args.get('feedback', '') or ''
-            if not isinstance(feedback, str):
-                feedback = str(feedback)
+            # Get feedback from "Additional Comments" in extension (required for display on detail page)
+            raw = args.get('feedback')
+            if raw is None:
+                feedback = ''
+            else:
+                feedback = (str(raw).strip() if raw else '')
             
+            def _clamp(n):
+                try:
+                    v = int(n)
+                    return v if 1 <= v <= 5 else None
+                except (TypeError, ValueError):
+                    return None
+            accuracy = _clamp(args.get('accuracy'))
+            timing = _clamp(args.get('timing'))
+            completeness = _clamp(args.get('completeness')) or _clamp(args.get('nsi'))
+            layout = _clamp(args.get('layout'))
+
             rating = RatingModel(
-                userID = args["userID"],
-                videoID = args["videoID"],
-                overallRating = overall_rating,
-                feedback = feedback,
-                thumbsUp = thumbs_up,
-                videoTimestamp = video_timestamp
+                userID=args["userID"],
+                videoID=args["videoID"],
+                overallRating=args["overallRating"],
+                feedback=feedback,
+                thumbsUp=thumbs_up,
+                videoTimestamp=video_timestamp,
+                accuracy=accuracy,
+                timing=timing,
+                completeness=completeness,
+                layout=layout
             )
             db.session.add(rating)
             

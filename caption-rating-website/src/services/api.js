@@ -40,6 +40,7 @@ export const videoApi = {
 // Rating API
 export const ratingApi = {
   getAll: () => apiCall('/api/ratings'),
+  getByVideoId: (videoId) => apiCall(`/api/ratings?videoID=${encodeURIComponent(videoId)}`),
   create: (ratingData) => apiCall('/api/ratings', {
     method: 'POST',
     body: JSON.stringify(ratingData),

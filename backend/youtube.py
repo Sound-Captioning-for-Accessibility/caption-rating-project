@@ -37,6 +37,7 @@ def fetchMetadata(videoID):
         return {
             "title": snippet.get('title', 'Unknown'),
             "channel": snippet.get('channelTitle', 'Unknown'),
+            "description": snippet.get('description', ''),
             "duration": int(parse_duration(details['duration']).total_seconds()) if details.get('duration') else 0,
             "thumbnail": thumbnail_url,
             "created": datetime.fromisoformat(snippet['publishedAt'].replace("Z", "+00:00")) if snippet.get('publishedAt') else datetime.utcnow(),

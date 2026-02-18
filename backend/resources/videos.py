@@ -20,8 +20,30 @@ videoFields = {
     'averageRating': fields.Float,
     'ratingCount': fields.Integer,
     'language': fields.String,
-    'showRating': fields.Boolean
+    'showRating': fields.Boolean,
 }
+
+DIMENSION_COLUMNS = ['accuracy', 'timing', 'completeness', 'layout']
+
+
+def _dimension_averages_for_video(video_id):
+    """Return dict of dimension name -> average (1-5), only from ratings where value is 1-5."""
+    out = {k: 0.0 for k in DIMENSION_COLUMNS}
+    for col in DIMENSION_COLUMNS:
+        col_attr = getattr(RatingModel, col, None)
+        if col_attr is None:
+            continue
+        row = db.session.query(
+            func.avg(col_attr).label('avg'),
+            func.count(col_attr).label('cnt')
+        ).filter(
+            RatingModel.videoID == video_id,
+            col_attr >= 1,
+            col_attr <= 5
+        ).first()
+        if row and row.cnt and row.avg is not None:
+            out[col] = round(float(row.avg), 2)
+    return out
 
 class Videos(Resource):
     def get(self, videoID=None):
@@ -30,16 +52,42 @@ class Videos(Resource):
             if not video:
                 abort(404, "Video not found")
             
-            # Calculate average rating
+            # Overall average and count
             rating_stats = db.session.query(
                 func.avg(RatingModel.overallRating).label('avg'),
                 func.count(RatingModel.ratingID).label('count')
             ).filter(RatingModel.videoID == videoID).first()
-            
+            # Dimension averages (accuracy, timing, completeness, layout)
+            dim_avgs = _dimension_averages_for_video(videoID)
+            # Individual ratings (for comment/feedback section on detail page)
+            ratings_list = (
+                RatingModel.query.filter_by(videoID=videoID)
+                .order_by(RatingModel.submittedAt.desc())
+                .all()
+            )
+            ratings_payload = [
+                {
+                    'ratingID': r.ratingID,
+                    'userID': r.userID,
+                    'videoID': r.videoID,
+                    'overallRating': r.overallRating,
+                    'feedback': (r.feedback or '').strip(),
+                    'thumbsUp': r.thumbsUp,
+                    'videoTimestamp': r.videoTimestamp or 0,
+                    'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
+                    'accuracy': r.accuracy,
+                    'timing': r.timing,
+                    'completeness': r.completeness,
+                    'layout': r.layout,
+                }
+                for r in ratings_list
+            ]
+
             video_dict = {
                 'videoID': video.videoID,
                 'title': video.title,
                 'channel': video.channel,
+                'description': getattr(video, 'description', None) or '',
                 'duration': video.duration,
                 'thumbnail': video.thumbnail,
                 'created': video.created.isoformat() if video.created else None,
@@ -49,7 +97,12 @@ class Videos(Resource):
                 'averageRating': float(rating_stats.avg) if rating_stats.avg else 0.0,
                 'ratingCount': rating_stats.count or 0,
                 'language': video.language,
-                'showRating': video.showRating if hasattr(video, 'showRating') else True
+                'showRating': video.showRating if hasattr(video, 'showRating') else True,
+                'accuracyAverage': dim_avgs['accuracy'],
+                'timingAverage': dim_avgs['timing'],
+                'completenessAverage': dim_avgs['completeness'],
+                'layoutAverage': dim_avgs['layout'],
+                'ratings': ratings_payload,
             }
             return video_dict
         else:
@@ -57,16 +110,39 @@ class Videos(Resource):
             result = []
             
             for video in videos:
-                # Calculate average rating for each video
                 rating_stats = db.session.query(
                     func.avg(RatingModel.overallRating).label('avg'),
                     func.count(RatingModel.ratingID).label('count')
                 ).filter(RatingModel.videoID == video.videoID).first()
-                
+                dim_avgs = _dimension_averages_for_video(video.videoID)
+                ratings_list = (
+                    RatingModel.query.filter_by(videoID=video.videoID)
+                    .order_by(RatingModel.submittedAt.desc())
+                    .all()
+                )
+                ratings_payload = [
+                    {
+                        'ratingID': r.ratingID,
+                        'userID': r.userID,
+                        'videoID': r.videoID,
+                        'overallRating': r.overallRating,
+                        'feedback': (r.feedback or '').strip(),
+                        'thumbsUp': r.thumbsUp,
+                        'videoTimestamp': r.videoTimestamp or 0,
+                        'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
+                        'accuracy': r.accuracy,
+                        'timing': r.timing,
+                        'completeness': r.completeness,
+                        'layout': r.layout,
+                    }
+                    for r in ratings_list
+                ]
+
                 video_dict = {
                     'videoID': video.videoID,
                     'title': video.title,
                     'channel': video.channel,
+                    'description': getattr(video, 'description', None) or '',
                     'duration': video.duration,
                     'thumbnail': video.thumbnail,
                     'created': video.created.isoformat() if video.created else None,
@@ -76,7 +152,12 @@ class Videos(Resource):
                     'averageRating': float(rating_stats.avg) if rating_stats.avg else 0.0,
                     'ratingCount': rating_stats.count or 0,
                     'language': video.language,
-                    'showRating': video.showRating if hasattr(video, 'showRating') else True
+                    'showRating': video.showRating if hasattr(video, 'showRating') else True,
+                    'accuracyAverage': dim_avgs['accuracy'],
+                    'timingAverage': dim_avgs['timing'],
+                    'completenessAverage': dim_avgs['completeness'],
+                    'layoutAverage': dim_avgs['layout'],
+                    'ratings': ratings_payload,
                 }
                 result.append(video_dict)
             
@@ -99,16 +180,16 @@ class Videos(Resource):
                     existing.showRating = show_rating
                     db.session.commit()
                 
-                # Calculate rating stats for existing video
                 rating_stats = db.session.query(
                     func.avg(RatingModel.overallRating).label('avg'),
                     func.count(RatingModel.ratingID).label('count')
                 ).filter(RatingModel.videoID == videoID).first()
-                
+                dim_avgs = _dimension_averages_for_video(videoID)
                 return {
                     'videoID': existing.videoID,
                     'title': existing.title,
                     'channel': existing.channel,
+                    'description': getattr(existing, 'description', None) or '',
                     'duration': existing.duration,
                     'thumbnail': existing.thumbnail,
                     'created': existing.created.isoformat() if existing.created else None,
@@ -118,7 +199,11 @@ class Videos(Resource):
                     'averageRating': float(rating_stats.avg) if rating_stats.avg else 0.0,
                     'ratingCount': rating_stats.count or 0,
                     'language': existing.language,
-                    'showRating': existing.showRating if hasattr(existing, 'showRating') else True
+                    'showRating': existing.showRating if hasattr(existing, 'showRating') else True,
+                    'accuracyAverage': dim_avgs['accuracy'],
+                    'timingAverage': dim_avgs['timing'],
+                    'completenessAverage': dim_avgs['completeness'],
+                    'layoutAverage': dim_avgs['layout'],
                 }, 200
             
             # fetchMetadata will raise an exception if it fails
@@ -137,6 +222,7 @@ class Videos(Resource):
                 videoID = videoID,
                 title = metadata.get('title', 'Unknown'),
                 channel = metadata.get('channel', 'Unknown'),
+                description = metadata.get('description', ''),
                 duration = metadata.get('duration', 0),
                 thumbnail = metadata.get('thumbnail', ''),
                 created = metadata.get('created'),
@@ -152,6 +238,7 @@ class Videos(Resource):
                 'videoID': video.videoID,
                 'title': video.title,
                 'channel': video.channel,
+                'description': video.description or '',
                 'duration': video.duration,
                 'thumbnail': video.thumbnail,
                 'created': video.created.isoformat() if video.created else None,
@@ -161,7 +248,11 @@ class Videos(Resource):
                 'averageRating': 0.0,
                 'ratingCount': 0,
                 'language': video.language,
-                'showRating': video.showRating
+                'showRating': video.showRating,
+                'accuracyAverage': 0.0,
+                'timingAverage': 0.0,
+                'completenessAverage': 0.0,
+                'layoutAverage': 0.0,
             }, 201
         except Exception as e:
             db.session.rollback()

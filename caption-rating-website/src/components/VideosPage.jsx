@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { videoApi } from '../services/api';
 import './VideosPage.css';
 
-const VideosPage = () => {
+const VideosPage = ({ onVideoClick }) => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -73,7 +73,7 @@ const VideosPage = () => {
     
     switch (sortType) {
       case 'highest-rated':
-        return sortedVideos.sort((a, b) => (b.captionLikes || 0) - (a.captionLikes || 0));
+        return sortedVideos.sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
       case 'most-recent':
         return sortedVideos.sort((a, b) => {
           const dateA = new Date(a.created || 0);
@@ -188,12 +188,13 @@ const VideosPage = () => {
         <>
           <div className="video-grid">
             {displayedVideos.map((video) => (
-              <a 
+              <div
                 key={video.videoID}
-                href={`https://www.youtube.com/watch?v=${video.videoID}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                role="button"
+                tabIndex={0}
                 className="video-card-link"
+                onClick={() => onVideoClick?.(video.videoID)}
+                onKeyDown={(e) => e.key === 'Enter' && onVideoClick?.(video.videoID)}
               >
                 <div className="video-card">
                   <div className="video-thumbnail">
@@ -250,7 +251,7 @@ const VideosPage = () => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
 
