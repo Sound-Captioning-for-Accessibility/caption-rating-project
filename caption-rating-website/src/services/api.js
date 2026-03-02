@@ -18,6 +18,14 @@ const apiCall = async (endpoint, options = {}) => {
   return await response.json();
 };
 
+// Auth API
+export const authApi = {
+  google: (credential) => apiCall('/api/auth/google', {
+    method: 'POST',
+    body: JSON.stringify({ credential }),
+  }),
+};
+
 // User API
 export const userApi = {
   getAll: () => apiCall('/api/users/'),

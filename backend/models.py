@@ -6,8 +6,10 @@ db = SQLAlchemy()
 # Database Models
 class UserModel(db.Model):
     userID = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True)
-    # User info to be added
+    email = db.Column(db.String(120), unique=True, nullable=True)
+    googleSub = db.Column(db.String(255), unique=True, nullable=True)
+    displayName = db.Column(db.String(255), nullable=True)
+    avatarUrl = db.Column(db.Text, nullable=True)
 
 class VideoModel(db.Model):
     videoID = db.Column(db.String(100), primary_key=True)
@@ -32,8 +34,7 @@ class RatingModel(db.Model):
     feedback = db.Column(db.Text)
     submittedAt = db.Column(db.DateTime, default=datetime.utcnow)
     videoTimestamp = db.Column(db.Integer)
-    # Dimension ratings (1-5, optional)
     accuracy = db.Column(db.Integer)
     timing = db.Column(db.Integer)
-    completeness = db.Column(db.Integer)  # NSI / Non-Speech Information
+    completeness = db.Column(db.Integer)
     layout = db.Column(db.Integer)

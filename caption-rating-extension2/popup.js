@@ -24,47 +24,62 @@ window.showRatingForm = function showRatingForm(ratingType) {
 
     // Get or create user
     async function getOrCreateUser() {
-        return new Promise((resolve, reject) => {
-            chrome.storage.local.get(['userID'], async (result) => {
-                if (result.userID) {
-                    try {
-                        await apiCall(`/api/users/${result.userID}`, 'GET');
-                        resolve(result.userID);
-                        return;
-                    } catch (err) {
-                        console.warn('Stored userID invalid, creating new user:', err);
-                        chrome.storage.local.remove(['userID']);
-                    }
-                }
+        // Prefer backend userID already stored (from previous Google auth or legacy user)
+        const stored = await new Promise((resolve) =>
+            chrome.storage.local.get(['backendUserID', 'userID'], resolve),
+        );
+        const candidateId = stored.backendUserID || stored.userID;
+        if (candidateId) {
+            try {
+                await apiCall(`/api/users/${candidateId}`, 'GET');
+                return candidateId;
+            } catch (err) {
+                console.warn('Stored userID invalid, creating new user:', err);
+                chrome.storage.local.remove(['backendUserID', 'userID']);
+            }
+        }
 
-                // Create new user
-                try {
-                    const email = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}@caption.local`;
-                    const users = await apiCall('/api/users/', 'POST', { email });
-                    
-                    if (Array.isArray(users) && users.length > 0) {
-                        const user = users.find(u => u.email === email);
-                        if (user && user.userID) {
-                            chrome.storage.local.set({ userID: user.userID });
-                            resolve(user.userID);
-                        } else {
-                            const lastUser = users[users.length - 1];
-                            if (lastUser && lastUser.userID) {
-                                chrome.storage.local.set({ userID: lastUser.userID });
-                                resolve(lastUser.userID);
-                            } else {
-                                reject(new Error('Invalid user response from server'));
-                            }
-                        }
-                    } else {
-                        reject(new Error('Failed to create user - empty response'));
-                    }
-                } catch (err) {
-                    console.error('User creation error:', err);
-                    reject(new Error(`Failed to create user: ${err.message}`));
+        // Try to sign in with Google via background (preferred)
+        try {
+            const response = await new Promise((resolve) =>
+                chrome.runtime.sendMessage({ type: 'GOOGLE_AUTH' }, resolve),
+            );
+            if (response?.success && response.userID) {
+                return response.userID;
+            }
+            if (response?.error) {
+                console.warn('Google auth error:', response.error);
+            }
+        } catch (err) {
+            console.warn('Google auth failed:', err);
+        }
+
+        // Fallback: ask for a display name, then create an anonymous user
+        try {
+            let displayName = window.prompt('Enter the name you want shown with your caption feedback:', '');
+            if (displayName === null) {
+                displayName = '';
+            }
+            displayName = displayName.trim();
+            if (!displayName) {
+                displayName = 'Anonymous';
+            }
+
+            const email = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}@caption.local`;
+            const users = await apiCall('/api/users/', 'POST', { email, displayName });
+            
+            if (Array.isArray(users) && users.length > 0) {
+                const user = users.find(u => u.email === email) || users[users.length - 1];
+                if (user && user.userID) {
+                    chrome.storage.local.set({ userID: user.userID });
+                    return user.userID;
                 }
-            });
-        });
+            }
+            throw new Error('Invalid user response from server');
+        } catch (err) {
+            console.error('User creation error:', err);
+            throw new Error(`Failed to create user: ${err.message}`);
+        }
     }
 
     // Create popup
@@ -147,16 +162,74 @@ window.showRatingForm = function showRatingForm(ratingType) {
     overlay.appendChild(form);
     document.body.appendChild(overlay);
 
-    // Use only form-scoped elements so we never pick up YouTube's DOM (e.g. #comments, #submit-btn)
     const get = (sel) => form.querySelector(sel);
     const feedbackInput = get('#caption-rating-feedback');
+
+    // Drag state
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+    let hasDragged = false;
 
     // Event handlers
     const closePopup = () => overlay.remove();
     get('#close-btn').onclick = closePopup;
     get('#cancel-btn').onclick = closePopup;
-    overlay.onclick = (e) => { if (e.target === overlay) closePopup(); };
+    overlay.onclick = (e) => {
+        if (e.target !== overlay) return;
+        if (hasDragged) {
+            hasDragged = false;
+            return;
+        }
+        closePopup();
+    };
     form.onclick = (e) => e.stopPropagation();
+
+    // Make popup draggable using the header as handle
+    const headerEl = get('.popup-header');
+    if (headerEl) {
+        headerEl.style.cursor = 'grab';
+
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+            form.style.left = `${startLeft + dx}px`;
+            form.style.top = `${startTop + dy}px`;
+        };
+
+        const onMouseUp = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            headerEl.style.cursor = 'grab';
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+
+        headerEl.addEventListener('mousedown', (e) => {
+            // Ignore clicks on close button so it still works normally
+            if (e.target && e.target.id === 'close-btn') return;
+            e.preventDefault();
+            hasDragged = true;
+            isDragging = true;
+            headerEl.style.cursor = 'grabbing';
+
+            const rect = form.getBoundingClientRect();
+            form.style.position = 'fixed';
+            startLeft = rect.left;
+            startTop = rect.top;
+            form.style.left = `${startLeft}px`;
+            form.style.top = `${startTop}px`;
+
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    }
 
     // Thumbs buttons
     get('#like-btn').onclick = () => {
@@ -271,20 +344,43 @@ window.showRatingForm = function showRatingForm(ratingType) {
         }
     };
 
-    // Popup Position
+    // Popup Position (initial / when not dragged)
     const positionForm = () => {
+        if (hasDragged) {
+            return; // don't override user drag position
+        }
         const player = document.querySelector('#movie_player, .html5-video-player');
         const toolbar = document.querySelector('.ytp-chrome-bottom');
-        const ref = toolbar || player;
-        
-        if (!ref) return;
-        
-        const rect = ref.getBoundingClientRect();
+        const ref = player || toolbar || document.querySelector('video');
+
+        const isFullscreen = !!document.fullscreenElement;
+
+        form.style.position = 'fixed';
+
         const formRect = form.getBoundingClientRect();
-        
-        form.style.position = 'absolute';
-        form.style.top = `${rect.bottom + 8}px`;
-        form.style.left = `${rect.right - formRect.width - 10}px`;
+        const formWidth = formRect.width || 320;
+        const formHeight = formRect.height || 200;
+
+        let centerX;
+        let centerY;
+
+        if (isFullscreen) {
+            // Center in viewport in fullscreen
+            centerX = window.innerWidth / 2;
+            centerY = window.innerHeight / 2;
+        } else if (ref) {
+            const rect = ref.getBoundingClientRect();
+            // Center over player/controls area
+            centerX = rect.left + rect.width / 2;
+            centerY = rect.top + rect.height / 2;
+        } else {
+            // Fallback: center in viewport
+            centerX = window.innerWidth / 2;
+            centerY = window.innerHeight / 2;
+        }
+
+        form.style.left = `${centerX - formWidth / 2}px`;
+        form.style.top = `${centerY - formHeight / 2}px`;
     };
 
     requestAnimationFrame(positionForm);

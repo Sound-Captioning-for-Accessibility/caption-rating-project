@@ -24,7 +24,6 @@ def fetchMetadata(videoID):
         details = video["contentDetails"]
         stats = video["statistics"]
 
-        # Get thumbnail
         thumbnails = snippet.get('thumbnails', {})
         thumbnail_url = (
             thumbnails.get('maxres', {}).get('url') or

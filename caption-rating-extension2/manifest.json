@@ -3,10 +3,11 @@
     "version": "0.1.0",
     "description": "Rate video captions",
     "manifest_version": 3,
-    "permissions": ["storage", "tabs"],
+    "permissions": ["storage", "tabs", "identity"],
     "host_permissions": [
       "https://*.youtube.com/*",
-      "http://localhost:5173/*","http://127.0.0.1:5000/*"
+      "http://157.245.5.153/*",
+      "http://localhost:5173/*"
     ],
     "background": {
       "service_worker": "background.js"

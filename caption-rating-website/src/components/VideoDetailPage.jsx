@@ -27,7 +27,7 @@ const StarDisplay = ({ value, max = 5 }) => {
 
 const DESCRIPTION_PREVIEW_LENGTH = 200;
 
-const VideoDetailPage = ({ videoId, onBack }) => {
+const VideoDetailPage = ({ videoId, onBack, currentUser }) => {
   const [video, setVideo] = useState(null);
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,6 @@ const VideoDetailPage = ({ videoId, onBack }) => {
         const videoData = await videoApi.getById(videoId);
         if (!cancelled) {
           setVideo(videoData);
-          // Use ratings from video response (GET /api/videos/<id> includes ratings with feedback)
           let list = [];
           if (Array.isArray(videoData.ratings)) {
             list = videoData.ratings;
@@ -129,10 +128,11 @@ const VideoDetailPage = ({ videoId, onBack }) => {
   const handlePostFeedback = async () => {
     const text = (feedbackText || '').trim();
     if (!text || posting) return;
+    const userId = currentUser?.userID ?? 1;
     setPosting(true);
     try {
       await ratingApi.create({
-        userID: 1,
+        userID: userId,
         videoID: videoId,
         overallRating: 1,
         feedback: text,
@@ -168,7 +168,6 @@ const VideoDetailPage = ({ videoId, onBack }) => {
 
   const computedAvgs = dimensionAverages();
   const computedOverall = overallAverage();
-  // Prefer dimension averages from video API when present (GET /api/videos/<id>)
   const avgs = {
     accuracy: typeof video.accuracyAverage === 'number' ? video.accuracyAverage : computedAvgs.accuracy,
     timing: typeof video.timingAverage === 'number' ? video.timingAverage : computedAvgs.timing,
@@ -246,7 +245,31 @@ const VideoDetailPage = ({ videoId, onBack }) => {
                 <>
                   <h2 className="caption-feedback-title">Caption Feedback ({count} {count === 1 ? 'comment' : 'comments'})</h2>
                   <div className="caption-feedback-input">
-                    <div className="comment-avatar placeholder" />
+                    {(() => {
+                      const rawAvatar = currentUser?.avatarUrl || currentUser?.picture || '';
+                      const avatarUrl = typeof rawAvatar === 'string' && rawAvatar.startsWith('http')
+                        ? rawAvatar
+                        : '';
+                      const initials = (currentUser?.displayName || currentUser?.name || currentUser?.email || '')
+                        .trim()
+                        .charAt(0)
+                        .toUpperCase() || 'U';
+                      if (avatarUrl) {
+                        return (
+                          <img
+                            src={avatarUrl}
+                            alt=""
+                            className="comment-avatar user-avatar-img"
+                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                          />
+                        );
+                      }
+                      return (
+                        <div className="comment-avatar placeholder initials-avatar">
+                          {initials}
+                        </div>
+                      );
+                    })()}
                     <input
                       type="text"
                       placeholder="Share your feedback about the captions..."
@@ -262,11 +285,31 @@ const VideoDetailPage = ({ videoId, onBack }) => {
                     {commentsWithFeedback.map((r) => {
                       const feedbackStr = String(r.feedback ?? '').trim();
                       const key = r.ratingID || `${r.userID}-${r.videoID}-${r.submittedAt || ''}`;
+                      const displayName = r.userName || `User #${r.userID}`;
+                      const rawAvatar = r.userAvatarUrl || '';
+                      const avatarUrl = typeof rawAvatar === 'string' && rawAvatar.startsWith('http')
+                        ? rawAvatar
+                        : '';
+                      const initials = (displayName || '')
+                        .trim()
+                        .charAt(0)
+                        .toUpperCase() || 'U';
                       return (
                         <div key={key} className="caption-feedback-item">
-                          <div className="comment-avatar placeholder" />
+                          {avatarUrl ? (
+                            <img
+                              src={avatarUrl}
+                              alt=""
+                              className="comment-avatar user-avatar-img"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            />
+                          ) : (
+                            <div className="comment-avatar placeholder initials-avatar">
+                              {initials}
+                            </div>
+                          )}
                           <div className="comment-body">
-                            <span className="comment-author">User #{r.userID}</span>
+                            <span className="comment-author">{displayName}</span>
                             <span className="comment-time">{formatDate(r.submittedAt)}</span>
                             <p className="comment-text">{feedbackStr}</p>
                             <div className="comment-actions">

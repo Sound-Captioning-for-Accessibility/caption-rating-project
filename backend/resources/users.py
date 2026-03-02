@@ -3,10 +3,12 @@ from models import db, UserModel
 
 user_args = reqparse.RequestParser()
 user_args.add_argument('email', type=str, required=True)
+user_args.add_argument('displayName', type=str, required=False)
 
 userFields = {
     'userID': fields.Integer,
-    'email': fields.String
+    'email': fields.String,
+    'displayName': fields.String,
 }
 
 class Users(Resource):
@@ -19,7 +21,8 @@ class Users(Resource):
     def post(self):
         try:
             args = user_args.parse_args()
-            user = UserModel(email=args["email"])
+            display_name = getattr(args, 'displayName', None)
+            user = UserModel(email=args["email"], displayName=display_name)
             db.session.add(user)
             db.session.commit()
             users = UserModel.query.all()
@@ -51,6 +54,9 @@ class User(Resource):
         if not user:
             abort(404, "User not found")
         user.email = args["email"]
+        display_name = getattr(args, 'displayName', None)
+        if display_name is not None:
+            user.displayName = display_name
         db.session.commit()
         return user
         

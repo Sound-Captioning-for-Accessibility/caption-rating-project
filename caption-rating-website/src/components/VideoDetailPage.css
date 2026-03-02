@@ -157,7 +157,6 @@
   text-decoration: underline;
 }
 
-/* Community Ratings sidebar */
 .community-ratings-sidebar {
   width: 280px;
   flex-shrink: 0;
@@ -210,7 +209,6 @@
   color: #ffc107;
 }
 
-/* Half star: grey base with yellow left half */
 .star.half {
   display: inline-block;
   position: relative;
@@ -237,7 +235,6 @@
   color: #606060;
 }
 
-/* Caption Feedback */
 .caption-feedback-section {
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -266,12 +263,30 @@
   font-size: 0.9rem;
 }
 
-.comment-avatar.placeholder {
+.comment-avatar.placeholder,
+.comment-avatar.user-avatar-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #e5e5e5;
   flex-shrink: 0;
+}
+
+.comment-avatar.placeholder {
+  background: #e5e5e5;
+}
+
+.comment-avatar.placeholder.initials-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #555;
+  background: #d5d5d5;
+  text-transform: uppercase;
+}
+
+.comment-avatar.user-avatar-img {
+  object-fit: cover;
 }
 
 .post-feedback-btn {

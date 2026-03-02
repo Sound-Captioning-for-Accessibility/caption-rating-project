@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from flask import request
-from models import db, VideoModel, RatingModel
+from models import db, VideoModel, RatingModel, UserModel
 from youtube import fetchMetadata
 from sqlalchemy import func
 
@@ -24,6 +24,32 @@ videoFields = {
 }
 
 DIMENSION_COLUMNS = ['accuracy', 'timing', 'completeness', 'layout']
+
+
+def _rating_payload(r):
+    user = UserModel.query.get(r.userID) if r.userID is not None else None
+    if user:
+        name = user.displayName or user.email or f"User #{user.userID}"
+        avatar = user.avatarUrl or ""
+    else:
+        name = f"User #{r.userID}"
+        avatar = ""
+    return {
+        'ratingID': r.ratingID,
+        'userID': r.userID,
+        'userName': name,
+        'userAvatarUrl': avatar,
+        'videoID': r.videoID,
+        'overallRating': r.overallRating,
+        'feedback': (r.feedback or '').strip(),
+        'thumbsUp': r.thumbsUp,
+        'videoTimestamp': r.videoTimestamp or 0,
+        'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
+        'accuracy': r.accuracy,
+        'timing': r.timing,
+        'completeness': r.completeness,
+        'layout': r.layout,
+    }
 
 
 def _dimension_averages_for_video(video_id):
@@ -65,23 +91,7 @@ class Videos(Resource):
                 .order_by(RatingModel.submittedAt.desc())
                 .all()
             )
-            ratings_payload = [
-                {
-                    'ratingID': r.ratingID,
-                    'userID': r.userID,
-                    'videoID': r.videoID,
-                    'overallRating': r.overallRating,
-                    'feedback': (r.feedback or '').strip(),
-                    'thumbsUp': r.thumbsUp,
-                    'videoTimestamp': r.videoTimestamp or 0,
-                    'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
-                    'accuracy': r.accuracy,
-                    'timing': r.timing,
-                    'completeness': r.completeness,
-                    'layout': r.layout,
-                }
-                for r in ratings_list
-            ]
+            ratings_payload = [_rating_payload(r) for r in ratings_list]
 
             video_dict = {
                 'videoID': video.videoID,
@@ -120,23 +130,7 @@ class Videos(Resource):
                     .order_by(RatingModel.submittedAt.desc())
                     .all()
                 )
-                ratings_payload = [
-                    {
-                        'ratingID': r.ratingID,
-                        'userID': r.userID,
-                        'videoID': r.videoID,
-                        'overallRating': r.overallRating,
-                        'feedback': (r.feedback or '').strip(),
-                        'thumbsUp': r.thumbsUp,
-                        'videoTimestamp': r.videoTimestamp or 0,
-                        'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
-                        'accuracy': r.accuracy,
-                        'timing': r.timing,
-                        'completeness': r.completeness,
-                        'layout': r.layout,
-                    }
-                    for r in ratings_list
-                ]
+                ratings_payload = [_rating_payload(r) for r in ratings_list]
 
                 video_dict = {
                     'videoID': video.videoID,

@@ -29,8 +29,38 @@ api.add_resource(Users, '/api/users/')
 api.add_resource(User, '/api/users/<int:userID>')
 api.add_resource(Videos, '/api/videos/<string:videoID>', '/api/videos')
 
+import json
+import base64
+
+
+def _rating_with_user(r, user):
+    """Build rating dict including userName and userAvatarUrl."""
+    if user:
+        name = user.displayName or user.email or f"User #{user.userID}"
+        avatar = user.avatarUrl or ""
+    else:
+        name = f"User #{r.userID}"
+        avatar = ""
+    return {
+        'ratingID': r.ratingID,
+        'userID': r.userID,
+        'userName': name,
+        'userAvatarUrl': avatar,
+        'videoID': r.videoID,
+        'overallRating': r.overallRating,
+        'feedback': (r.feedback or '').strip(),
+        'thumbsUp': r.thumbsUp,
+        'videoTimestamp': r.videoTimestamp or 0,
+        'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
+        'accuracy': r.accuracy,
+        'timing': r.timing,
+        'completeness': r.completeness,
+        'layout': r.layout,
+    }
+
+
 def _ratings_list_json():
-    from models import RatingModel
+    from models import RatingModel, UserModel
     video_id = request.args.get('videoID')
     if video_id:
         ratings = RatingModel.query.filter_by(videoID=video_id).order_by(RatingModel.submittedAt.desc()).all()
@@ -38,20 +68,8 @@ def _ratings_list_json():
         ratings = RatingModel.query.order_by(RatingModel.submittedAt.desc()).all()
     out = []
     for r in ratings:
-        out.append({
-            'ratingID': r.ratingID,
-            'userID': r.userID,
-            'videoID': r.videoID,
-            'overallRating': r.overallRating,
-            'feedback': (r.feedback or '').strip(),
-            'thumbsUp': r.thumbsUp,
-            'videoTimestamp': r.videoTimestamp or 0,
-            'submittedAt': r.submittedAt.isoformat() if r.submittedAt else None,
-            'accuracy': r.accuracy,
-            'timing': r.timing,
-            'completeness': r.completeness,
-            'layout': r.layout,
-        })
+        user = UserModel.query.get(r.userID)
+        out.append(_rating_with_user(r, user))
     return jsonify(out)
 
 # Register GET first so it wins over the Resource's GET for /api/ratings
@@ -156,6 +174,62 @@ def create_rating():
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Failed to create rating: {str(e)}'}), 400
+
+
+def _decode_google_jwt(credential):
+    """Decode Google ID token payload (no signature verification)."""
+    try:
+        payload_b64 = credential.split('.')[1]
+        # pad and convert base64url -> base64
+        payload_b64 += '=' * (4 - len(payload_b64) % 4)
+        payload_b64 = payload_b64.replace('-', '+').replace('_', '/')
+        return json.loads(base64.b64decode(payload_b64))
+    except Exception:
+        return None
+
+
+@app.route('/api/auth/google', methods=['POST'])
+def auth_google():
+    from models import db, UserModel
+    try:
+        data = request.get_json(silent=True) or {}
+        credential = data.get('credential') or data.get('id_token')
+        if not credential:
+            return jsonify({'message': 'Missing credential'}), 400
+        payload = _decode_google_jwt(credential)
+        if not payload:
+            return jsonify({'message': 'Invalid credential'}), 400
+        sub = payload.get('sub')
+        if not sub:
+            return jsonify({'message': 'Invalid credential: no sub'}), 400
+        name = payload.get('name') or payload.get('email') or 'User'
+        picture = payload.get('picture') or ''
+        email = payload.get('email') or ''
+
+        user = UserModel.query.filter_by(googleSub=sub).first()
+        if user:
+            user.displayName = name
+            user.avatarUrl = picture
+            if email:
+                user.email = email
+        else:
+            user = UserModel(
+                email=email or f'google_{sub}@caption.local',
+                googleSub=sub,
+                displayName=name,
+                avatarUrl=picture,
+            )
+            db.session.add(user)
+
+        db.session.commit()
+        return jsonify({
+            'userID': user.userID,
+            'displayName': user.displayName or name,
+            'avatarUrl': user.avatarUrl or picture,
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Failed to auth google user: {e}'}), 400
 
 @app.route("/")
 def home ():
