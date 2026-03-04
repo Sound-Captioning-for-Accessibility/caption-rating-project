@@ -1,6 +1,6 @@
 {
-    "name": "Caption Rater 3",
-    "version": "0.1.0",
+    "name": "Caption Rater",
+    "version": "1.2.0",
     "description": "Rate video captions",
     "manifest_version": 3,
     "permissions": ["storage", "tabs", "identity"],

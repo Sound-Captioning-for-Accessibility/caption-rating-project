@@ -1,0 +1,23 @@
+DB Browser
+
+Step 1: Download database from droplet
+In terminal run:
+scp root@157.245.5.153:/opt/caption-rating/backend/instance/captionratings.db .
+
+Step 2: Install DB Browser for SQLite 
+https://sqlitebrowser.org/dl/
+
+Step 3: Open database file in DB Browser
+Launch DB Browser
+Click Open Database and select the database file
+Database Structure tab
+Displays the tables and their corresponding components
+Browse Data tab
+Displays data in each table
+Execute SQL tab
+Allows SQL queries to be run
+Can save results and export
+*Notes
+Changes made to database in DB Browser do not automatically update droplet database
+Database file needs to be re-downloaded to see changes made in droplet
+
