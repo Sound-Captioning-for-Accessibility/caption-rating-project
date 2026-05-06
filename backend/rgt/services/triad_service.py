@@ -3,13 +3,8 @@ from itertools import combinations
 from rgt.extensions import rgt_session
 from rgt.models import Triad, Video
 
-
+# Creates video triads
 def generate_triads_from_videos():
-    """Create all C(n,3) triads from currently active videos.
-
-    Skips combinations that already exist. Returns ([dict], None) on success
-    or ([], error_string) on failure.
-    """
     videos = rgt_session.query(Video).filter_by(is_active=True).all()
     if len(videos) < 3:
         return [], "Need at least 3 active videos to generate triads"

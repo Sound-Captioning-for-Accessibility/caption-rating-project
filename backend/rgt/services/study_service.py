@@ -45,12 +45,8 @@ def start_or_resume_session(token, total_rounds=7):
     rgt_session.commit()
     return session.to_dict()
 
-
+# Move to next part of study
 def advance_phase(session_id):
-    """Move the session to the next phase after validating prerequisites.
-
-    Returns (dict, None) on success or (None, error_string) on failure.
-    """
     session = rgt_session.get(StudySession, session_id)
     if not session:
         return None, "Session not found"
@@ -61,7 +57,7 @@ def advance_phase(session_id):
     if current_idx >= len(PHASE_ORDER) - 1:
         return None, "Already at the final phase"
 
-    # ---------- prerequisite checks ----------
+    # Prerequisite checks
     if session.current_phase == "overall_ratings":
         active_count = rgt_session.query(Video).filter_by(is_active=True).count()
         rated_count = (
@@ -82,7 +78,7 @@ def advance_phase(session_id):
         if incomplete:
             return None, f"{len(incomplete)} round(s) still incomplete"
 
-    # ---------- advance ----------
+    # Continue
     next_phase = PHASE_ORDER[current_idx + 1]
     session.current_phase = next_phase
     session.updated_at = datetime.utcnow()

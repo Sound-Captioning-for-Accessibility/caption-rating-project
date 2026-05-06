@@ -10,18 +10,13 @@ from rgt.models import (
 )
 
 
-# ── Overall ratings ──────────────────────────────────────────────────────────
-
+# Overall ratings
 def get_overall_ratings(session_id):
     rows = rgt_session.query(OverallRating).filter_by(session_id=session_id).all()
     return [r.to_dict() for r in rows]
 
-
+# Create/update ratings
 def save_overall_ratings(session_id, ratings_data):
-    """Create or update overall ratings for the session.
-
-    *ratings_data* is a list of dicts: [{video_id, rating, revised_rating?}]
-    """
     session = rgt_session.get(StudySession, session_id)
     if not session:
         return None, "Session not found"
@@ -52,8 +47,7 @@ def save_overall_ratings(session_id, ratings_data):
     return get_overall_ratings(session_id), None
 
 
-# ── Construct ratings ────────────────────────────────────────────────────────
-
+# Construct ratings
 def get_construct_ratings(round_assignment_id):
     rows = (
         rgt_session.query(ConstructRating)
@@ -62,12 +56,8 @@ def get_construct_ratings(round_assignment_id):
     )
     return [r.to_dict() for r in rows]
 
-
+# Create/update construct rating
 def save_construct_ratings(round_assignment_id, ratings_data):
-    """Create or update construct ratings for a round.
-
-    *ratings_data* is a list of dicts: [{video_id, rating}]
-    """
     assignment = rgt_session.get(RoundAssignment, round_assignment_id)
     if not assignment:
         return None, "Round assignment not found"
@@ -96,8 +86,7 @@ def save_construct_ratings(round_assignment_id, ratings_data):
     return get_construct_ratings(round_assignment_id), None
 
 
-# ── Additional constructs ────────────────────────────────────────────────────
-
+# Additional constructs
 def get_additional_constructs(session_id):
     rows = (
         rgt_session.query(AdditionalConstruct)

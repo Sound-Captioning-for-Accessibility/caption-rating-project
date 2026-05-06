@@ -9,14 +9,14 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import rgt.models  # noqa: E402, F401
-from rgt.extensions import (  # noqa: E402
+import rgt.models
+from rgt.extensions import ( 
     create_rgt_tables,
     init_rgt_standalone,
     rgt_session,
 )
-from rgt.models import Video  # noqa: E402
-from rgt.services.triad_service import generate_triads_from_videos  # noqa: E402
+from rgt.models import Video 
+from rgt.services.triad_service import generate_triads_from_videos 
 
 SAMPLE_VIDEOS = [
     {

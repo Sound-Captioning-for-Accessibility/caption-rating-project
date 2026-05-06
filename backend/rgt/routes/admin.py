@@ -15,10 +15,9 @@ from rgt.services.triad_service import generate_triads_from_videos
 
 
 def register(bp):
-    # TODO: Add admin authentication decorator / middleware here.
-    # All routes in this module should be protected once auth is wired in.
+    # TODO: Add admin authentication
 
-    # ── Videos CRUD ──────────────────────────────────────────────────────
+    # Videos CRUD
 
     @bp.route("/admin/videos", methods=["GET"])
     def admin_list_videos():
@@ -66,7 +65,7 @@ def register(bp):
         rgt_session.commit()
         return jsonify({"message": "Video deleted"}), 200
 
-    # ── Triads ───────────────────────────────────────────────────────────
+    # Triads
 
     @bp.route("/admin/triads/generate", methods=["POST"])
     def admin_generate_triads():
@@ -81,7 +80,7 @@ def register(bp):
         triads = rgt_session.query(Triad).all()
         return jsonify([t.to_dict() for t in triads]), 200
 
-    # ── Participants ─────────────────────────────────────────────────────
+    # Participants
 
     @bp.route("/admin/participants", methods=["GET"])
     def admin_list_participants():
@@ -89,7 +88,7 @@ def register(bp):
         participants = rgt_session.query(Participant).all()
         return jsonify([p.to_dict() for p in participants]), 200
 
-    # ── Export ────────────────────────────────────────────────────────────
+    # Export
 
     @bp.route("/admin/export/responses", methods=["GET"])
     def admin_export_responses():

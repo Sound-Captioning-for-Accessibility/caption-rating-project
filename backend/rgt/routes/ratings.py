@@ -14,7 +14,7 @@ from rgt.services.rating_service import (
 
 def register(bp):
 
-    # ── Overall ratings ──────────────────────────────────────────────────
+    # Overall ratings
 
     @bp.route("/sessions/<int:session_id>/overall-ratings", methods=["GET"])
     def ratings_overall_get(session_id):
@@ -28,7 +28,7 @@ def register(bp):
             return jsonify({"error": error}), 400
         return jsonify(result), 200
 
-    # ── Construct ratings ────────────────────────────────────────────────
+    # Construct ratings
 
     @bp.route("/rounds/<int:ra_id>/construct-ratings", methods=["GET"])
     def ratings_construct_get(ra_id):
@@ -42,7 +42,7 @@ def register(bp):
             return jsonify({"error": error}), 400
         return jsonify(result), 200
 
-    # ── Additional constructs ────────────────────────────────────────────
+    # Additional constructs
 
     @bp.route("/sessions/<int:session_id>/additional-constructs", methods=["GET"])
     def additional_constructs_list(session_id):

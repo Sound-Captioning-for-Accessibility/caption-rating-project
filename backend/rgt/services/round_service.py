@@ -12,9 +12,8 @@ from rgt.models import (
     Triad,
 )
 
-
+# Return most recent round for session
 def get_current_round(session_id):
-    """Return the most recent in-progress round for the session, or None."""
     assignment = (
         rgt_session.query(RoundAssignment)
         .filter_by(session_id=session_id, status="in_progress")
@@ -25,12 +24,8 @@ def get_current_round(session_id):
         return None
     return assignment.to_dict()
 
-
+# Assign triad
 def pick_triad_for_session(session_id):
-    """Assign the next triad to the session.
-
-    Returns (dict, None) on success or (None, error_string) on failure.
-    """
     session = rgt_session.get(StudySession, session_id)
     if not session:
         return None, "Session not found"
@@ -65,12 +60,8 @@ def pick_triad_for_session(session_id):
     rgt_session.commit()
     return assignment.to_dict(), None
 
-
+# Check for completeness
 def complete_round(round_assignment_id):
-    """Validate completeness and mark the round as completed.
-
-    Returns (dict, None) on success or (None, error_string) on failure.
-    """
     assignment = rgt_session.get(RoundAssignment, round_assignment_id)
     if not assignment:
         return None, "Round assignment not found"
