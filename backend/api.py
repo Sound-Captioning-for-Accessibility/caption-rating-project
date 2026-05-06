@@ -25,6 +25,9 @@ api = Api(app)
 from models import db
 db.init_app(app)
 
+from rgt import init_rgt
+init_rgt(app)
+
 api.add_resource(Users, '/api/users/')
 api.add_resource(User, '/api/users/<int:userID>')
 api.add_resource(Videos, '/api/videos/<string:videoID>', '/api/videos')
@@ -234,6 +237,10 @@ def auth_google():
 @app.route("/")
 def home ():
     return "Caption Rating API"
+
+@app.route("/api/rgt/test")
+def rgt_test():
+    return jsonify({"message": "RGT endpoint working"}), 200
 
 @app.route("/api/health")
 def health():

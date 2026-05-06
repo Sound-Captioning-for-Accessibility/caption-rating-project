@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import HomePage from './components/HomePage';
 import VideosPage from './components/VideosPage';
 import VideoDetailPage from './components/VideoDetailPage';
 import LearnPage from './components/LearnPage';
+import RGTPage from './components/RGTPage';
 import Footer from './components/Footer';
 import { authApi } from './services/api';
 import './App.css';
@@ -26,10 +28,6 @@ function decodeGoogleJwt(credential) {
 }
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(() => {
-    return localStorage.getItem('currentPage') || 'home';
-  });
-  const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem(USER_STORAGE_KEY);
@@ -38,10 +36,6 @@ function App() {
       return null;
     }
   });
-
-  useEffect(() => {
-    localStorage.setItem('currentPage', currentPage);
-  }, [currentPage]);
 
   useEffect(() => {
     if (user) localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
@@ -61,7 +55,6 @@ function App() {
         avatarUrl: backend.avatarUrl,
       });
     } catch {
-      // If backend auth fails, still keep local profile for UI
       setUser(profile);
     }
   };
@@ -70,40 +63,22 @@ function App() {
     setUser(null);
   };
 
-  const renderContent = () => {
-    if (selectedVideoId) {
-      return (
-        <VideoDetailPage
-          videoId={selectedVideoId}
-          onBack={() => setSelectedVideoId(null)}
-          currentUser={user}
-        />
-      );
-    }
-    if (currentPage === 'videos') {
-      return <VideosPage onVideoClick={setSelectedVideoId} />;
-    }
-    if (currentPage === 'learn') {
-      return <LearnPage />;
-    }
-    return <HomePage onNavigate={setCurrentPage} />;
-  };
-
-  const handleNavigate = (page) => {
-    setSelectedVideoId(null);
-    setCurrentPage(page);
-  };
-
   return (
     <div className="app">
       <Header
-        onNavigate={handleNavigate}
-        currentPage={currentPage}
         user={user}
         onLoginSuccess={handleLoginSuccess}
         onLogout={handleLogout}
       />
-      {renderContent()}
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/videos" element={<VideosPage />} />
+        <Route path="/videos/:videoId" element={<VideoDetailPage currentUser={user} />} />
+        <Route path="/learn" element={<LearnPage />} />
+        <Route path="/rgt" element={<RGTPage />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
+      </Routes>
       <Footer />
     </div>
   );

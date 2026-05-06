@@ -1,5 +1,5 @@
 const DEV = false;
-const API_BASE = DEV ? 'http://localhost:5173' : 'http://157.245.5.153';
+const API_BASE = DEV ? 'http://localhost:5173' : 'https://captioncommons.org';
 
 const GOOGLE_OAUTH_CLIENT_ID = '1004384720614-6de1um52djb3aodeabol8f3jmo2ai31k.apps.googleusercontent.com';
 

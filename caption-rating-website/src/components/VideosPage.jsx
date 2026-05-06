@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { videoApi } from '../services/api';
 import './VideosPage.css';
 
-const VideosPage = ({ onVideoClick }) => {
+const VideosPage = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -188,13 +189,10 @@ const VideosPage = ({ onVideoClick }) => {
         <>
           <div className="video-grid">
             {displayedVideos.map((video) => (
-              <div
+              <Link
                 key={video.videoID}
-                role="button"
-                tabIndex={0}
+                to={`/videos/${video.videoID}`}
                 className="video-card-link"
-                onClick={() => onVideoClick?.(video.videoID)}
-                onKeyDown={(e) => e.key === 'Enter' && onVideoClick?.(video.videoID)}
               >
                 <div className="video-card">
                   <div className="video-thumbnail">
@@ -251,7 +249,7 @@ const VideosPage = ({ onVideoClick }) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

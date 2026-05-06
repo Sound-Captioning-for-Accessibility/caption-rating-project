@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { videoApi, ratingApi } from '../services/api';
 import './VideoDetailPage.css';
 
@@ -27,7 +28,9 @@ const StarDisplay = ({ value, max = 5 }) => {
 
 const DESCRIPTION_PREVIEW_LENGTH = 200;
 
-const VideoDetailPage = ({ videoId, onBack, currentUser }) => {
+const VideoDetailPage = ({ currentUser }) => {
+  const { videoId } = useParams();
+  const navigate = useNavigate();
   const [video, setVideo] = useState(null);
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -160,7 +163,7 @@ const VideoDetailPage = ({ videoId, onBack, currentUser }) => {
   if (error || !video) {
     return (
       <div className="video-detail-page">
-        <button type="button" className="video-detail-back" onClick={onBack}>← Back to Videos</button>
+        <button type="button" className="video-detail-back" onClick={() => navigate('/videos')}>← Back to Videos</button>
         <div className="video-detail-error">{error || 'Video not found.'}</div>
       </div>
     );
@@ -181,7 +184,7 @@ const VideoDetailPage = ({ videoId, onBack, currentUser }) => {
 
   return (
     <div className="video-detail-page">
-      <button type="button" className="video-detail-back" onClick={onBack}>← Back to Videos</button>
+      <button type="button" className="video-detail-back" onClick={() => navigate('/videos')}>← Back to Videos</button>
 
       <div className="video-detail-layout">
         <div className="video-detail-main">

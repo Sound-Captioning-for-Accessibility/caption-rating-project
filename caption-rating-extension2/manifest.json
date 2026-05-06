@@ -1,13 +1,15 @@
 {
     "name": "Caption Rater",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Rate video captions",
     "manifest_version": 3,
     "permissions": ["storage", "tabs", "identity"],
     "host_permissions": [
       "https://*.youtube.com/*",
       "http://157.245.5.153/*",
-      "http://localhost:5173/*"
+      "http://localhost:5173/*",
+      "https://captioncommons.org/*",
+      "http://captioncommons.org/*"
     ],
     "background": {
       "service_worker": "background.js"

@@ -1,41 +1,42 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import './Header.css';
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 
-const Header = ({ onNavigate, currentPage, user, onLoginSuccess, onLogout }) => {
+const Header = ({ user, onLoginSuccess, onLogout }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>
+        <Link to="/home" className="logo" style={{ cursor: 'pointer', textDecoration: 'none' }}>
           <div className="logo-icon">cc</div>
-          <span className="logo-text">CaptionRater</span>
-        </div>
+          <span className="logo-text">CaptionCommons</span>
+        </Link>
 
         <nav className="navigation">
-          <button
-            onClick={() => onNavigate('home')}
-            className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
+          <NavLink
+            to="/home"
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           >
             Home
-          </button>
-          <button
-            onClick={() => onNavigate('videos')}
-            className={`nav-link ${currentPage === 'videos' ? 'active' : ''}`}
+          </NavLink>
+          <NavLink
+            to="/videos"
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           >
             Videos
-          </button>
-          <button
-            onClick={() => onNavigate('learn')}
-            className={`nav-link ${currentPage === 'learn' ? 'active' : ''}`}
+          </NavLink>
+          <NavLink
+            to="/learn"
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           >
             Learn
-          </button>
+          </NavLink>
         </nav>
 
         <div className="header-actions">
           <button
             className="install-extension-btn"
-            onClick={() => window.open('https://github.com/yourusername/caption-rating-extension2', '_blank')}
+            onClick={() => window.open('https://chromewebstore.google.com/detail/caption-rater/ndloeglkmakidkmdkkkpaokcfcfibdnl?utm_source=item-share-cbhttps://github.com/yourusername/caption-rating-extension2', '_blank')}
           >
             Install Extension
           </button>

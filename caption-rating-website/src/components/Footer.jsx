@@ -7,10 +7,10 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-logo">
           <div className="logo-icon">cc</div>
-          <span className="logo-text">Name</span>
+          <span className="logo-text">CaptionCommons</span>
         </div>
         <div className="footer-copyright">
-          © 2025 Name. All rights reserved.
+          © 2025 CaptionCommons. All rights reserved.
         </div>
       </div>
     </footer>
