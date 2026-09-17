@@ -23,7 +23,8 @@ def save_overall_ratings(session_id, ratings_data):
 
     for item in ratings_data:
         video_id = item.get("video_id")
-        if video_id is None:
+        rating_value = item.get("rating")
+        if video_id is None or rating_value is None:
             continue
         existing = (
             rgt_session.query(OverallRating)
@@ -31,7 +32,7 @@ def save_overall_ratings(session_id, ratings_data):
             .first()
         )
         if existing:
-            existing.rating = item["rating"]
+            existing.rating = rating_value
             if "revised_rating" in item:
                 existing.revised_rating = item["revised_rating"]
             existing.updated_at = datetime.utcnow()
@@ -39,12 +40,23 @@ def save_overall_ratings(session_id, ratings_data):
             rating = OverallRating(
                 session_id=session_id,
                 video_id=video_id,
-                rating=item["rating"],
+                rating=rating_value,
             )
             rgt_session.add(rating)
 
     rgt_session.commit()
     return get_overall_ratings(session_id), None
+
+
+def save_overall_rating(session_id, video_id, rating, revised_rating=None):
+    data = {"video_id": video_id, "rating": rating}
+    if revised_rating is not None:
+        data["revised_rating"] = revised_rating
+    result, error = save_overall_ratings(session_id, [data])
+    if error:
+        return None, error
+    saved = next((item for item in result if item["video_id"] == video_id), None)
+    return saved, None
 
 
 # Construct ratings
@@ -64,7 +76,8 @@ def save_construct_ratings(round_assignment_id, ratings_data):
 
     for item in ratings_data:
         video_id = item.get("video_id")
-        if video_id is None:
+        rating_value = item.get("rating")
+        if video_id is None or rating_value is None:
             continue
         existing = (
             rgt_session.query(ConstructRating)
@@ -72,18 +85,29 @@ def save_construct_ratings(round_assignment_id, ratings_data):
             .first()
         )
         if existing:
-            existing.rating = item["rating"]
+            existing.rating = rating_value
             existing.updated_at = datetime.utcnow()
         else:
             cr = ConstructRating(
                 round_assignment_id=round_assignment_id,
                 video_id=video_id,
-                rating=item["rating"],
+                rating=rating_value,
             )
             rgt_session.add(cr)
 
     rgt_session.commit()
     return get_construct_ratings(round_assignment_id), None
+
+
+def save_construct_rating(round_assignment_id, video_id, rating):
+    result, error = save_construct_ratings(
+        round_assignment_id,
+        [{"video_id": video_id, "rating": rating}],
+    )
+    if error:
+        return None, error
+    saved = next((item for item in result if item["video_id"] == video_id), None)
+    return saved, None
 
 
 # Additional constructs

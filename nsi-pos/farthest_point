@@ -1,0 +1,409 @@
+import pandas as pd
+import numpy as np
+
+from scipy.sparse import load_npz
+from sklearn.decomposition import TruncatedSVD
+from sklearn.preprocessing import StandardScaler
+
+
+# ============================================================
+# CONFIG
+# ============================================================
+
+METADATA_FILE = "caption_features_metadata.csv"
+REPRESENTATION_FILE = "caption_representation_X.npz"
+
+NUM_COMPONENTS = 50
+NUM_SAMPLES = 500
+RANDOM_STATE = 42
+
+OUTPUT_FILE = "fps_sample_500.csv"
+
+
+# ============================================================
+# FARTHEST-POINT SAMPLING FUNCTION
+# ============================================================
+
+def farthest_point_sampling(X, n_samples, start_idx=0):
+    """
+    Select points using farthest-point sampling.
+
+    Parameters
+    ----------
+    X : numpy.ndarray
+        Shape: (number_of_captions, number_of_features)
+
+    n_samples : int
+        Number of captions to select.
+
+    start_idx : int
+        Index of the first caption to select.
+
+    Returns
+    -------
+    selected : numpy.ndarray
+        Array containing the selected row indices.
+    """
+
+    n_points = X.shape[0]
+
+    if n_samples > n_points:
+        raise ValueError(
+            "n_samples cannot be larger than the number of points."
+        )
+
+    if start_idx < 0 or start_idx >= n_points:
+        raise ValueError(
+            "start_idx is outside the valid range."
+        )
+
+    # Stores the selected row indices
+    selected = np.empty(
+        n_samples,
+        dtype=int
+    )
+
+    # First selected caption
+    selected[0] = start_idx
+
+    # Calculate squared distance from every point
+    # to the first selected point
+    distances = np.sum(
+        (X - X[start_idx]) ** 2,
+        axis=1
+    )
+
+    # Make sure the starting point cannot be selected again
+    distances[start_idx] = 0.0
+
+    # Continue selecting points
+    for i in range(1, n_samples):
+
+        # Choose the point whose closest selected point
+        # is currently the farthest away
+        next_idx = np.argmax(
+            distances
+        )
+
+        selected[i] = next_idx
+
+        # Calculate distances from every point
+        # to the newly selected point
+        new_distances = np.sum(
+            (X - X[next_idx]) ** 2,
+            axis=1
+        )
+
+        # For every point, keep its distance to its
+        # closest selected point
+        distances = np.minimum(
+            distances,
+            new_distances
+        )
+
+        # Prevent selected points from being chosen again
+        distances[selected[:i + 1]] = 0.0
+
+        # Progress updates
+        if (i + 1) % 50 == 0:
+            print(
+                f"Selected {i + 1}/{n_samples}"
+            )
+
+    return selected
+
+
+# ============================================================
+# STEP 1: LOAD METADATA
+# ============================================================
+
+print("Loading metadata...")
+
+df = pd.read_csv(
+    METADATA_FILE
+)
+
+print(
+    "Metadata rows:",
+    len(df)
+)
+
+
+# ============================================================
+# STEP 2: LOAD FEATURE MATRIX
+# ============================================================
+
+print("\nLoading caption representation...")
+
+X = load_npz(
+    REPRESENTATION_FILE
+)
+
+print(
+    "Original feature matrix shape:",
+    X.shape
+)
+
+
+# Make sure the matrix rows match the dataframe rows
+if len(df) != X.shape[0]:
+    raise ValueError(
+        "Metadata row count does not match feature matrix row count."
+    )
+
+
+# ============================================================
+# STEP 3: REDUCE DIMENSIONALITY
+# ============================================================
+
+print(
+    f"\nReducing feature matrix to "
+    f"{NUM_COMPONENTS} dimensions..."
+)
+
+svd = TruncatedSVD(
+    n_components=NUM_COMPONENTS,
+    random_state=RANDOM_STATE
+)
+
+X_reduced = svd.fit_transform(
+    X
+)
+
+print(
+    "Reduced matrix shape:",
+    X_reduced.shape
+)
+
+explained_variance = (
+    svd
+    .explained_variance_ratio_
+    .sum()
+)
+
+print(
+    "Explained variance:",
+    round(
+        explained_variance,
+        4
+    )
+)
+
+
+# ============================================================
+# STEP 4: STANDARDIZE THE REDUCED FEATURES
+# ============================================================
+
+print(
+    "\nStandardizing reduced features..."
+)
+
+scaler = StandardScaler()
+
+X_reduced = scaler.fit_transform(
+    X_reduced
+)
+
+X_reduced = np.asarray(
+    X_reduced,
+    dtype=np.float64
+)
+
+print(
+    "FPS input matrix shape:",
+    X_reduced.shape
+)
+
+
+# ============================================================
+# STEP 5: RUN FARTHEST-POINT SAMPLING
+# ============================================================
+
+print(
+    f"\nRunning farthest-point sampling "
+    f"for {NUM_SAMPLES} captions..."
+)
+
+sample_indices = farthest_point_sampling(
+    X=X_reduced,
+    n_samples=NUM_SAMPLES,
+    start_idx=0
+)
+
+print(
+    "\nSampling complete."
+)
+
+print(
+    "Number selected:",
+    len(sample_indices)
+)
+
+
+# ============================================================
+# STEP 6: GET THE ORIGINAL SELECTED CAPTIONS
+# ============================================================
+
+fps_sample = (
+    df.iloc[sample_indices]
+    .copy()
+)
+
+
+# Add original dataframe row number
+fps_sample.insert(
+    0,
+    "fps_original_index",
+    sample_indices
+)
+
+
+# Add the order FPS selected each caption
+fps_sample.insert(
+    1,
+    "fps_selection_order",
+    np.arange(
+        1,
+        len(fps_sample) + 1
+    )
+)
+
+
+# ============================================================
+# STEP 7: SAVE RESULT
+# ============================================================
+
+fps_sample.to_csv(
+    OUTPUT_FILE,
+    index=False
+)
+
+print(
+    f"\nSaved selected captions to:"
+)
+
+print(
+    OUTPUT_FILE
+)
+
+
+# ============================================================
+# STEP 8: PRINT SUMMARY
+# ============================================================
+
+print(
+    "\n========================================"
+)
+
+print(
+    "FARTHEST-POINT SAMPLING SUMMARY"
+)
+
+print(
+    "========================================"
+)
+
+print(
+    "Original captions:",
+    len(df)
+)
+
+print(
+    "Selected captions:",
+    len(fps_sample)
+)
+
+print(
+    "Original feature dimensions:",
+    X.shape[1]
+)
+
+print(
+    "Reduced feature dimensions:",
+    X_reduced.shape[1]
+)
+
+print(
+    "Explained variance:",
+    round(
+        explained_variance,
+        4
+    )
+)
+
+
+# ============================================================
+# STEP 9: SHOW FIRST 20 SELECTED CAPTIONS
+# ============================================================
+
+columns_to_show = [
+    "fps_selection_order",
+    "fps_original_index"
+]
+
+if "caption" in fps_sample.columns:
+    columns_to_show.append(
+        "caption"
+    )
+
+if "coarse_template" in fps_sample.columns:
+    columns_to_show.append(
+        "coarse_template"
+    )
+
+if "video_id" in fps_sample.columns:
+    columns_to_show.append(
+        "video_id"
+    )
+
+
+print(
+    "\nFirst 20 selected captions:"
+)
+
+print(
+    fps_sample[
+        columns_to_show
+    ].head(20).to_string(
+        index=False
+    )
+)
+
+
+# ============================================================
+# STEP 10: NSI DISTRIBUTION OF SELECTED SAMPLE
+# ============================================================
+
+possible_nsi_columns = [
+    "music_nsi",
+    "environmental_nsi",
+    "extraspeech_nsi",
+    "additionalnarrative_nsi",
+    "quotedspeech_nsi",
+    "misc_nsi"
+]
+
+existing_nsi_columns = [
+    column
+    for column in possible_nsi_columns
+    if column in fps_sample.columns
+]
+
+
+if existing_nsi_columns:
+
+    print(
+        "\nNSI counts in selected 500:"
+    )
+
+    for column in existing_nsi_columns:
+
+        count = (
+            fps_sample[column]
+            .fillna(0)
+            .sum()
+        )
+
+        print(
+            f"{column}: {int(count)}"
+        )

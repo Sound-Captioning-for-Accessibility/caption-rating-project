@@ -1,0 +1,5 @@
+cluster,number_of_unique_templates,total_nsi_frequency,average_template_length,most_frequent_template,most_frequent_template_count,overall_silhouette_score
+1,162,5142,4.098765432098766,NOUN,2739,0.11965298813621525
+2,99,1848,4.474747474747475,VERB,1461,0.11965298813621525
+3,122,2864,3.040983606557377,PROPN,790,0.11965298813621525
+4,72,173,6.111111111111111,VERB + ADP + ADJ + NOUN,51,0.11965298813621525

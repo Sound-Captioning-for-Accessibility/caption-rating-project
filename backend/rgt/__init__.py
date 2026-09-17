@@ -14,6 +14,7 @@ def init_rgt(app):
     bp = Blueprint("rgt", __name__, url_prefix="/api/rgt")
 
     from rgt.routes.health import register as reg_health
+    from rgt.routes.videos import register as reg_videos
     from rgt.routes.study import register as reg_study
     from rgt.routes.rounds import register as reg_rounds
     from rgt.routes.clips import register as reg_clips
@@ -22,6 +23,7 @@ def init_rgt(app):
     from rgt.routes.admin import register as reg_admin
 
     reg_health(bp)
+    reg_videos(bp)
     reg_study(bp)
     reg_rounds(bp)
     reg_clips(bp)

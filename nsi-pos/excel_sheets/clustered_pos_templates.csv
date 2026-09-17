@@ -1,0 +1,456 @@
+coarse_template,frequency,template_length,cluster,unique_nsi_count,example_nsi_captions,subcluster,subcluster_id
+NOUN,2739,1,1,242,Narrator | Man | LAUGHS | LAUGHTER | APPLAUSE,1,1.1
+NOUN + VERB,717,2,1,301,MUSIC PLAYING | horns honking | boat sounds | audience applauding | audience laughing,1,1.1
+NOUN + NOUN,604,2,1,288,montage music | bell tones | baby whimpers | Laughter/Applause | PHONE RINGING,1,1.1
+NOUN + CCONJ + NOUN,183,3,1,13,whooping and applause | Cheers and applause | Yasmine and Miles | CHEERS AND APPLAUSE | Laughter and applause,1,1.1
+VERB + NOUN,177,2,1,110,"train whistle | cheering, applause | laughing fades | blows raspberry | bubbling noise",1,1.1
+ADJ + NOUN + NOUN,77,3,1,65,gentle piano music | soft piano notes | pleasant bouncy music | cheerful piano music | gentle piano notes,1,1.1
+ADJ + NOUN + VERB,60,3,1,44,MELLOW MUSIC PLAYS | Dramatic music plays | upbeat music continues | big cat snarling | instrumental music playing,1,1.1
+NOUN + NOUN + VERB,58,3,1,40,"applause, whooping, cheering | printer whirring ceases | heart monitor beeping | CAR ENGINE ROARING | Organ music playing",1,1.1
+NOUN + NOUN + NOUN,49,3,1,32,"cell phone ringing | hip hop music | laughter, cheering, applause | hip hop beat | Cash register dings",1,1.1
+PROPN + NOUN + NOUN,33,3,1,15,peppy woodwind music | Green Shirt Guy | upbeat guitar music | lowkey jazz music | Eagle Dancer beatboxes,1,1.1
+VERB + CCONJ + NOUN,29,3,1,4,cheering and applause | CHEERING AND APPLAUSE | Cheering and applause | laughing and hiccupping,1,1.1
+NUM + NOUN,20,2,1,19,10 ft | 5 ft | 354 ft | one clap | 3 tablespoons,1,1.1
+VERB + NOUN + VERB,19,3,1,12,"answering machine beeps | toned bell sounding | crowd groans, laughs | uplifting music crescendos | uplifting music plays",1,1.1
+NOUN + NUM,19,2,1,15,Passenger 1 | Passenger 2 | Model 1 | Model 2 | Model 3,1,1.1
+ADP + NOUN,18,2,1,6,as Harvey | off-key | under breath | in food | in Latin,1,1.1
+VERB + NOUN + NOUN,17,3,1,13,Repeating sound waves | singing circus theme | dub step music | vibrating phone hums | mouthing whooshing sounds,1,1.1
+NOUN + VERB + NOUN,16,3,1,14,Announcer reciting prayer: | cheery hold music | judge blows raspberry | MESSAGE SENT TONE | semolina clarified butter,1,1.1
+NOUN + VERB + ADV,14,3,1,14,man speaks indistinctly | door creaks quietly | notes click repeatedly | dog barking fiercely | Dog barks softly,1,1.1
+NOUN + NOUN + NOUN + VERB,12,4,1,4,hip-hop music playing | hip hop music begins | hip hop music continues | ADHD theme song plays,1,1.1
+DET + NOUN,10,2,1,7,the soul | both groan | NO AUDIO | The End | A plate?,1,1.1
+NOUN + NOUN + ADV,9,3,1,4,phone chiming repeatedly | crowd chattering indistinctly | woman caws playfully | Delta Blues Crooner,1,1.1
+NOUN + NOUN + CCONJ + NOUN,8,4,1,6,audience cheers and applause | door opening and closing | audience applauds and cheers | audience claps and cheers | hands slapping and laughter,1,1.1
+NOUN + ADV,8,2,1,8,exhales deeply | Answers well | chuckles nervously | Whispers indistinctly | chuckles delightedly,1,1.1
+ADJ + ADJ + NOUN + NOUN,7,4,1,7,soft playful piano notes | flashy big band music | mellow acoustic guitar music | cheery synth music returns | dreamy orchestral piano music,1,1.1
+ADP + NUM + NOUN,7,3,1,1,as Two-Face,1,1.1
+NOUN + NOUN + ADP + NOUN,7,4,1,6,pen brushing across canvas | Bomb craters from war | pig charges into fence | radio announcer in progress | group chats in background,1,1.1
+NOUN + VERB + ADP + NOUN,7,4,1,7,equipment clinking against rocks | fingers sliding on canvas | Hooves clicking in rhythm | player interacting with envirionment | paper flapping in wind,1,1.1
+PROPN + NOUN + VERB,7,3,1,5,"jungle birds chirping | fist roll sounds | harp music plays | Thud, kids scream | knife blade snaps",1,1.1
+NOUN + VERB + CCONJ + VERB,6,4,1,4,audience laughing and cheering | audience applauding and cheering | insects chirping and buzzing | audience laughing and booing,1,1.1
+VERB + NOUN + ADP + NOUN,6,4,1,6,drops tray on table | PLAY FLOWERS LIKE INSTRUMENTS | LOOPS SPEECH IN SAMPLER | LOOPING VOICE IN SAMPLER | LOOPS VOICE IN SAMPLER,1,1.1
+NOUN + CCONJ + VERB,6,3,1,2,laughter and cheering | applause and cheering,1,1.1
+NOUN + ADV + VERB,6,3,1,3,Gavel gently tapping | Gavel Gently tapping | Gavel gently bangs,1,1.1
+ADJ + NOUN + NOUN + NOUN,6,4,1,5,"big impact sound effect | ""Good Omens"" theme plays | ""Stranger Things"" theme plays | BIGHIT MUSIC producer Pdogg | high-pitch voice GRIAN",1,1.1
+NOUN + ADP + NOUN,5,3,1,5,Bethany on phone | footsteps on rocks | degree of difficulty | Muzak in background | Man In Car,1,1.1
+PROPN + CCONJ + NOUN + NOUN,4,4,1,2,Kelly and crowd laughs | Marshmello and Annie - Friends,1,1.1
+ADJ + NOUN + NOUN + VERB,4,4,1,4,quiet fiddle music playing | Classical piano music playing | soft orchestra music plays | sad orchestra music resumes,1,1.1
+X + NOUN,4,2,1,2,j-hope | ♪ ♪,1,1.1
+NOUN + VERB + ADJ,4,3,1,4,"door whooshes open | door squeaks open | door clicks open | Audience shouting ""False!""",1,1.1
+NOUN + ADJ + NOUN,3,3,1,3,Woman Red Top | Guy Purple Shirt | Trance-like moaning,1,1.1
+NOUN + VERB + NOUN + VERB,3,4,1,2,"mimics muffled robot sounds | objects snapping, people cry",1,1.1
+NOUN + VERB + VERB,3,3,1,3,"glasses beeping, whirring | towers whirring, droning | door opens, closes",1,1.1
+NOUN + ADJ + NOUN + NOUN,3,4,1,3,"bass-heavy dance music | bass-heavy upbeat music | ""X-Men"" theme plays",1,1.1
+ADP + NOUN + NOUN + VERB,3,4,1,2,Up-tempo music plays | Down-tempo music plays,1,1.1
+ADJ + ADP + NOUN + NOUN + NOUN,3,5,1,1,Close-up cam footage playing,1,1.1
+ADJ + ADJ + ADJ + NOUN + NOUN,3,5,1,1,smooth uptempo melodic jazz music,1,1.1
+NOUN + CCONJ + NOUN + NOUN,2,4,1,2,sirens and fire noises | Drum and Bugle Corps,1,1.1
+NOUN + CCONJ + ADJ + NOUN,2,4,1,2,applauding and heartfelt music | grunts and garbled speech,1,1.1
+NOUN + PROPN + NOUN,2,3,1,1,Guy Red Shirt,1,1.1
+VERB + NOUN + ADV,2,3,1,2,note swooshes twice | gathers phlegm loudly,1,1.1
+NOUN + AUX + VERB,2,3,1,1,mimics telegraph beeping,1,1.1
+NOUN + ADP,2,2,1,2,Hums along | Slides by,1,1.1
+PROPN + VERB + DET + NOUN,2,4,1,2,EJ makes a mistake | Keith imitates a horn,1,1.1
+NOUN + AUX + ADV + VERB,2,4,1,2,Lips are tightly shut | Heart is still pounding,1,1.1
+DET + NOUN + VERB,2,3,1,2,THE SMELL ECHOING | some people groaning,1,1.1
+ADV + NOUN,2,2,1,1,As Trump,1,1.1
+NOUN + VERB + ADP,2,3,1,2,MUSIC FADES OUT | karters crying out,1,1.1
+VERB + NOUN + CCONJ + VERB,2,4,1,2,clearing throat and coughing | Rajid groans and chokes,1,1.1
+DET + NOUN + VERB + INTJ,2,4,1,2,some kids respond “yeah” | Some children respond “yes”,1,1.1
+NOUN + NOUN + VERB + ADV,2,4,1,2,rap music playing faintly | rap music playing quietly,1,1.1
+INTJ + NOUN + VERB,2,3,1,1,"""Oh, Susanna"" plays",1,1.1
+X + ADJ + ADJ + NOUN + NOUN + AUX,2,6,1,1,"♪ happy, upbeat background music ♪",1,1.1
+NOUN + CCONJ + NOUN + VERB,2,4,1,2,Cheers and applause continue | piccolos and flutes playing,1,1.1
+VERB + ADP + PROPN + NOUN,2,4,1,2,"Subtitled by Juan Duque | Gather around, Pokémon friends!",1,1.1
+NOUN + ADP + PRON,2,3,1,2,Impersonation of whom? | Diggin’ on you,1,1.1
+ADJ + NOUN + CCONJ + NOUN + NOUN,2,5,1,2,military fife and drum music | military trumpet and drum music,1,1.1
+PROPN + NOUN + NOUN + VERB,2,4,1,2,"whoosh, waltz music plays | upbeat rock music continues",1,1.1
+PROPN + PROPN + NOUN + VERB,2,4,1,2,upbeat guitar song plays | upbeat guitar song continues,1,1.1
+PROPN + NOUN + NOUN + NOUN + VERB,1,5,1,1,Jurassic Park theme song humming,1,1.1
+NOUN + NUM + NOUN,1,3,1,1,Announcer 2 reading:,1,1.1
+ADV + NOUN + VERB,1,3,1,1,"mockingly sneers, laughs",1,1.1
+PROPN + PROPN + AUX + VERB + DET + NOUN + NOUN,1,7,1,1,Hobi-bear is spreading a happiness virus,1,1.1
+SCONJ + PRON + VERB + ADP + NOUN + NOUN + PART + NOUN,1,8,1,1,If you fell for j-hope's charms,1,1.1
+NOUN + ADJ + CCONJ + NOUN,1,4,1,1,glasses whir and beep,1,1.1
+NOUN + VERB + DET + NOUN,1,4,1,1,paws scratching the floor,1,1.1
+NOUN + NOUN + AUX + VERB,1,4,1,1,spray paint can shaking,1,1.1
+NOUN + ADP + ADV,1,3,1,1,Claps for now,1,1.1
+NOUN + PRON,1,2,1,1,Team A,1,1.1
+ADV + ADP + NOUN + ADP + PROPN + PART + NOUN,1,7,1,1,Constantly in awe of BTS's performance,1,1.1
+NUM + NOUN + ADV,1,3,1,1,10 days later,1,1.1
+NOUN + VERB + ADP + PRON + NOUN,1,5,1,1,HUENINGKAI warms up his voice,1,1.1
+PROPN + NOUN + VERB + DET + ADJ + NOUN,1,6,1,1,Producer Soma keeps a straight face,1,1.1
+NOUN + PROPN + PART + NOUN + NOUN + AUX + ADV,1,7,1,1,Team B's dance performance is over,1,1.1
+NOUN + INTJ,1,2,1,1,Audience oohs,1,1.1
+PROPN + NOUN + NOUN + NOUN,1,4,1,1,moody hip hop music,1,1.1
+ADV + ADP + NOUN,1,3,1,1,Plain of Jars,1,1.1
+ADV + NUM + NOUN + ADJ + CCONJ + ADV + NUM + NOUN + AUX + AUX + VERB,1,11,1,1,About 450km wide and around 400 jars have been discovered,1,1.1
+VERB + NOUN + ADP + NOUN + NOUN,1,5,1,1,Bounphu / Plain of Jars Guide,1,1.1
+PROPN + PROPN + PROPN + NOUN + NOUN,1,5,1,1,Byeon Jong-mo / Travel Writer,1,1.1
+ADV + ADJ + NOUN + NOUN,1,4,1,1,faster electronic rock music,1,1.1
+PROPN + NOUN + ADP + NOUN,1,4,1,1,Fang spits on spoon,1,1.1
+DET + NOUN + NOUN + ADV,1,4,1,1,BOTH SINGING NOTE TOGETHER,1,1.1
+NUM + NUM + NOUN,1,3,1,1,164-328 ft,1,1.1
+ADJ + NOUN + PART + NOUN,1,4,1,1,bright children's music,1,1.1
+ADJ + NOUN + PART + NOUN + VERB,1,5,1,1,bright children's music ending,1,1.1
+VERB + CCONJ + VERB + NOUN,1,4,1,1,opening and pouring feed,1,1.1
+VERB + NOUN + VERB + NOUN,1,4,1,1,Telling stories. Inspiring action.,1,1.1
+NOUN + ADP + NOUN + VERB + NOUN,1,5,1,1,people on boat shouting greetings,1,1.1
+PROPN + PRON + VERB + DET + NOUN + NOUN,1,6,1,1,ss:u have a problem alex,1,1.1
+NOUN + VERB + SCONJ + VERB,1,4,1,1,ROBOT SOUNDS WHILE LAUGHING,1,1.1
+NOUN + NOUN + VERB + PRON + NOUN,1,5,1,1,"""Row, Row, Row Your Boat""",1,1.1
+NOUN + NOUN + VERB + VERB,1,4,1,1,jazz music starts playing,1,1.1
+DET + NOUN + ADP + NOUN + CCONJ + PRON + NOUN,1,7,1,1,The story of Saitou and his party,1,1.1
+ADV + ADJ + ADV + ADV + ADJ + NOUN + NOUN + CCONJ + VERB,1,9,1,1,"very muffled, crackly, barely audible male chatting and laughing",1,1.1
+NOUN + PART + NOUN + NOUN,1,4,1,1,Captain's footsteps fade,1,1.1
+NOUN + VERB + INTJ,1,3,1,1,Children respond “no”,1,1.1
+DET + NOUN + NOUN,1,3,1,1,"""The Nutcracker Suite""",1,1.1
+CCONJ + NUM + NOUN,1,3,1,1,or 200-kg,1,1.1
+NUM + NOUN + NOUN,1,3,1,1,340°F,1,1.1
+NOUN + NOUN + NOUN + NOUN,1,4,1,1,"engine revs, tires screech",1,1.1
+NOUN + PROPN + VERB,1,3,1,1,door thuds closed,1,1.1
+VERB + VERB + NOUN + VERB + VERB + VERB,1,6,1,1,ding ding ding! ding ding ding!,1,1.1
+NOUN + NOUN + ADJ + NOUN,1,4,1,1,"glass shatters, little pops",1,1.1
+VERB + ADJ + NOUN + NOUN,1,4,1,1,adorable little battle grunts,1,1.1
+NOUN + PROPN + NOUN + CCONJ + NOUN,1,5,1,1,Glass Joe grunts and groans,1,1.1
+NOUN + PROPN + NOUN + CCONJ + VERB + PRON + ADV,1,7,1,1,Glass Joe grunts and groans some more,1,1.1
+ADJ + CCONJ + ADV + NOUN + NOUN,1,5,1,1,back-and-forth hop pings,1,1.1
+ADJ + NOUN + NOUN + VERB + ADJ + NOUN,1,6,1,1,"Great Tiger grunts, fall sound effect",1,1.1
+PROPN + NOUN + NOUN + CCONJ + NOUN,1,5,1,1,King Hippo grunts and groans,1,1.1
+VERB + VERB + NOUN + PROPN + NOUN + VERB,1,6,1,1,"eyebrow twitch ding, Piston Hondo grunting",1,1.1
+NOUN + NOUN + NOUN + ADP + NOUN,1,5,1,1,Khalid sings words of praise,1,1.1
+ADJ + NOUN + ADJ + NOUN,1,4,1,1,orange-flavor fizzy drink,1,1.1
+ADV + NOUN + NOUN,1,3,1,1,heavenly choir sings,1,1.1
+NUM + NOUN + NOUN + NOUN + NOUN,1,5,1,1,"""One Punch Man"" theme plays",1,1.1
+VERB + NOUN + NOUN + ADP + NOUN,1,5,1,1,makes bowl shape with hands,1,1.1
+NUM + VERB + NUM + NOUN,1,4,1,1,211 m 137 m,1,1.1
+DET + NUM + NOUN + NOUN + VERB + ADJ,1,6,1,1,The four debut members meet ENHYPEN,1,1.1
+NOUN + ADP + NOUN + NUM,1,4,1,1,Student in Cuteness 101,1,1.1
+NOUN + ADP + NOUN + CCONJ + NOUN,1,5,1,1,Bursts into applause and laughter,1,1.1
+ADV + ADV + DET + NOUN + VERB,1,5,1,1,"Just then, another trainee arrives",1,1.1
+DET + ADJ + NOUN + VERB + ADV,1,5,1,1,The last trainee comes in,1,1.1
+ADV + NUM + NOUN + ADV,1,4,1,1,only two days ago,1,1.1
+DET + NOUN + ADP + PRON + NOUN + ADV + VERB,1,7,1,1,The look on his face suddenly changes,1,1.1
+NOUN + AUX + ADV + NOUN + ADP + ADV,1,6,1,1,Wobbuffet was totally spot on too,1,1.1
+ADV + VERB + PROPN + NOUN + NOUN,1,5,1,1,HYBE LABELS JAPAN performance director,1,1.1
+SCONJ + NOUN + PROPN + PART + NOUN + NOUN,1,6,1,1,"Upon release, BTS's ""Crystal Snow""",1,1.1
+DET + NOUN + ADV + VERB,1,4,1,1,The stage suddenly darkens,1,1.1
+INTJ + NOUN,1,2,1,1,"Hi, guys",1,1.1
+NUM + NOUN + NOUN + NOUN + CCONJ + NUM + NOUN,1,7,1,1,4 debut group members and 11 trainees,1,1.1
+PROPN + VERB + DET + NOUN + NOUN,1,5,1,1,Sakura keeps a poker face,1,1.1
+PROPN + PART + VERB + ADP + NOUN + NOUN + VERB,1,7,1,1,K's close-up camera evaluation begins,1,1.1
+ADJ + ADP + NOUN + NOUN + ADP + NOUN,1,6,1,1,Close-up camera evaluation by Soma,1,1.1
+ADV + NUM + ADJ + ADP + NOUN + NOUN,1,6,1,1,"Round 1, close-up camera evaluation",1,1.1
+ADJ + CCONJ + NOUN + NOUN,1,4,1,1,"""Key and Peele Theme""",1,1.1
+NOUN + ADV + VERB + ADP,1,4,1,1,music quickly picks up,1,1.1
+VERB + VERB + NOUN + CCONJ + PART + VERB + NOUN,1,7,1,1,foe making stuffing and to roast paranthas,1,1.1
+PROPN + PROPN + NOUN + ADP + DET + NOUN,1,6,1,1,Andrew mock pants like a dog,1,1.1
+NOUN + SYM + NOUN,1,3,1,1,"""rm(list=ls(",1,1.1
+NOUN + ADV + NOUN,1,3,1,1,Marshmello-Alone Playing,1,1.1
+NOUN + NOUN + ADP,1,3,1,1,Wing popping up,1,1.1
+NOUN + NOUN + CCONJ + VERB,1,4,1,1,PHONE DIALING AND RINGING,1,1.1
+ADJ + NOUN + ADP + NOUN + NOUN,1,5,1,1,National Anthem by School children,1,1.1
+NOUN + VERB + ADJ + NOUN,1,4,1,1,men speaking foreign language,1,1.1
+ADV + VERB + NOUN,1,3,1,1,fast-paced music,1,1.1
+ADV + NOUN + NOUN + VERB,1,4,1,1,jolly game music playing,1,1.1
+NOUN + VERB + PROPN + NOUN,1,4,1,1,"door opens, Ted gasps",1,1.1
+NOUN + VERB + CCONJ + NOUN,1,4,1,1,audience cheering and applause,1,1.1
+NOUN + ADP + NOUN + VERB,1,4,1,1,men in car laughing,1,1.1
+ADJ + PROPN + NOUN + NOUN,1,4,1,1,smooth R&amp;B style instrumental,1,1.1
+VERB + NOUN + CCONJ + NOUN,1,4,1,1,celebratory cheers and applause,1,1.1
+DET + NOUN + VERB + NOUN,1,4,1,1,The Roots play funk,1,1.1
+VERB + VERB + NOUN + NOUN,1,4,1,1,inspiring marching band music,1,1.1
+ADJ + NOUN + VERB + ADV + VERB,1,5,1,1,"mellifluous music begins, abruptly ends",1,1.1
+VERB,1461,1,2,288,SOUND | LAUGH | SINGING | slurping | cheering,1,2.1
+PRON + VERB,164,2,2,45,all laughing | all grunting | both laughing | all awing | both exclaim,1,2.1
+VERB + VERB,47,2,2,26,crowd cheering | blows landing | Feeling dazed | Brad laughing | beeping continues,1,2.1
+VERB + ADV,35,2,2,27,laughs nervously | Whispering inaudibly | Speaking inaudibly | gasps excitedly | Reading aloud,1,2.1
+VERB + ADP + NOUN,14,3,2,10,Speaking in Spanish | reading to students | yelling in background | SINGING IN WELSH | knocking on glass,1,2.1
+VERB + CCONJ + VERB,10,3,2,10,sniffing and grunting | snorting and laughing | growling and howling | grunting and yelping | crashing and groaning,1,2.1
+VERB + ADP,7,2,2,6,Cheer up! | Cracks up | WORK OUT | sucks in | Shaken up,1,2.1
+ADV + VERB,6,2,2,5,Deeply touched | heavenly singing | ghostly moaning | finely chopped | audibly reacting,1,2.1
+VERB + DET + NOUN,3,3,2,3,Skip The Tutorial | tapping the box | Cue the music,1,2.1
+VERB + NUM,3,2,2,2,crosstalk 00:08:21 | Judge 3,1,2.1
+VERB + PRON + ADP,3,3,2,3,Reel 'em in! | CIRQUE IT OUT | Help me out,1,2.1
+PRON + VERB + VERB,3,3,2,3,"Both giggling, squealing | Both grunting, screeching | both grunting, yelling",1,2.1
+VERB + VERB + ADV,2,3,2,2,note clicks repeatedly | sander whirring loudly,1,2.1
+PRON + VERB + ADV,2,3,2,2,all laugh hysterically | Both shouting playfully,1,2.1
+PRON + VERB + ADJ + NOUN,2,4,2,2,BOTH SINGING RANDOM NOTES | BOTH MAKING VARIOUS SOUNDS,1,2.1
+VERB + AUX,2,2,2,1,speaking Hebrew,1,2.1
+PRON + PRON + VERB,2,3,2,1,they all laugh,1,2.1
+VERB + VERB + ADP + NOUN,1,4,2,1,Lay Lay on phone,1,2.1
+VERB + ADP + NUM + NOUN,1,4,2,1,screams as Two-Face,1,2.1
+NOUN + VERB + PART + VERB,1,4,2,1,oil continues to sizzle,1,2.1
+VERB + ADP + PRON + PART + VERB,1,5,2,1,Signaling for someone to come?!,1,2.1
+PRON + VERB + ADP + DET + NOUN + VERB,1,6,2,1,Everyone fell to the floor laughing,1,2.1
+INTJ + VERB + PRON + VERB,1,4,2,1,Please let me leave!!!,1,2.1
+PRON + AUX + PRON + NOUN,1,4,2,1,It was my pleasure!!,1,2.1
+DET + NOUN + AUX + VERB,1,4,2,1,The clock is ticking,1,2.1
+AUX + PRON + VERB,1,3,2,1,Am I dreaming?,1,2.1
+ADP + PRON + ADP + PRON,1,4,2,1,"Like this, like this",1,2.1
+PRON + AUX + VERB,1,3,2,1,Everyone's pumped,1,2.1
+PRON + PRON + AUX + VERB + AUX + NOUN,1,6,2,1,All they can do is clap,1,2.1
+DET + NOUN + PRON + AUX + PART + VERB + SCONJ + PART + VERB,1,9,2,1,A guy who doesn't know how to lose,1,2.1
+SCONJ + PRON + VERB + PRON + NOUN,1,5,2,1,After everyone checks their &amp;BALLs,1,2.1
+VERB + INTJ,1,2,2,1,crowd oohs,1,2.1
+VERB + PRON + ADP + ADP + PROPN,1,5,2,1,"""Lift Me Up"" by Rihanna",1,2.1
+PART + PRON,1,2,2,1,not all,1,2.1
+PRON + VERB + VERB + ADV + NOUN,1,5,2,1,I think I'n quite good~,1,2.1
+VERB + ADV + ADV,1,3,2,1,SPEAKING UNINTELLIGIBLY FAST,1,2.1
+VERB + PRON + DET + NOUN,1,4,2,1,CHANTING WE THE PEOPLE,1,2.1
+PART + VERB + DET + NOUN,1,4,2,1,to volunteer the tribes,1,2.1
+PRON + VERB + PART + VERB + DET + NOUN + ADP + VERB + ADV,1,9,2,1,I have to clean the camera after spraying xD,1,2.1
+CCONJ + VERB,1,2,2,1,both howling,1,2.1
+PRON + AUX + VERB + ADP + PROPN + PROPN,1,6,2,1,"""I'm Saved"", by Duncan Saige",1,2.1
+PROPN + PRON + VERB + PRON + VERB + ADJ,1,6,2,1,ss:i thought you liked orange,1,2.1
+PRON + VERB + PART + AUX + PRON,1,5,2,1,"""It Had to be You""",1,2.1
+VERB + VERB + NOUN + PART + VERB + VERB,1,6,2,1,Feeling energized! Time to keep going!,1,2.1
+VERB + ADP + ADP + NOUN,1,4,2,1,counting down in German,1,2.1
+PRON + AUX,1,2,2,1,it’s,1,2.1
+PART + VERB,1,2,2,1,to cure,1,2.1
+NUM + VERB + NUM + VERB + NUM + NUM,1,6,2,1,48m 116 m 27 m,1,2.1
+PRON + AUX + DET + NOUN + NOUN + VERB + ADP,1,7,2,1,Who is the debut group waiting for?,1,2.1
+CCONJ + AUX + PART + VERB + PRON + NOUN,1,6,2,1,But can't hide his nervousness,1,2.1
+AUX + PRON + VERB + PRON + DET + NOUN,1,6,2,1,Should I give him a hand?,1,2.1
+PRON + VERB + NUM + NOUN + ADV,1,5,2,1,I speak 3 languages too,1,2.1
+VERB + PRON + VERB,1,3,2,1,Let me see,1,2.1
+PRON + PRON + ADV + VERB + ADP,1,5,2,1,What? He just passed by?,1,2.1
+ADV + PRON + VERB,1,3,2,1,Here he comes!,1,2.1
+PRON + AUX + PART + VERB,1,4,2,1,This doesn't work...,1,2.1
+ADJ + PART + VERB + PRON,1,4,2,1,Nice to meet you,1,2.1
+NOUN + AUX + PART + VERB + ADP + PRON,1,6,2,1,Perspective doesn't apply to him,1,2.1
+VERB + ADP + PRON + NOUN,1,4,2,1,Show off my charm...,1,2.1
+PRON + AUX + VERB + ADP + PRON + NOUN + ADV,1,7,2,1,Who will show off their charm first?,1,2.1
+PRON + VERB + PRON + ADJ + NOUN,1,5,2,1,I found my strongest suit...,1,2.1
+ADV + VERB + ADP + PRON + NOUN,1,5,2,1,Effortlessly dribbling between his legs,1,2.1
+SCONJ + DET + NOUN + PRON + VERB + ADV + VERB + ADV,1,8,2,1,As the trainees who went first do well,1,2.1
+DET + NOUN + ADP + PRON + VERB + PART + VERB + ADJ,1,8,2,1,the rest of them starts to get anxious,1,2.1
+SCONJ + PRON + AUX + ADP + PRON,1,5,2,1,While I'm at it,1,2.1
+PRON + AUX + AUX + VERB + ADV,1,5,2,1,It will be revealed now,1,2.1
+NOUN + AUX + AUX + VERB + ADV,1,5,2,1,Parts have been divided temporarily,1,2.1
+DET + NOUN + VERB + ADP + NUM,1,5,2,1,The performance starts with K,1,2.1
+DET + NOUN + AUX + ADV + VERB,1,5,2,1,The chorus is finally unveiled,1,2.1
+PRON + VERB + ADV + ADV + ADP + NOUN + NOUN,1,7,2,1,It looks hard even in 0.5x speed,1,2.1
+VERB + PRON + NOUN,1,3,2,1,Introducing our producers!,1,2.1
+PRON + NOUN,1,2,2,1,My bangs?,1,2.1
+SCONJ + PRON + VERB + DET + NOUN,1,5,2,1,As they approach the stage,1,2.1
+PRON + AUX + PRON + VERB + ADV,1,5,2,1,What do we do now?,1,2.1
+VERB + PRON + PART + VERB,1,4,2,1,Unsure what to do,1,2.1
+DET + NOUN + ADV + VERB + ADP,1,5,2,1,The producers suddenly show up,1,2.1
+PRON + AUX + VERB + ADP,1,4,2,1,Everyone gets tensed up,1,2.1
+AUX + PRON + NOUN + VERB + ADV,1,5,2,1,Is my score written inside?,1,2.1
+PRON + AUX + PRON,1,3,2,1,What is this?,1,2.1
+PRON + VERB + PART + VERB + PRON + ADP,1,6,2,1,We have to fill that up?,1,2.1
+PRON + NOUN + AUX + AUX + VERB,1,5,2,1,Our debut will be canceled?,1,2.1
+AUX + PRON + AUX + ADJ + PART + VERB + ADP + PRON + PROPN,1,9,2,1,Will they be able to fill up the &amp;RING?,1,2.1
+DET + NUM + NOUN + AUX + VERB,1,5,2,1,The 14 members were required,1,2.1
+PRON + AUX + DET + NUM + NOUN + VERB + PART + VERB,1,8,2,1,What do the four producers have to say?,1,2.1
+VERB + PART + VERB + ADJ,1,4,2,1,Fails to understand Korean,1,2.1
+PRON + NOUN + VERB + PART + VERB + ADP + NOUN,1,7,2,1,Our efforts failed to come to fruition?,1,2.1
+PRON + VERB + PRON,1,3,2,1,He criticizes him,1,2.1
+PRON + AUX + NOUN + VERB + PART + VERB,1,6,2,1,What does Sakura have to say?,1,2.1
+SCONJ + PRON + VERB + PRON + VERB,1,5,2,1,Since they watched them practice,1,2.1
+CCONJ + PROPN + VERB + PART + VERB + PRON + ADP,1,7,2,1,But EJ failed to pull it off,1,2.1
+NOUN + AUX + VERB + ADP + NUM + ADP + NUM,1,7,2,1,&amp;BALLs are piling up one by one,1,2.1
+SCONJ + AUX + PRON + VERB + PRON,1,5,2,1,Why are we doing this?,1,2.1
+NOUN + AUX + VERB + PRON + NOUN,1,5,2,1,people are paying you money.,1,2.1
+PRON + AUX + ADV + AUX + VERB + PART + VERB + NOUN,1,8,2,1,You're just being paid to have fun?,1,2.1
+NOUN + VERB + PRON + PRON,1,4,2,1,dog help us all,1,2.1
+VERB + INTJ + ADV,1,3,2,1,"Shouting ""No"" Repeatedly",1,2.1
+INTJ + PART + SCONJ + PRON + VERB,1,5,2,1,"""HMM'S"" AS HE THINKS",1,2.1
+DET + VERB,1,2,2,1,all groaning,1,2.1
+PRON + VERB + DET + NOUN,1,4,2,1,he blows a raspberry,1,2.1
+PROPN,790,1,3,159,INAUDIBLE | Cassyanna | NOISE | Gabe | Kenny,1,3.1
+ADJ + NOUN,748,2,3,173,cheerful music | military drums | upbeat music | electronic sounds | slow music,1,3.1
+PROPN + NOUN,274,2,3,128,incomprehensible noise | bell rings | mosquito buzzing | News Anchor | doorbell rings,1,3.1
+PROPN + PROPN,261,2,3,59,Mekia chuckles | Mekia laughs | kasuri methi | John growls | Dan chuckles,1,3.1
+ADJ,214,1,3,26,bleep | BLEEP | Bleep | affirmative | general,1,3.1
+PROPN + VERB,93,2,3,67,Kelly yells | Kelly laughs | Nathan chuckling | Eric chuckling | Nathan laughs,1,3.1
+ADJ + ADJ + NOUN,78,3,3,51,soft cheerful music | light electronic music | gentle acoustic guitar | cheery orchestral music | heroic orchestral music,1,3.1
+PRON,46,1,3,5,both | Both | all | Everyone | All,1,3.1
+VERB + ADJ + NOUN,37,3,3,18,bouncy positive music | continues mumble rapping | soaring intense music | bouncy synth music | speaks foreign language,1,3.1
+ADV,37,1,3,22,Kanmusu | angrily | nasally | normally | louder,1,3.1
+NUM,28,1,3,26,2/3rd | 1/3rd | Ten | 0:00:00 | 0:10:00,1,3.1
+PROPN + PROPN + NOUN,19,3,3,14,Nintendo Switch Snap | Guy Green Shirt | sheet pan clunks | Kaiser roll crunches | mournful harmonica tune,1,3.1
+VERB + ADJ,13,2,3,4,blows whistle | SPEAKING ARABIC | get ready | Feeling unwell,1,3.1
+PROPN + ADJ + NOUN,10,3,3,8,"upbeat electric music | upbeat rhythmic music | eerie, ominous chords | taunt sound effect | upbeat electronic music",1,3.1
+INTJ,9,1,3,5,Yes! | Oh! | Yes? | Wow! | Hey!,1,3.1
+ADP,9,1,3,4,TJ | For | Amy | OG,1,3.1
+PROPN + VERB + ADP + ADJ + NOUN,8,5,3,3,Jasmine speaks in foreign language | Liam speaks in foreign language | Mario yelling in slow-motion,1,3.1
+NUM + NUM,8,2,3,7,5.5m | 1.8m | 120 m | 500 g | 8 g,1,3.1
+PROPN + CCONJ + PROPN + NOUN,7,4,3,7,Kelly and Alyssa laughs | Mike and Barry laugh | Barry and Mike laugh | Barry and Jamie laugh | Rob and Kaitlin laugh,1,3.1
+PROPN + CCONJ + PROPN,7,3,3,6,Ken and Matt | Barry and Jamie | Keith And Alex | Mike and Barry | Mike and Jamie,1,3.1
+ADJ + VERB,6,2,3,6,"whooping, cheering | deep, distorted | loud chewing | urinal flushing | nervous chuckling",1,3.1
+X + X + X,6,3,3,1,♪♪♪,1,3.1
+ADV + ADV,5,2,3,4,Just then | All Together | quietly louder | also upward,1,3.1
+PROPN + PROPN + PROPN,5,3,3,4,Liang Yumei / Miao | Bear Hugger snarls | bassy hip hop | Marlice Van Vurren,1,3.1
+PROPN + PROPN + VERB,5,3,3,4,King Hippo noises | King Hippo roars | King Hippo growls | Lil Kim chuckles,1,3.1
+PROPN + VERB + ADV,4,3,3,4,notes swoosh repeatedly | Sascha speaking nonsensically | Peele humming suggestively | Andrew laughs maniacally,1,3.1
+ADJ + PROPN + NOUN,4,3,3,4,Central Miao Village | military march music | bright xylophone music | ambient electronica music,1,3.1
+VERB + ADP + PROPN,4,3,3,2,speaking in Japanese | yelling in Chinese,1,3.1
+PROPN + VERB + NOUN,3,3,3,3,Dan clears throat | Duncan kisses dog | Andrew blows raspberry,1,3.1
+ADV + ADJ,3,2,3,3,(So cool) | (Just funny) | Super confident,1,3.1
+ADJ + ADJ + VERB,3,3,3,3,"shrill whistle blows | Loud, eerie laughing | Ding, ding, ding",1,3.1
+ADJ + VERB + NOUN,3,3,3,3,high-pitched voice | high-pitched singing | high pitched tone,1,3.1
+PROPN + VERB + ADJ + NOUN,3,4,3,2,Fang speaks foreign language | Andrew blows short raspberry,1,3.1
+ADP + ADJ,3,2,3,3,As Grassley | In Samoan | in Korean,1,3.1
+ADP + PROPN + PROPN,3,3,3,2,by Robert Cristobal | As Ron Burgundy,1,3.1
+PROPN + VERB + VERB,3,3,3,3,Riley muffled speaking | WIL CONTINUES HUMMING | Ryan imitates stuttering,1,3.1
+PROPN + PART + ADJ + NOUN,3,4,3,3,&amp;AUDITION's first trainee | &amp;AUDITION's second trainee | &amp;AUDITION's sixth trainee,1,3.1
+NOUN + PROPN + ADJ,3,3,3,1,hip hop instrumental,1,3.1
+VERB + PROPN,2,2,3,2,Lay Lay | speaking Huttese,1,3.1
+ADJ + ADJ + NOUN + VERB,2,4,3,2,Mid-tempo music plays | MIDDLE EASTERN MUSIC PLAYING,1,3.1
+VERB + CCONJ + PROPN + VERB,2,4,3,1,Brad and Jessa laughing,1,3.1
+ADJ + ADJ,2,2,3,2,"Dribble, dribble | Nervous, anxious",1,3.1
+ADP + PROPN,2,2,3,2,with Betsy | As Graham,1,3.1
+VERB + ADP + ADJ,2,3,3,2,speaks in Korean | Singing in Swedish,1,3.1
+ADV + ADJ + NOUN,2,3,3,2,increasingly loud music | more sad music,1,3.1
+ADJ + ADJ + ADJ + NOUN,2,4,3,2,"heavy industrial electronic music | cross-talking, general chatter",1,3.1
+VERB + ADP + PROPN + PROPN + NOUN,2,5,3,1,POWERED BY SINGAPORE INTERNATIONAL FOUNDATION,1,3.1
+X,2,1,3,2,ourbetterworld.org | c,1,3.1
+PROPN + NOUN + ADV,2,3,3,2,"pan clunks loudly | gasps, chuckles softly",1,3.1
+ADJ + NOUN + ADJ,2,3,3,2,"oboe playing meloncholy | Sad trombone, rimshot",1,3.1
+PROPN + CCONJ + PROPN + VERB,2,4,3,1,Mike and Jamie laughing,1,3.1
+PROPN + ADV + VERB,2,3,3,2,Lala angelically harmonizing | Richie nervously laughs,1,3.1
+NOUN + ADJ,2,2,3,1,Blues Crooner,1,3.1
+PROPN + CCONJ + ADJ + VERB,1,4,3,1,Eric and Melissa laughing,1,3.1
+PROPN + CCONJ + ADJ + NOUN,1,4,3,1,Eric and Melissa laughs,1,3.1
+ADJ + CCONJ + PROPN + PROPN,1,4,3,1,Melissa and Eric laughs,1,3.1
+PROPN + NUM,1,2,3,1,Stan: 465.,1,3.1
+VERB + PROPN + NUM,1,3,3,1,Coming November 2022!,1,3.1
+ADJ + NOUN + NUM + ADJ,1,4,3,1,(Front row 100% satisfied),1,3.1
+PROPN + NOUN + ADJ,1,3,3,1,"Laughter, audience ""oohs""",1,3.1
+ADP + PROPN + NOUN,1,3,3,1,As Billy Idol,1,3.1
+DET + ADJ + NUM,1,3,3,1,A whopping... 68%!,1,3.1
+ADV + NUM + PART + ADJ + NOUN,1,5,3,1,Round 4's special mission!,1,3.1
+CCONJ + ADJ + CCONJ + NOUN,1,4,3,1,Both vocal and performance,1,3.1
+PROPN + ADV + VERB + ADJ,1,4,3,1,HIKARU also looks surprised,1,3.1
+PROPN + PROPN + PROPN + PROPN,1,4,3,1,dog bark dog bark,1,3.1
+PROPN + ADJ,1,2,3,1,RnB instrumental,1,3.1
+PRON + AUX + ADJ,1,3,3,1,That was easy.,1,3.1
+ADJ + VERB + VERB,1,3,3,1,high pitched screeching,1,3.1
+X + X + PROPN + PROPN,1,4,3,1,Ou Di Wan Lee,1,3.1
+X + PROPN,1,2,3,1,Lei Kugo,1,3.1
+PART,1,1,3,1,to,1,3.1
+X + ADP + PROPN,1,3,3,1,Tribu Ni Bro,1,3.1
+PRON + ADJ + NOUN,1,3,3,1,Our Better World,1,3.1
+ADJ + SCONJ + ADJ + SCONJ,1,4,3,1,"subtle: ""How bout that""",1,3.1
+PROPN + PRON + ADJ,1,3,3,1,ss:its safe,1,3.1
+PROPN + ADV + ADJ,1,3,3,1,ss:30% more expensive,1,3.1
+PRON + AUX + PROPN,1,3,3,1,It's Thursday,1,3.1
+PART + ADV + ADJ + PROPN + PROPN + CCONJ + PRON + NOUN,1,8,3,1,“not-so-special” Mr. Saitou and his friends,1,3.1
+ADJ + PROPN,1,2,3,1,ELECTRIC HUM,1,3.1
+ADJ + NOUN + ADV,1,3,3,1,Amy grunts angrily,1,3.1
+ADJ + ADP,1,2,3,1,WARM UP,1,3.1
+X + NOUN + ADJ,1,3,3,1,♪ music ♪,1,3.1
+VERB + PROPN + PROPN + VERB,1,4,3,1,"upset mew, Hannah laughing",1,3.1
+ADJ + NUM,1,2,3,1,Terrorist 2,1,3.1
+PROPN + PROPN + ADJ + NOUN,1,4,3,1,Laughter &amp; Inaudible Remarks,1,3.1
+PROPN + VERB + PROPN + PROPN,1,4,3,1,Mike imitates Hank Hill,1,3.1
+ADJ + ADJ + NOUN + ADP + PROPN,1,5,3,1,special black vinegar from Coorg,1,3.1
+PROPN + PROPN + ADJ,1,3,3,1,Indian white sweet,1,3.1
+SCONJ + ADJ + ADJ + NOUN + ADV + VERB,1,6,3,1,although several other versions also exist,1,3.1
+SCONJ + ADJ + PROPN,1,3,3,1,except Saint Peter,1,3.1
+PROPN + ADP + NOUN,1,3,3,1,Ben on Video,1,3.1
+PROPN + PRON + AUX + ADV + ADV,1,5,3,1,Haha! They're finally here,1,3.1
+PROPN + PART + NOUN,1,3,3,1,EJ's cuteness,1,3.1
+NOUN + PRON + NUM,1,3,3,1,Phew =333,1,3.1
+SCONJ + SCONJ,1,2,3,1,"Where, where?",1,3.1
+PRON + AUX + ADV + ADJ + PROPN,1,5,3,1,He's so cute ♥,1,3.1
+INTJ + PRON + AUX + ADJ,1,4,3,1,Wow... He's tall,1,3.1
+PROPN + PART + ADJ + NOUN + PROPN,1,5,3,1,"&amp;AUDITION's 11th trainee, JO",1,3.1
+PROPN + DET + ADJ + NOUN,1,4,3,1,"HIKARU, the shy trainee",1,3.1
+ADV + ADP + AUX + ADJ,1,4,3,1,Back to being shy,1,3.1
+PROPN + PRON + NUM,1,3,3,1,Scurry =333,1,3.1
+PRON + PART + ADJ,1,3,3,1,Everyone's startled,1,3.1
+CCONJ + ADJ + AUX,1,3,3,1,And next is...,1,3.1
+PROPN + VERB + NUM + NOUN,1,4,3,1,K received 9 &amp;BALLs,1,3.1
+VERB + ADV + ADJ,1,3,3,1,SCREAMING STILL AUDIBLE,1,3.1
+PROPN + INTJ,1,2,3,1,Sean: Okay.,1,3.1
+PROPN + PRON + AUX + ADV + ADJ,1,5,3,1,Sean: That was really good.,1,3.1
+NOUN + PROPN,1,2,3,1,tires screech,1,3.1
+PROPN + VERB + ADP + PROPN,1,4,3,1,Andrew blows on caramel,1,3.1
+PUNCT,1,1,3,1,~,1,3.1
+INTJ + INTJ,1,2,3,1,"quack, quack",1,3.1
+CCONJ,1,1,3,1,and,1,3.1
+PROPN + ADJ + NOUN + VERB,1,4,3,1,upbeat electronic music continues,1,3.1
+PROPN + PROPN + PROPN + NOUN,1,4,3,1,GRIAN &amp; PIX laugh,1,3.1
+ADJ + VERB + ADV,1,3,3,1,vial beeping rapidly,1,3.1
+PROPN + INTJ + NOUN,1,3,3,1,vine quote intensifies,1,3.1
+PROPN + ADJ + VERB,1,3,3,1,"Oona, high-pitched",1,3.1
+VERB + ADJ + ADJ,1,3,3,1,swelling suspenseful synth,1,3.1
+PROPN + PROPN + ADP + PROPN,1,4,3,1,"""Rap God"" by Eminem",1,3.1
+PROPN + CCONJ + VERB,1,3,3,1,Ryan and Ahmed,1,3.1
+ADJ + CCONJ + VERB,1,3,3,1,Ohs and cheering,1,3.1
+VERB + ADP + ADJ + NOUN,51,4,4,4,speaks in foreign language | speaking in foreign language | Singing in native language | singing in foreign language,2,4.2
+NOUN + VERB + ADP + ADJ + NOUN,21,5,4,7,Melody speaks in foreign language | children speak in foreign languages | girl speaks in foreign language | children speak in foreign language | Soshiko speaks in foreign language,1,4.1
+ADP + DET + ADJ,8,3,4,1,as the Other,3,4.3
+ADP + DET + NOUN,6,3,4,4,ON THE PHONE: | In a trance | To the max | At that moment,2,4.2
+DET + ADJ + NOUN,6,3,4,6,A tasty bite | The Sundown Kid | a soft drink | A confident greeting | The next day,3,4.3
+ADP + ADJ + NOUN,5,3,4,1,in slow motion,3,4.3
+PRON + AUX + DET + NOUN,3,4,4,3,"What's that sound? | What's the result? | This is a ""dish""",4,4.4
+NOUN + ADP + ADJ + NOUN,3,4,4,3,Man In Gray Jacket | Enters with overflowing confidence | greetings in foreign language,1,4.1
+ADJ + NOUN + ADP + NOUN,3,4,4,3,indistinct answers from audience | Fake crying of joy | External funding for science,1,4.1
+ADP + DET + ADJ + NOUN,2,4,4,2,After the special mission | During the stable performance,3,4.3
+DET + ADV + ADJ + NOUN,2,4,4,2,A very envious moment | A very important part,3,4.3
+ADP + VERB + ADJ + NOUN,2,4,4,2,TJ speaks foreign language | After having different dreams,3,4.3
+NOUN + VERB + ADP + DET + NOUN,2,5,4,2,police sirens in the distance | DOOR BANGING TO THE BEAT,2,4.2
+PRON + AUX + DET + NOUN + ADP + VERB + ADP + DET + NOUN,1,9,4,1,It is the strength of fighting against the threat,4,4.4
+NOUN + ADP + DET + ADJ,1,4,4,1,growls as the Other,2,4.2
+DET + NOUN + NOUN + AUX + ADP + DET + NOUN,1,7,4,1,The dance machine's on the floor,1,4.1
+VERB + PRON + ADP + DET + NOUN,1,5,4,1,Losing himself in the moment,2,4.2
+VERB + ADV + ADP + DET + NOUN,1,5,4,1,Painting meticulously to the rhythm,2,4.2
+VERB + NOUN + CCONJ + ADP + DET + NOUN,1,6,4,1,leave comments and like the video,2,4.2
+NOUN + ADP + ADJ + NUM + PART + NOUN,1,6,4,1,Announcement for Round 4's mission,1,4.1
+PRON + AUX + DET + NOUN + ADP + NOUN + PROPN,1,7,4,1,What is the song for Team B?,4,4.4
+NOUN + ADJ + ADP + NOUN,1,4,4,1,#Mouth full of pizza,1,4.1
+PROPN + VERB + ADP + ADP + DET + ADJ + NOUN,1,7,4,1,GAKU starts off with a steady voice,2,4.2
+DET + ADJ + NOUN + ADP + NOUN + VERB + ADV + ADV,1,8,4,1,A strict evaluation for Team B as well,1,4.1
+VERB + DET + ADJ + NOUN,1,4,4,1,playing a few chords,3,4.3
+CCONJ + DET + ADV + VERB + NOUN + ADP + NOUN,1,7,4,1,and a funny-looking dog to boot,1,4.1
+DET + NOUN + VERB + DET + VERB + NUM + NUM + PART + NUM + NUM + ADJ + NOUN + VERB + ADP + NUM + NOUN + ADJ + NOUN,1,18,4,1,"The Philippines has an estimated 14 million to 17 million indigenous people, belonging to 110 ethno-linguistic groups.",1,4.1
+NOUN + ADP + NOUN + ADJ + NOUN + CCONJ + NOUN + AUX + DET + NOUN + ADP + PRON + VERB + ADP + ADJ + NOUN,1,16,4,1,"Access to education, nutrituous meals, and jobs is a challenge for those living in remote regions.",1,4.1
+DET + PRON + ADJ + NOUN + NOUN,1,5,4,1,an Our Better World story,3,4.3
+PROPN + VERB + NOUN + ADP + PROPN + ADP + NUM + SCONJ + DET + NOUN + NOUN + ADP + DET + ADJ + NOUN + VERB + PRON + NOUN + ADP + PRON + NOUN,1,21,4,1,"Bimboy founded Tribu Ni Bro in 2008, after an outreach trip to a tribal region opened his eyes to their needs.",1,4.1
+NOUN + ADP + DET + NOUN,1,4,4,1,"""Hail to the Chief""",2,4.2
+NOUN + ADP + DET + ADJ + NOUN,1,5,4,1,Science for the public good,2,4.2
+DET + ADJ + NOUN + ADP,1,4,4,1,"The ""special"" adventures of",3,4.3
+ADJ + NOUN + VERB + ADP + DET + NOUN + NOUN,1,7,4,1,Next set looks like a hospital ward!,2,4.2
+PROPN + NOUN + VERB + ADP + DET + ADJ + NOUN,1,7,4,1,j-hope pulls off the difficult scene!,2,4.2
+PROPN + VERB + DET + ADJ + NOUN + ADP + DET + ADJ,1,8,4,1,V joins the other mannequins as an extra,3,4.3
+VERB + VERB + DET + NOUN + ADP + NOUN,1,6,4,1,Finishes filming the scene with V!,1,4.1
+VERB + ADP + DET + ADJ + NOUN + ADP + PRON + ADJ + NOUN,1,9,4,1,Puts on a new hat for his last scenes!,1,4.1
+ADJ + NOUN + CCONJ + ADP + DET + NOUN + DET + NOUN,1,8,4,1,Same scene but without the hat this time,2,4.2
+NOUN + PROPN + AUX + PART + VERB + DET + ADJ + NOUN,1,8,4,1,Glass Joe is not having a good day,3,4.3
+NOUN + ADP + DET + NOUN + NOUN + NOUN,1,6,4,1,"""Tales from the Crypt"" theme plays",2,4.2
+DET + ADJ + NOUN + VERB + ADP,1,5,4,1,The first trainee shows up,3,4.3
+VERB + ADP + DET + ADJ + NOUN,1,5,4,1,Followed by a quick scan,2,4.2
+AUX + DET + ADJ + NOUN + ADJ + ADV,1,6,4,1,Is the second trainee older too?,3,4.3
+PRON + AUX + PART + VERB + DET + NOUN + ADP + PRON + NOUN,1,9,4,1,He can't hide a tremor in his voice,4,4.4
+AUX + PRON + ADP + DET + ADJ,1,5,4,1,Is he about this tall?,3,4.3
+DET + NOUN + VERB + ADP + PRON + NOUN,1,6,4,1,The members show off their charm,1,4.1
+ADJ + ADP + NOUN,1,3,4,1,Double under crossover,3,4.3
+ADV + ADV + AUX + DET + ADJ + NOUN,1,6,4,1,Next up is the worrisome (?) trainee,3,4.3
+DET + ADJ + NOUN + PART + ADJ + NOUN,1,6,4,1,The worrisome trainee's powerful dance,3,4.3
+SCONJ + AUX + DET + ADJ + NOUN + VERB,1,6,4,1,Where did the shy trainee go?,3,4.3
+ADJ + ADP + DET + NOUN,1,4,4,1,Graceful like a swan,2,4.2
+PRON + AUX + DET + ADJ + NOUN + PROPN + PART + NOUN,1,8,4,1,"What's the mature one, FUMA's specialty?",4,4.4
+VERB + NUM + NOUN + ADP + ADJ + NOUN,1,6,4,1,requiring 15 members in perfect sync,1,4.1
+DET + NOUN + ADP + ADJ + NUM + PART + NOUN,1,7,4,1,The morning of Round 1's performance,1,4.1
+DET + NOUN + AUX + ADJ,1,4,4,1,The producers are amazed,3,4.3
+NOUN + NOUN + DET + ADJ + NOUN,1,5,4,1,Sakura checks every little detail,3,4.3
+DET + NOUN + AUX + VERB + ADP + NOUN,1,6,4,1,The room is filled with tension,1,4.1
+PROPN + AUX + DET + NOUN + ADJ + PART + VERB + PRON + NOUN,1,9,4,1,YEJUN was a bit late to raise his hand,3,4.3
+PRON + AUX + DET + NOUN + ADP,1,5,4,1,What are these lockers for?,4,4.4
+PRON + ADP + DET + NOUN + AUX + PRON + ADP,1,7,4,1,What in the world is this for?,2,4.2
+ADP + DET + ADJ + NUM + NOUN,1,5,4,1,than the first two producers,3,4.3
+ADV + ADJ + ADP + VERB + DET + NOUN,1,6,4,1,Too afraid of making a mistake,2,4.2
+VERB + ADP + DET + NOUN,1,4,4,1,Shaking like a leaf,2,4.2
+PRON + AUX + NOUN + PART + VERB + NOUN + ADP + DET + NOUN,1,9,4,1,It's time to put &amp;BALLs in the &amp;RING,4,4.4
+PRON + AUX + DET + NOUN + NOUN,1,5,4,1,What is a concept mission?,4,4.4
+DET + NOUN + ADP + INTJ + NOUN,1,5,4,1,"A song from ""MJ"" album.",1,4.1
+DET + NOUN + ADP + DET + NOUN + ADV,1,6,4,1,"A song from the movie, ""SACHIN"".",1,4.1
+DET + NOUN + ADP + DET + NOUN + NOUN,1,6,4,1,"A song from the movie, ""VEDHALAM""",1,4.1
+DET + NOUN + ADP + DET + NOUN + PROPN,1,6,4,1,"A song from the movie, ""BAASHA"".",1,4.1
+ADP + DET + NOUN + ADJ,1,4,4,1,with the peel intact,2,4.2
+VERB + DET + ADJ + NOUN + NOUN,1,5,4,1,Getting a random Proof card,3,4.3

@@ -34,6 +34,7 @@ def register(bp):
             title=data["title"],
             youtube_id=data.get("youtube_id"),
             filename=data.get("filename"),
+            url=data.get("url"),
             caption_type=data.get("caption_type"),
             metadata_json=data.get("metadata_json"),
             is_active=data.get("is_active", True),
@@ -49,7 +50,7 @@ def register(bp):
         if not video:
             return jsonify({"error": "Video not found"}), 404
         data = request.get_json(silent=True) or {}
-        for field in ("title", "youtube_id", "filename", "caption_type", "metadata_json", "is_active"):
+        for field in ("title", "youtube_id", "filename", "url", "caption_type", "metadata_json", "is_active"):
             if field in data:
                 setattr(video, field, data[field])
         rgt_session.commit()

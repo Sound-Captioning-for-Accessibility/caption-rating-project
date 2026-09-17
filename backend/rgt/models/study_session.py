@@ -5,6 +5,14 @@ from sqlalchemy.orm import relationship
 
 from rgt.extensions import RGTBase
 
+PHASES = (
+    "overall_ratings",
+    "triadic_elicitation",
+    "additional_constructs",
+    "review_ratings",
+    "completed",
+)
+
 
 class StudySession(RGTBase):
     __tablename__ = "study_session"

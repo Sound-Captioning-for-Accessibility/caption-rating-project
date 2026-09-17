@@ -12,6 +12,7 @@ class Video(RGTBase):
     title = Column(String(300), nullable=False)
     youtube_id = Column(String(100), nullable=True)
     filename = Column(String(500), nullable=True)
+    url = Column(String(1024), nullable=True)
     caption_type = Column(String(100), nullable=True)
     metadata_json = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
@@ -23,6 +24,10 @@ class Video(RGTBase):
             "title": self.title,
             "youtube_id": self.youtube_id,
             "filename": self.filename,
+            "url": self.url or (
+                f"https://www.youtube.com/embed/{self.youtube_id}"
+                if self.youtube_id else None
+            ),
             "caption_type": self.caption_type,
             "metadata_json": self.metadata_json,
             "is_active": self.is_active,

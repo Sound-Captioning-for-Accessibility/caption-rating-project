@@ -1,0 +1,634 @@
+fine_template,count
+NN,2174
+VBG,1172
+NNP,790
+JJ + NN,709
+NNS,566
+NN + NN,391
+NN + VBG,375
+NNP + NNP,261
+JJ,226
+NN + NNS,200
+NN + VBZ,176
+VB,171
+NNS + VBG,164
+NNP + NN,155
+NNS + CC + NN,155
+NNP + NNS,119
+VBZ,83
+DT + VBG,78
+JJ + JJ + NN,77
+VBG + NN,72
+JJ + NN + NN,57
+VBG + IN + JJ + NN,46
+DT,45
+NNP + VBZ,45
+NNP + VBG,42
+JJ + NNS,39
+JJ + NN + VBZ,36
+RB,36
+NNS + VBP,36
+VBG + NNS,35
+VBG + CC + NN,29
+NNP + NN + NN,29
+CD,28
+NN + NN + VBG,26
+VBD,25
+VBG + RB,25
+NN + CC + NN,23
+NN + NN + NNS,22
+DT + VBP,22
+NN + NN + NN,21
+JJ + NN + VBG,21
+PRP + VBP,21
+VBZ + NN,20
+VBN + NN,19
+NN + CD,19
+JJ + NN + NNS,18
+VB + VBG,18
+IN + NN,18
+VBG + JJ + NN,17
+VB + NNS,17
+CD + NN,15
+VBZ + VBG,14
+UH,14
+UH + UH + UH + UH + UH,14
+NNP + NNP + NN,13
+VBG + NN + VBZ,13
+NN + NNS + VBG,12
+NN + NN + VBZ,11
+VBG + VBG,11
+NN + NN + NN + VBZ,11
+VB + JJ + NN,10
+DT + NN,10
+VBG + CC + VBG,10
+VB + NN,9
+VBG + JJ,9
+IN,9
+VBZ + RB,8
+IN + DT + JJ,8
+NNS + RB,8
+NNP + JJ + NN,8
+NN + VBZ + IN + JJ + NN,8
+CD + CD,8
+VBZ + JJ + NN,7
+NNS + NN,7
+VBG + NN + NN,7
+IN + CD + NN,7
+NNP + VBZ + IN + JJ + NN,7
+NNP + CC + NNP,7
+NN + NN + RB,7
+IN + DT + NN,6
+ADD + ADD + ADD,6
+NNP + NNP + NNS,6
+NN + VBG + RB,6
+DT + JJ + NN,6
+NNS + NNS,6
+NN + CC + VBG,6
+VBG + IN + NN,6
+NNS + VBP + IN + JJ + NN,6
+VBN,6
+VBG + IN + NNS,6
+NNP + CC + NNP + NN,6
+PRP + VBZ,6
+UH + UH,6
+JJ + VBG,5
+NN + VBZ + RB,5
+JJ + JJ + NN + NN,5
+VBZ + IN + JJ + NN,5
+NN + VBG + CC + VBG,5
+RB + RB,5
+IN + JJ + NN,5
+NN + NNS + IN + NN,5
+NN + NNS + NN,5
+NNP + NNP + NNP,5
+CD + NNS,5
+NNP + NNP + VBZ,5
+NNP + NN + VBZ,5
+NNS + VBG + IN + JJ + NN,5
+NNP + CC + NN + NNS,4
+NN + VBG + NN,4
+NN + CC + NNS,4
+NN + IN + NN,4
+NN + NNS + VBD,4
+VBP,4
+NNP + NN + NNS,4
+VBZ + NNS,4
+NN + RB + VBG,4
+JJ + NNP + NN,4
+JJ + NN + NN + NN,4
+,4
+NNP + VB,4
+VBG + IN + NNP,4
+NN + JJ + NN,3
+VBG + NN + NNS,3
+VB + CD,3
+VB + PRP + RP,3
+NNP + VBZ + NN,3
+RB + JJ,3
+NN + VBZ + NN,3
+VB + NN + NN,3
+NNS + VBG + IN + NN,3
+VBZ + NN + IN + NN,3
+VBZ + JJ,3
+RB + VBN,3
+NN + VBZ + JJ,3
+JJ + VBN + NN,3
+NNP + VBZ + JJ + NN,3
+VBN + NN + NN,3
+IN + JJ,3
+RB + VBG,3
+IN + NNP + NNP,3
+IN + NN + NN + VBZ,3
+FW + NN,3
+NN + VBG + IN + NN,3
+NNP + POS + JJ + NN,3
+JJ + RP + NN + NN + NN,3
+DT + VBG + VBG,3
+JJ + JJ + JJ + NN + NN,3
+NN + NNS + CC + NNS,3
+NN + NNP + JJ,3
+JJ + JJ + NN + NNS,2
+NN + NNP + NN,2
+VB + DT + NN,2
+JJ + NN + NN + VBG,2
+NNS + VBN + NN + VBZ,2
+NNS + VBP + VBG,2
+NNS + VBG + VBG,2
+NNP + VBG + RB,2
+VB + CC + NNP + VBG,2
+NN + NN + IN + NN,2
+VB + RP,2
+WP + VBZ + DT + NN,2
+IN + DT + JJ + NN,2
+NNS + IN,2
+JJ + JJ,2
+DT + RB + JJ + NN,2
+NNP + VBZ + DT + NN,2
+VBG + VBZ,2
+PRP + VBP + TO + VB + DT + NN + RB + DT + NN + PRP + VBP,2
+PRP + VBP + CD + IN + PRP,2
+PRP + VBZ + RB + JJ,2
+IN + NNP,2
+NN + JJ + NN + NN,2
+JJ + JJ + JJ + NN,2
+DT + VBG + JJ + NNS,2
+VBG + NN + IN + NN,2
+RB + NN,2
+NN + RB + VBZ,2
+JJ + NNS + VBG,2
+NN + VBD + NN,2
+VB + RB,2
+NN + VBN + NN,2
+VBN + IN + NNP + NNP + NN,2
+VB + PRP + IN + DT + JJ,2
+JJ + NN + IN + NN,2
+NNS + VBG + NNS,2
+JJ + JJ + VBG,2
+DT + NNS + VBP + UH,2
+NN + NN + VBG + RB,2
+UH + NN + VBZ,2
+VBZ + IN,2
+FW + JJ + JJ + NN + NN + JJS,2
+NNS + VBZ,2
+NNP + JJ + NNS,2
+NN + NNS + VBZ,2
+JJ + NNS + NN + NNS,2
+NNS + VBG + RB,2
+NNS + IN + JJ + NN,2
+VBN + RP,2
+NNP + VBZ + VBG,2
+NNP + NNS + RB,2
+JJ + NN + CC + NN + NN,2
+JJ + NN + NN + VBZ,2
+JJ + NN + JJ,2
+NN + NNS + VBP,2
+NNP + NN + NN + VBZ,2
+VBG + VBD,2
+NNP + CC + NNP + VBG,2
+PRP + VBZ + DT + JJS + NN,2
+DT + JJS + DT + JJS + NN,2
+JJ + JJ + NNP,2
+PRP + VBP + PRP,2
+NNP + NNP + NN + VBZ,2
+NNS + JJR,2
+NN + NN + CC + NNS,2
+PRP + DT + VBP,2
+NNS + CC + NN + NNS,1
+NN + NNS + CC + NN,1
+NNP + NN + NN + NN + VBG,1
+NN + CC + JJ + NN,1
+NNP + CC + JJ + VBG,1
+NNP + CC + JJ + NNS,1
+NNP + CC + NNP + NNS,1
+JJ + CC + NNP + NNPS,1
+NNP + VB + PRP + VB,1
+NNP + PRP + VBD + PRP + VBD + CD,1
+NNP + UH + UH + PRP + VBZ + VBG,1
+NNP + CD,1
+NNP + PRP + VBD,1
+NNP + UH + PRP + VBZ + PRP + RB + MD + RB + VB + PRP,1
+PRP + VBZ + DT + NN + IN + VBG + IN + DT + NN,1
+VBG + NNP + CD,1
+NN + CD + NN,1
+VBD + VBN + IN + NN,1
+VBD + NNP,1
+RB + NNS + VBZ,1
+VBG + DT + NN,1
+NN + VBP + NN,1
+NNS + IN + DT + JJ,1
+VBZ + IN + CD + NN,1
+VBN + JJ + NN,1
+VB + NNS + RB,1
+NNP + VBP + RB,1
+NNS + VBP + RB,1
+NN + VBZ + TO + VB,1
+NNS + VBD,1
+VB + VBZ + RB,1
+LS + NN,1
+JJ + NN + CD + JJ,1
+DT + NN + NN + VBZ + IN + DT + NN,1
+VBG + PRP + IN + DT + NN,1
+VBG + VBN,1
+NNP + NNP + VBZ + VBG + DT + NN + NN,1
+VBG + IN + NN + TO + VB,1
+NN + VBD + IN + DT + NN + VBG,1
+UH + VB + PRP + VB,1
+VBG + RB + IN + DT + NN,1
+PRP + VBD + PRP$ + NN,1
+IN + PRP + VBD + IN + NN + NN + POS + NNS,1
+VB + NNS + CC + IN + DT + NN,1
+VBZ + NN + RB,1
+NN + NNS + VB,1
+NNS + JJ + CC + NN,1
+NNS + CC + JJ + NN,1
+JJ + JJ + VBZ,1
+NNP + NN + JJ,1
+JJ + JJ + NN + VBZ,1
+IN + NNP + NN,1
+NNS + VBG + DT + NN,1
+NN + VBG + IN + NNS,1
+NNS + IN + NNS,1
+NN + NN + MD + VBG,1
+VBN + NN + VBG,1
+RBR,1
+DT + JJ + CD,1
+NNS + IN + RB,1
+NN + IN + JJ + CD + POS + NN,1
+NN + DT,1
+NN + VBN,1
+RB + CD + POS + JJ + NN,1
+DT + NN + VBZ + VBG,1
+VBP + PRP + VBG,1
+WP + VBZ + DT + NN + IN + NN + NNP,1
+RB + IN + NN + IN + NNP + POS + NN,1
+CC + JJ + CC + NN,1
+CD + NNS + RB,1
+NN + JJ + IN + NN,1
+IN + DT + IN + DT,1
+NN + VBZ + VBN,1
+DT + PRP + MD + VB + VBZ + NN,1
+NN + VBZ + RP + PRP$ + NN,1
+DT + NN + WP + VBZ + RB + VB + WRB + TO + VB,1
+VBZ + RP,1
+NNP + NN + VBZ + DT + JJ + NN,1
+NNP + VBZ + RP + IN + DT + JJ + NN,1
+NN + NNP + POS + NN + NN + VBZ + RB,1
+NNS + VBP + RB + VBN,1
+DT + JJ + NN + IN + NN + VBN + RB + RB,1
+IN + NN + VBZ + PRP$ + NNS,1
+NNP + RB + VBZ + JJ,1
+NN + VBZ + RB + VBG,1
+VB + UH,1
+VBP + NNS + VBZ,1
+VB + PRP + RP + IN + NNP,1
+NN + CC + NN + NN,1
+PRP + RB + IN + PRP,1
+RB + DT,1
+NN + UH,1
+DT + NN + VBG,1
+NNP + NN + NN + NN,1
+NN + IN + JJ + NN,1
+VBG + DT + JJ + NNS,1
+JJ + VBD,1
+VBG + NNS + VBP,1
+VBG + NNS + VBG,1
+NNP + NNS + VBG,1
+VBZ + IN + JJ,1
+RB + IN + NNS,1
+RB + CD + NN + JJ + CC + RB + CD + NNS + VBP + VBN + VBN,1
+VB + NN + IN + NNS + NN,1
+NNP + NNP + NNP + NN + NN,1
+CC + DT + RB + VBG + NN + IN + NN,1
+NNP + NNP + NNP + NNP,1
+NNS + VBP + IN + JJ + NNS,1
+NNP + JJ,1
+JJ + NNS + IN + NN,1
+VBG + NN + VBG,1
+DT + VBD + JJ,1
+JJ + JJ + NN + VBG,1
+RB + JJ + NN,1
+JJ + VBD + VBG,1
+RBR + JJ + NN + NN,1
+IN + VBZ + JJ + NN,1
+NNP + NNS + IN + NN,1
+PRP + VBP + VBP + RB + NNS,1
+VB + NNS + IN + NNS,1
+DT + VBP + RB,1
+VBG + RB + RB,1
+DT + NN + NN + RB,1
+CD + CD + NN,1
+JJ + NNS + POS + NN,1
+JJ + NNS + POS + NN + VBG,1
+VBN + NNS,1
+FW + FW + NNP + NNP,1
+FW + NNP,1
+VBG + PRP + DT + NNS,1
+NN + VBZ + IN + DT + NN,1
+NN + VBZ + RP,1
+NNP + VBD,1
+VBG + CC + VBG + NN,1
+DT + NNS + VBZ + DT + VBN + CD + CD + TO + CD + CD + JJ + NNS + VBG + IN + CD + NN + JJ + NNS,1
+NN + IN + NN + JJ + NNS + CC + NNS + VBZ + DT + NN + IN + DT + VBG + IN + JJ + NNS,1
+DT + PRP$ + JJR + NN + NN,1
+NNP + VBD + NN + IN + NNP + IN + CD + IN + DT + NN + NN + IN + DT + JJ + NN + VBD + PRP$ + NNS + IN + PRP$ + NNS,1
+TO,1
+TO + VB + DT + NNS,1
+XX + IN + NNP,1
+ADD,1
+VBG + NNS + VBG + NN,1
+PRP$ + JJR + NN,1
+JJ + WRB + JJ + IN,1
+VB + VBP + PRP + IN + DT + JJ,1
+PRP + VBP + TO + VB + DT + NN + IN + VBG + RB,1
+CC + VBG,1
+PRP + VBP + VBN + IN + NNP + NNP,1
+NNS + IN + NN + VBG + NNS,1
+NNP + VBD + VBG,1
+VBG + NN + CC + VBG,1
+NNP + PRP + VBP + DT + NN + NN,1
+NNP + PRP + VBD + PRP + VBD + JJ,1
+NNP + PRP$ + JJ,1
+NNP + RBR + JJ,1
+VBD + JJ + NN,1
+NN + VBZ + IN + VBG,1
+NN + NN + VB + PRP$ + NN,1
+PRP + VBD + TO + VB + PRP,1
+NN + IN + DT + NN,1
+PRP + VBZ + NNP,1
+VB + JJ,1
+NNS + CC + NNS,1
+NN + IN + DT + JJ + NN,1
+JJ + JJ + NNS,1
+NN + NN + VBZ + VBG,1
+DT + NN + IN + NN + CC + PRP$ + NN,1
+DT + JJ + NNS + IN,1
+RB + RB + JJ + NNP + NNP + CC + PRP$ + NNS,1
+RB + JJ + RB + RB + JJ + NN + NN + CC + VBG,1
+JJ + NN + VBZ + IN + DT + NN + NN,1
+NNP + NN + VBZ + RP + DT + JJ + NN,1
+NNP + VBZ + DT + JJ + NNS + IN + DT + JJ,1
+VBZ + VBG + DT + NN + IN + NN,1
+VBG + VBN + NN + TO + VB + VBG,1
+VBZ + RP + DT + JJ + NN + IN + PRP$ + JJ + NNS,1
+JJ + NN + CC + IN + DT + NN + DT + NN,1
+NNS + NN + NN,1
+VBG + IN + JJ,1
+NN + POS + NNS + NN,1
+JJ + NNP,1
+JJ + NNS + RB,1
+NNS + VBP + UH,1
+JJ + RP,1
+DT + NN + NN,1
+VBN + NN + VBZ,1
+LS + NN + JJS,1
+VBD + NNP + NNP + VBG,1
+CC + CD + NN,1
+CD + NNS + NN,1
+VBG + RP + IN + NN,1
+NN + NN + NNS + NN,1
+NN + NNPS + VBD,1
+NNS + VBG + CC + VBG,1
+VBG + VBG + NN + VBG + VBG + VBG,1
+NN + NNS + JJ + NNS,1
+VB + JJ + NN + NNS,1
+NN + NNP + NNS + CC + NNS,1
+NN + NNP + NNS + CC + VBZ + DT + RBR,1
+NN + NNP + VBZ + RB + VBG + DT + JJ + NN,1
+NN + VB + NN,1
+JJ + CC + RB + NN + NNS,1
+JJ + NN + NNS + VB + JJ + NN,1
+VB + JJ + NNS,1
+NNP + NN + NNS + CC + NNS,1
+VB + VB + NN + NNP + NN + VBG,1
+NNS + CC + NN + VBP,1
+PRP + MD,1
+JJ + CD,1
+NN + NNS + NNS + IN + NN,1
+VB + NNS + CC + VBZ,1
+NNP + NNP + JJ + NNS,1
+JJ + NN + JJ + NN,1
+DT + NNS + VBG,1
+RB + NN + NNS,1
+NNP + VBZ + NNP + NNP,1
+CD + NN + NN + NN + NNS,1
+NNS + IN + DT + NN + NN + NNS,1
+NNS + JJ + NN + NNS,1
+JJ + JJ + NN + IN + NNP,1
+NNP + NNP + JJ,1
+TO + VB,1
+VBZ + NN + NN + IN + NNS,1
+VBN + IN + NNP + NN,1
+CD + VBP + CD + VBP + CD + CD,1
+CD + VBP + CD + NN,1
+IN + JJ + JJ + NNS + RB + VBP,1
+IN + JJ + NNP,1
+NNP + IN + NN,1
+WP + VBZ + DT + NN + NN + VBG + IN,1
+NNP + PRP + VBP + RB + RB,1
+DT + CD + NN + NNS + VBP + JJ,1
+NN + IN + NN + CD,1
+NNS + IN + NN + CC + NN,1
+NNP + POS + NN,1
+CC + MD + RB + VB + PRP$ + NN,1
+DT + JJ + NN + VBZ + RP,1
+VBN + IN + DT + JJ + NN,1
+MD + PRP + VB + PRP + DT + NN,1
+VBZ + DT + JJ + NN + JJR + RB,1
+PRP + VBP + CD + NNS + RB,1
+PRP + MD + RB + VB + DT + NN + IN + PRP$ + NN,1
+NN + PRP + CD,1
+VB + PRP + VB,1
+WP + PRP + RB + VBD + IN,1
+RB + PRP + VBZ,1
+WRB + WRB,1
+DT + VBZ + RB + VB,1
+JJ + TO + VB + PRP,1
+PRP + VBZ + RB + JJ + NNP,1
+RB + RB + DT + NN + VBZ,1
+DT + JJ + NN + VBZ + RB,1
+UH + PRP + VBZ + JJ,1
+NN + VBZ + RB + VB + IN + PRP,1
+NNP + POS + JJ + NN + NNP,1
+VBZ + PRP + IN + DT + JJ,1
+DT + NNS + VBP + RP + PRP$ + NN,1
+VB + RP + PRP$ + NN,1
+WP + MD + VB + RP + PRP$ + NN + RB,1
+JJ + IN + NN,1
+PRP + VBD + PRP$ + JJS + NN,1
+RB + CD + NNS + RB,1
+RB + VBG + IN + PRP$ + NNS,1
+RB + RB + VBZ + DT + JJ + NN,1
+DT + NN + IN + PRP$ + NN + RB + VBZ,1
+DT + JJ + NN + POS + JJ + NN,1
+NNP + DT + JJ + NN,1
+WRB + VBD + DT + JJ + NN + VB,1
+JJ + IN + DT + NN,1
+RB + IN + VBG + JJ,1
+NNP + PRP + CD,1
+IN + DT + NNS + WP + VBD + RB + VBP + RB,1
+DT + NN + IN + PRP + VBZ + TO + VB + JJ,1
+WP + VBZ + DT + JJ + NN + NNP + POS + NN,1
+NN + IN + WP,1
+IN + PRP + VBP + IN + PRP,1
+VB + RP + NNP + NNS,1
+NN + VBD + RB + NN + IN + RB,1
+PRP + MD + VB + VBN + RB,1
+NNS + VBP + VBN + VBN + RB,1
+DT + NN + VBZ + IN + CD,1
+DT + NN + VBZ + RB + VBN,1
+VBG + CD + NNS + IN + JJ + NN,1
+PRP + VBZ + RB + RB + IN + NN + NN,1
+VBG + PRP$ + NNS,1
+RB + VBZ + NNP + NN + NN,1
+IN + NN + NNP + POS + NN + NN,1
+DT + NN + IN + JJ + CD + POS + NN,1
+PRP$ + NNS,1
+IN + VBG + JJ + NNS,1
+IN + PRP + VBP + DT + NN,1
+NN + POS + JJ,1
+WP + VBP + PRP + VB + RB,1
+VB + WP + TO + VB,1
+DT + NNS + VBP + JJ,1
+DT + NN + RB + VBZ,1
+UH + NNS,1
+CD + NN + NN + NNS + CC + CD + NNS,1
+DT + NNS + RB + VBP + RP,1
+NNP + VBZ + DT + NN + NN,1
+NN + NNS + DT + JJ + NN,1
+DT + NN + VBZ + VBN + IN + NN,1
+NNP + VBD + DT + NN + JJ + TO + VB + PRP$ + NN,1
+NN + VBZ + VBN + RP,1
+WP + VBP + DT + NNS + IN,1
+VBZ + PRP$ + NN + VBN + RB,1
+WP + VBZ + DT,1
+WP + IN + DT + NN + VBZ + DT + IN,1
+DT + VBZ + DT + NN,1
+PRP + VBP + TO + VB + DT + RP,1
+PRP$ + NN + MD + VB + VBN,1
+MD + PRP + VB + JJ + TO + VB + RP + DT + NNP,1
+RB + RB + RB + RB,1
+UH + UH + VBP + RB + VB + RP,1
+DT + CD + NNS + VBD + VBN,1
+WP + VBP + DT + CD + NNS + VBP + TO + VB,1
+NNP + POS + VB + RP + NN + NN + VBZ,1
+VBZ + TO + VB + JJ,1
+CC + JJ + VBZ,1
+JJ + RP + NN + NN + IN + NN,1
+PRP$ + NNS + VBD + TO + VB + IN + NN,1
+IN + DT + JJ + CD + NNS,1
+RB + CD + JJ + RP + NN + NN,1
+RB + JJ + IN + VBG + DT + NN,1
+PRP + VBZ + PRP,1
+WP + VBZ + NN + VB + TO + VB,1
+IN + PRP + VBD + PRP + VB,1
+CC + NNP + VBD + TO + VB + PRP + RP,1
+VBG + IN + DT + NN,1
+PRP + VBZ + NN + TO + VB + NNS + IN + DT + NN,1
+NNP + VBD + CD + NNS,1
+NNS + VBP + VBG + RP + CD + IN + CD,1
+WP + VBZ + DT + NN + NN,1
+VB + VB,1
+JJ + CC + NN + NN,1
+VBG + RB + JJ,1
+NNP + UH,1
+NNP + DT + VBD + RB + JJ,1
+NN + RB + VBZ + RP,1
+NNP + VBG + IN + JJ + NN,1
+VB + VBG + NN + CC + TO + VB + NNS,1
+NNS + NNP,1
+NNP + VBZ + RB,1
+VBN + NN + NNS,1
+NNP + VBZ + IN + NNP,1
+NNP + NNP + NNS + IN + DT + NN,1
+NFP,1
+NN + SYM + NNS,1
+NNS + VBP + NN,1
+NN + RB + NN,1
+NN + NNS + RB,1
+LS,1
+NN + NN + RP,1
+DT + VBG + RB,1
+NNP + NNS + VBP,1
+NN + NN + CC + VBG,1
+NNP + VBP,1
+NN + NN + CC + NN,1
+NNS + CC + NNS + VBG,1
+RBR + JJ + NN,1
+RB + RBR,1
+JJR + NN + NN,1
+VB + IN + NN,1
+NNS + VBG + NNS + VBP,1
+VBZ + IN + NN,1
+NN + VBG + JJ,1
+CC,1
+JJ + NN + IN + NN + NNS,1
+DT + NN + IN + UH + NN,1
+DT + NN + IN + DT + NN + RB,1
+DT + NN + IN + DT + NN + NNS,1
+DT + NN + IN + DT + NN + NNP,1
+WRB + VBP + PRP + VBG + DT,1
+NNS + VBP + VBG + PRP + NN,1
+PRP + VBP + RB + VBG + VBN + TO + VB + NN,1
+NNP + JJ + NN + VBZ,1
+NNS + VBG + JJ + NN,1
+NN + VBG + IN + JJ + NN,1
+NNP + NNP + NNP + NN,1
+NN + NN + NN + VBG,1
+JJ + NNS + VBP,1
+VBG + NNP,1
+PRP + RB,1
+VB + VB + VB,1
+NN + IN + PRP,1
+JJ + VBG + RB,1
+RB + VBN + NN,1
+NNP + UH + NNS,1
+NN + VBP + PRP + DT,1
+NNP + RB + VBG,1
+NNP + JJ + VBN,1
+IN + DT + NN + JJ,1
+NN + VBG + IN + DT + NN,1
+VBG + UH + RB,1
+NN + VBZ + NNP + NNS,1
+RB + NN + NN + VBG,1
+NNS + VBG + RP,1
+NN + VBG + CC + NN,1
+VBG + JJ + JJ,1
+NN + NNS + RBR,1
+UH + POS + IN + PRP + VBZ,1
+NNP + NNP + IN + NNP,1
+NNP + CC + VBN,1
+NNS + NN + CC + NN,1
+NNS + IN + NN + VBG,1
+VB + VBG + RB,1
+NNP + RB + VBZ,1
+JJ + NNS + NN,1
+JJ + NNP + NN + NN,1
+VB + NNS + CC + NN,1
+DT + NNS + VBP + NN,1
+JJ + CC + VBG,1
+VBG + VBG + NN + NN,1
+JJ + NN + VBZ + RB + VBZ,1
+NN + VBZ + VBZ,1
+PRP + VBZ + DT + NN,1
+VBG + DT + JJ + NN + NN,1

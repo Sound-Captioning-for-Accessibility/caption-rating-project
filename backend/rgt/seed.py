@@ -10,58 +10,76 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import rgt.models
-from rgt.extensions import ( 
+from rgt.extensions import (
     create_rgt_tables,
     init_rgt_standalone,
     rgt_session,
 )
-from rgt.models import Video 
-from rgt.services.triad_service import generate_triads_from_videos 
+from rgt.models import Video
+from rgt.services.triad_service import generate_triads_from_videos
+
+def _youtube_clip(title, youtube_id):
+    return {
+        "title": title,
+        "youtube_id": youtube_id,
+        "filename": youtube_id,
+        "url": f"https://www.youtube.com/embed/{youtube_id}",
+        "is_active": True,
+    }
+
 
 SAMPLE_VIDEOS = [
-    {
-        "title": "Introduction to Web Accessibility",
-        "youtube_id": "20SHvU2PKsM",
-        "caption_type": "professional",
-    },
-    {
-        "title": "Understanding Screen Readers",
-        "youtube_id": "dEbl5jvLKGQ",
-        "caption_type": "auto",
-    },
-    {
-        "title": "Captioning Best Practices",
-        "youtube_id": "RaSCH3yU5pU",
-        "caption_type": "professional",
-    },
-    {
-        "title": "Audio Description Fundamentals",
-        "youtube_id": "O7j4_aP8dWA",
-        "caption_type": "auto",
-    },
-    {
-        "title": "Sign Language Interpreting in Media",
-        "youtube_id": "fNkSJiQ0_ZY",
-        "caption_type": "community",
-    },
-    {
-        "title": "Real-Time Captioning Demo",
-        "youtube_id": "3GGt-DVJjmk",
-        "caption_type": "auto",
-    },
+    _youtube_clip("Clip 1", "-2U0Ivkn2Ds"),
+    _youtube_clip("Clip 2", "-E7K5D_OGvU"),
+    _youtube_clip("Clip 3", "-JgRD66yB5w"),
+    _youtube_clip("Clip 4", "-TFK1_cD35k"),
+    _youtube_clip("Clip 5", "-VS2g39-9qc"),
+    _youtube_clip("Clip 6", "-gN42l7BAjY"),
+    _youtube_clip("Clip 7", "-qCanuYrR0g"),
+    _youtube_clip("Clip 8", "0HNL0ebtt94"),
+    _youtube_clip("Clip 9", "0O4NGKHyW90"),
+    _youtube_clip("Clip 10", "0imbM1PHlxM"),
+    _youtube_clip("Clip 11", "0s4e037VTFI"),
+    _youtube_clip("Clip 12", "0uFvZJvmOvQ"),
 ]
 
 
-def seed():
+def seed(clear=False):
     init_rgt_standalone()
     create_rgt_tables()
 
+    if clear:
+        from rgt.models import (
+            AdditionalConstruct, ComparisonAnswer, ComparisonResponse,
+            ConstructRating, ClipNote, ClipReview, OverallRating,
+            RoundAssignment, StudySession, Participant, Triad, triad_videos,
+        )
+        print("Clearing existing data...")
+        rgt_session.query(AdditionalConstruct).delete()
+        rgt_session.query(ComparisonAnswer).delete()
+        rgt_session.query(ComparisonResponse).delete()
+        rgt_session.query(ConstructRating).delete()
+        rgt_session.query(ClipNote).delete()
+        rgt_session.query(ClipReview).delete()
+        rgt_session.query(OverallRating).delete()
+        rgt_session.query(RoundAssignment).delete()
+        rgt_session.query(StudySession).delete()
+        rgt_session.query(Participant).delete()
+        rgt_session.execute(triad_videos.delete())
+        rgt_session.query(Triad).delete()
+        rgt_session.query(Video).delete()
+        rgt_session.commit()
+        print("All data cleared.")
+
     added = 0
     for v in SAMPLE_VIDEOS:
-        exists = rgt_session.query(Video).filter_by(title=v["title"]).first()
+        exists = rgt_session.query(Video).filter_by(youtube_id=v["youtube_id"]).first()
         if not exists:
             rgt_session.add(Video(**v))
             added += 1
+        else:
+            for field, value in v.items():
+                setattr(exists, field, value)
     rgt_session.commit()
     print(f"Videos: {added} added, {len(SAMPLE_VIDEOS) - added} already existed")
 
@@ -74,11 +92,11 @@ def seed():
     else:
         print(f"Triads generated: {len(new_triads)}")
 
-    from rgt.models import Triad
     total_triads = rgt_session.query(Triad).count()
     print(f"Total triads in DB: {total_triads}")
     print("Seed complete.")
 
 
 if __name__ == "__main__":
-    seed()
+    clear = "--clear" in sys.argv
+    seed(clear)

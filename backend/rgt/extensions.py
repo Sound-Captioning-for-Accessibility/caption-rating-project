@@ -1,6 +1,6 @@
 import os
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import declarative_base, scoped_session, sessionmaker
 
 RGTBase = declarative_base()
@@ -38,6 +38,32 @@ def create_rgt_tables():
     if _engine is None:
         raise RuntimeError("RGT engine not initialised – call init_rgt_db or init_rgt_standalone first")
     RGTBase.metadata.create_all(_engine)
+    _apply_sqlite_compat_migrations()
+
+
+def _apply_sqlite_compat_migrations():
+    inspector = inspect(_engine)
+    if "video" not in inspector.get_table_names():
+        return
+
+    video_columns = {column["name"] for column in inspector.get_columns("video")}
+    if "url" not in video_columns:
+        with _engine.begin() as conn:
+            conn.execute(text("ALTER TABLE video ADD COLUMN url VARCHAR(1024)"))
+    with _engine.begin() as conn:
+        conn.execute(text("UPDATE video SET is_active = 1 WHERE is_active IS NULL"))
+        conn.execute(text("""
+            UPDATE video
+            SET filename = youtube_id
+            WHERE youtube_id IS NOT NULL
+              AND (filename IS NULL OR filename = '' OR filename LIKE '%.youtube')
+        """))
+        conn.execute(text("""
+            UPDATE video
+            SET url = 'https://www.youtube.com/embed/' || youtube_id
+            WHERE youtube_id IS NOT NULL
+              AND (url IS NULL OR url = '')
+        """))
 
 
 def get_rgt_engine():

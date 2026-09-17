@@ -26,6 +26,8 @@ class ComparisonResponse(RGTBase):
             "round_assignment_id": self.round_assignment_id,
             "selected_video_one_id": self.selected_video_one_id,
             "selected_video_two_id": self.selected_video_two_id,
+            "video_a_id": self.selected_video_one_id,
+            "video_b_id": self.selected_video_two_id,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import HomePage from './components/HomePage';
 import VideosPage from './components/VideosPage';
 import VideoDetailPage from './components/VideoDetailPage';
 import LearnPage from './components/LearnPage';
-import RGTPage from './components/RGTPage';
+import RGTStudy from './components/rgt/RGTStudy';
+import RGTApp from './rgt/RGTApp';
+import { StudyProvider } from './rgt/context/StudyContext';
 import Footer from './components/Footer';
 import { authApi } from './services/api';
 import './App.css';
@@ -63,6 +65,27 @@ function App() {
     setUser(null);
   };
 
+  const location = useLocation();
+  const isRGTRoute = location.pathname.startsWith('/rgt');
+
+  if (location.pathname.startsWith('/rgt-legacy')) {
+    return (
+      <div className="app rgt-app">
+        <RGTStudy />
+      </div>
+    );
+  }
+
+  if (isRGTRoute) {
+    return (
+      <div className="app rgt-app">
+        <StudyProvider>
+          <RGTApp />
+        </StudyProvider>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <Header
@@ -76,7 +99,6 @@ function App() {
         <Route path="/videos" element={<VideosPage />} />
         <Route path="/videos/:videoId" element={<VideoDetailPage currentUser={user} />} />
         <Route path="/learn" element={<LearnPage />} />
-        <Route path="/rgt" element={<RGTPage />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
       <Footer />
