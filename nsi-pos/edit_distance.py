@@ -87,7 +87,7 @@ def estimate_sigma(distance_matrix: np.ndarray) -> float:
     return float(np.median(positive_distances))
 
 def similarity_matrix(distance_matrix: np.ndarray, sigma: float) -> np.ndarray:
-    similarity_matrix = np.exp(-(distance_matrix.astype(float) ** 2) / (2 * sigma * 2))
+    similarity_matrix = np.exp(-(distance_matrix.astype(float) ** 2) / (2 * sigma ** 2))
 
     np.fill_diagonal(similarity_matrix, 1.0)
 
